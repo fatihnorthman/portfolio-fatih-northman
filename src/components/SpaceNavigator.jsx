@@ -45,25 +45,42 @@ const SpaceNavigator = ({ children }) => {
         >
             {children.map((child, index) => {
                 const total = children.length - 1;
+
+                // LIGHTWEIGHT: Slide-Over & Plateau System
+                // We create a 'dead zone' in the middle of each section where it stays 100% stable
                 const range = [
                     (index - 1) / total,
+                    (index - 0.4) / total,
                     index / total,
+                    (index + 0.4) / total,
                     (index + 1) / total
                 ];
 
-                // LIGHTWEIGHT: STACKING TRANSITION
-                // New sections slide in OVER the old ones
-                const opacity = useTransform(smoothProgress, range, [0, 1, 1]); // Stays visible when passed?
-                const translateY = useTransform(smoothProgress, range, ['100vh', '0vh', '-20vh']); // Slides up and slightly away
-                const scale = useTransform(smoothProgress, range, [1, 1, 0.9]); // Subtle shrink as it goes back
-                const blur = useTransform(smoothProgress, range, [10, 0, 5]);
-                const brightness = useTransform(smoothProgress, range, [0.5, 1, 0.4]);
-                const rotateX = useTransform(smoothProgress, range, [10, 0, 0]);
+                // TRANSFORMATIONS
+                // Opacity: Quick fade in, stay solid, quick fade out
+                const opacity = useTransform(smoothProgress, range, [0, 1, 1, 1, 0]);
 
-                // Dynamic Z-Index for stacking: higher progress sections stay above lower ones when entering
+                // Y-Position: Slide up from 100vh to 0, then move very slowly (stacking effect)
+                const translateY = useTransform(smoothProgress,
+                    [(index - 1) / total, index / total, (index + 1) / total],
+                    ['100vh', '0vh', '-10vh']
+                );
+
+                // Scale: Shrink as it goes 'under' the next section
+                const scale = useTransform(smoothProgress, range, [1, 1, 1, 1, 0.9]);
+
+                // Perspective Tilt
+                const rotateX = useTransform(smoothProgress, range, [15, 0, 0, 0, -5]);
+
+                // Background Dimming: Drastically dim and blur sections that are sliding out
+                const blur = useTransform(smoothProgress, range, [15, 0, 0, 0, 20]);
+                const brightness = useTransform(smoothProgress, range, [0, 1, 1, 1, 0.1]);
+                const translateZ = useTransform(smoothProgress, range, [0, 0, 0, 0, -300]);
+
+                // Layering: New sections (higher index) always slide OVER previous ones
                 const zIndex = useTransform(smoothProgress,
-                    [range[0], range[1], range[2]],
-                    [index, index + 10, index]
+                    [(index - 0.5) / total, (index + 0.5) / total],
+                    [index + 10, index]
                 );
 
                 const isHero = index === 0;
@@ -78,10 +95,11 @@ const SpaceNavigator = ({ children }) => {
                             scale,
                             rotateX,
                             y: translateY,
+                            z: translateZ,
                             zIndex,
                             visibility: useTransform(opacity, (o) => o <= 0.01 ? 'hidden' : 'visible'),
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
-                            pointerEvents: useTransform(opacity, (o) => o > 0.7 ? 'auto' : 'none'),
+                            pointerEvents: useTransform(opacity, (o) => o > 0.8 ? 'auto' : 'none'),
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',

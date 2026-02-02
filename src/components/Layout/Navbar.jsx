@@ -9,6 +9,31 @@ const Navbar = () => {
         i18n.changeLanguage(newLang);
     };
 
+    const [currentHash, setCurrentHash] = useState(window.location.hash || '#hero');
+
+    useEffect(() => {
+        const handleHashChange = () => setCurrentHash(window.location.hash || '#hero');
+        // Monitor hash changes from scroll sync
+        window.addEventListener('popstate', handleHashChange);
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Polling as a fallback for hash replacement which doesn't trigger events
+        const interval = setInterval(handleHashChange, 500);
+
+        return () => {
+            window.removeEventListener('popstate', handleHashChange);
+            window.removeEventListener('hashchange', handleHashChange);
+            clearInterval(interval);
+        };
+    }, []);
+
+    const menuItems = [
+        { id: 'hero', label: 'Ana Sayfa', section: 0 },
+        { id: 'about', label: 'Hakkımızda', section: 1 },
+        { id: 'projects', label: 'Projeler', section: 2 },
+        { id: 'contact', label: 'İletişim', section: 3 }
+    ];
+
     return (
         <motion.nav
             initial={{ y: -100 }}
@@ -24,7 +49,8 @@ const Navbar = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 zIndex: 100,
-                background: 'transparent',
+                background: 'rgba(10, 10, 10, 0.4)',
+                backdropFilter: 'blur(10px)',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
             }}
         >
@@ -37,6 +63,7 @@ const Navbar = () => {
                     display: 'flex',
                     cursor: 'pointer'
                 }}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 whileHover="hover"
             >
                 {"NORTH PROTOCOL".split("").map((char, i) => (
@@ -48,7 +75,7 @@ const Navbar = () => {
                         variants={{
                             hover: {
                                 color: 'var(--color-brand-red)',
-                                y: [0, -2, 2, 0],
+                                y: [0, -1, 1, 0],
                                 transition: { duration: 0.2, repeat: Infinity }
                             }
                         }}
@@ -56,45 +83,51 @@ const Navbar = () => {
                         {char === " " ? "\u00A0" : char}
                     </motion.span>
                 ))}
-                <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                    style={{ color: 'var(--color-brand-red)' }}
-                >
-                    .
-                </motion.span>
             </motion.div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                 <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>
-                    {[
-                        { id: 'hero', label: 'Ana Sayfa', section: 0 },
-                        { id: 'about', label: 'Hakkımızda', section: 1 },
-                        { id: 'projects', label: 'Projeler', section: 2 },
-                        { id: 'contact', label: 'İletişim', section: 3 }
-                    ].map((item) => (
-                        <li key={item.id}>
-                            <a
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    const vh = window.innerHeight;
-                                    window.scrollTo({ top: item.section * vh, behavior: 'smooth' });
-                                }}
-                                style={{
-                                    fontSize: '1rem',
-                                    fontWeight: 500,
-                                    color: 'var(--color-text-muted)',
-                                    transition: 'color 0.3s',
-                                    cursor: 'pointer'
-                                }}
-                                onMouseEnter={(e) => e.target.style.color = 'var(--color-brand-red)'}
-                                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-                            >
-                                {item.label}
-                            </a>
-                        </li>
-                    ))}
+                    {menuItems.map((item) => {
+                        const isActive = currentHash === (item.id === 'hero' ? '#hero' : `#${item.id}`) ||
+                            (currentHash === '' && item.id === 'hero');
+
+                        return (
+                            <li key={item.id}>
+                                <a
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const vh = window.innerHeight;
+                                        window.scrollTo({ top: item.section * vh, behavior: 'smooth' });
+                                    }}
+                                    style={{
+                                        fontSize: '0.9rem',
+                                        fontWeight: 600,
+                                        color: isActive ? 'var(--color-brand-red)' : 'var(--color-text-muted)',
+                                        transition: 'all 0.3s',
+                                        cursor: 'pointer',
+                                        letterSpacing: '1px',
+                                        position: 'relative',
+                                        display: 'inline-block'
+                                    }}
+                                >
+                                    {item.label}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="nav-underline"
+                                            style={{
+                                                position: 'absolute',
+                                                bottom: '-4px',
+                                                left: 0,
+                                                width: '100%',
+                                                height: '2px',
+                                                background: 'var(--color-brand-red)'
+                                            }}
+                                        />
+                                    )}
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 <button
