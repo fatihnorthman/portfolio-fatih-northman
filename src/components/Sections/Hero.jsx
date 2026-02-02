@@ -23,7 +23,7 @@ const HeroScene = () => {
                 </mesh>
             </Float>
 
-            <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+            <OrbitControls enableZoom={false} enablePan={false} enabled={false} />
         </group>
     )
 }
