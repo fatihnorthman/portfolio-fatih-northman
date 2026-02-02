@@ -69,16 +69,17 @@ const Navbar = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                 <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>
                     {[
-                        { id: 'hero', label: 'Ana Sayfa', scrollTo: 0 },
-                        { id: 'about', label: 'Hakkımızda', scrollTo: 952 },
-                        { id: 'projects', label: 'Projeler', scrollTo: 1904 },
-                        { id: 'contact', label: 'İletişim', scrollTo: 2856 }
+                        { id: 'hero', label: 'Ana Sayfa', section: 0 },
+                        { id: 'about', label: 'Hakkımızda', section: 1 },
+                        { id: 'projects', label: 'Projeler', section: 2 },
+                        { id: 'contact', label: 'İletişim', section: 3 }
                     ].map((item) => (
                         <li key={item.id}>
                             <a
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    window.scrollTo({ top: item.scrollTo, behavior: 'smooth' });
+                                    const vh = window.innerHeight;
+                                    window.scrollTo({ top: item.section * vh, behavior: 'smooth' });
                                 }}
                                 style={{
                                     fontSize: '1rem',
