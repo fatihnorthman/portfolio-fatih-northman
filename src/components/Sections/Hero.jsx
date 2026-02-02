@@ -76,8 +76,8 @@ const Hero = () => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: '600px',
-                height: '600px',
+                width: '450px',
+                height: '450px',
                 zIndex: 0
             }}>
                 <Canvas
