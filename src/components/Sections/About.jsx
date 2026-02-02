@@ -103,7 +103,7 @@ const About = () => {
                         transformStyle: 'preserve-3d'
                     }}
                 >
-                    {t('about.title')}
+                    HAKKIMIZDA
                 </motion.h2>
 
                 <motion.p
@@ -119,7 +119,7 @@ const About = () => {
                         transformStyle: 'preserve-3d'
                     }}
                 >
-                    {t('about.description')}
+                    Unity oyun motoru ile yüksek kaliteli, performanslı ve etkileyici oyunlar geliştiriyoruz. Mobil, PC ve konsol platformları için profesyonel çözümler sunuyoruz.
                 </motion.p>
 
                 <motion.div
@@ -140,7 +140,7 @@ const About = () => {
                         color: '#E60000',
                         textAlign: 'center'
                     }}>
-                        {t('about.skills')}
+                        YETENEKLERİMİZ
                     </h3>
 
                     <div style={{ display: 'grid', gap: '1.5rem' }}>

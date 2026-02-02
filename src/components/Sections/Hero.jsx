@@ -127,7 +127,7 @@ const Hero = () => {
                         marginBottom: '1rem',
                         fontFamily: 'var(--font-accent)'
                     }}>
-                        {t('hero.subtitle')}
+                        SAĞINIZLI OYUN GELİŞTİRME STÜDYOSU
                     </h2>
                     <p style={{
                         fontSize: '1.1rem',
@@ -137,7 +137,7 @@ const Hero = () => {
                         lineHeight: '1.6',
                         fontFamily: 'var(--font-body)'
                     }}>
-                        {t('hero.description')}
+                        Unity ile profesyonel oyun geliştirme çözümleri sunuyoruz
                     </p>
                     <motion.a
                         href="#projects"
@@ -164,7 +164,7 @@ const Hero = () => {
                             transformStyle: 'preserve-3d'
                         }}
                     >
-                        {t('hero.cta')}
+                        STÜDYO İŞLERİNİ GÖR
                     </motion.a>
                 </motion.div>
             </div>
