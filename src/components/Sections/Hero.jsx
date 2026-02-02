@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Float } from '@react-three/drei'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Suspense, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -69,6 +69,12 @@ const TypewriterText = ({ text, delay = 150 }) => {
 
 const Hero = () => {
     const { t } = useTranslation();
+    const { scrollYProgress } = useScroll();
+
+    // Sphere zoom effect: shrinks and fades when scrolling down
+    const sphereScale = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+    const sphereOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+    const sphereZ = useTransform(scrollYProgress, [0, 0.2], [0, -500]);
 
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
