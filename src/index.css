@@ -6,8 +6,8 @@
   --color-text-main: #ffffff;
   --color-text-muted: #a0a0a0;
 
-  --font-display: 'Rajdhani', sans-serif;
-  --font-body: 'Space Mono', monospace;
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Roboto Mono', monospace;
 
   --spacing-unit: 8px;
 }
@@ -36,7 +36,7 @@ h6 {
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 a {
