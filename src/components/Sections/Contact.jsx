@@ -90,7 +90,7 @@ const Contact = () => {
                         transformStyle: 'preserve-3d'
                     }}
                 >
-                    {t('contact.title')}
+                    GELECEĞİ İNŞA EDEL İM
                 </motion.h2>
 
                 <motion.p
@@ -103,7 +103,7 @@ const Contact = () => {
                         transformStyle: 'preserve-3d'
                     }}
                 >
-                    {t('contact.description')}
+                    Bir sonraki projeniz için bizimle iletişime geçin. Harika bir şeyler yaratmaya hazırız!
                 </motion.p>
 
                 <motion.div
@@ -137,7 +137,7 @@ const Contact = () => {
                             textDecoration: 'none'
                         }}
                     >
-                        {t('contact.cta')}
+                        İLETİŞİME GEÇ
                     </a>
                 </motion.div>
 
@@ -203,7 +203,7 @@ const Contact = () => {
                     }}
                 >
                     <p style={{ color: '#888', fontSize: '0.9rem' }}>
-                        © 2024 Fatih Northman. {t('contact.rights')}
+                        © 2024 Fatih Northman. Tüm hakları saklıdır.
                     </p>
                 </motion.div>
             </motion.div>
