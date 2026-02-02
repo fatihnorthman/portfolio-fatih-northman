@@ -28,9 +28,43 @@ const Navbar = () => {
                 borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
             }}
         >
-            <div style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'white' }}>
-                NORTH PROTOCOL<span style={{ color: 'var(--color-brand-red)' }}>.</span>
-            </div>
+            <motion.div
+                style={{
+                    fontSize: '1.2rem',
+                    fontWeight: 700,
+                    fontFamily: 'var(--font-display)',
+                    color: 'white',
+                    display: 'flex',
+                    cursor: 'pointer'
+                }}
+                whileHover="hover"
+            >
+                {"NORTH PROTOCOL".split("").map((char, i) => (
+                    <motion.span
+                        key={i}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 + 0.5 }}
+                        variants={{
+                            hover: {
+                                color: 'var(--color-brand-red)',
+                                y: [0, -2, 2, 0],
+                                transition: { duration: 0.2, repeat: Infinity }
+                            }
+                        }}
+                    >
+                        {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                ))}
+                <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5 }}
+                    style={{ color: 'var(--color-brand-red)' }}
+                >
+                    .
+                </motion.span>
+            </motion.div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                 <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>

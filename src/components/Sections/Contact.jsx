@@ -84,7 +84,7 @@ const Contact = () => {
                     style={{
                         fontSize: '2rem',
                         marginBottom: '1rem',
-                        color: '#E60000',
+                        color: 'var(--color-brand-red)',
                         fontFamily: 'var(--font-display)',
                     }}
                 >
@@ -120,7 +120,7 @@ const Contact = () => {
                             textAlign: 'left'
                         }}
                     >
-                        <div style={{ color: '#E60000', fontSize: '0.7rem', marginBottom: '0.5rem' }}>E-POSTA</div>
+                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>E-POSTA</div>
                         <a href="mailto:alkan2798@gmail.com" style={{ fontSize: '1.1rem', color: '#fff' }}>alkan2798@gmail.com</a>
                     </motion.div>
 
@@ -134,7 +134,7 @@ const Contact = () => {
                             textAlign: 'left'
                         }}
                     >
-                        <div style={{ color: '#E60000', fontSize: '0.7rem', marginBottom: '0.5rem' }}>LOKASYON</div>
+                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>LOKASYON</div>
                         <div style={{ fontSize: '1.1rem', color: '#fff' }}>Sivas, Türkiye</div>
                     </motion.div>
                 </div>
@@ -171,7 +171,7 @@ const Contact = () => {
                         padding: '2rem',
                         background: 'rgba(10, 10, 10, 0.6)',
                         borderRadius: '12px',
-                        border: '1px solid rgba(230, 0, 0, 0.2)',
+                        border: '1px solid var(--color-brand-red-glow)',
                         backdropFilter: 'blur(10px)',
                         transformStyle: 'preserve-3d'
                     }}

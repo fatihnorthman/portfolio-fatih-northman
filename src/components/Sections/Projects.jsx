@@ -86,7 +86,7 @@ const Projects = () => {
                     style={{
                         fontSize: '2rem',
                         marginBottom: '1rem',
-                        color: '#E60000',
+                        color: 'var(--color-brand-red)',
                         fontFamily: 'var(--font-display)',
                     }}
                 >
@@ -112,8 +112,8 @@ const Projects = () => {
                             onClick={() => setSelectedCategory(category.id)}
                             style={{
                                 padding: '0.5rem 1rem',
-                                background: selectedCategory === category.id ? '#E60000' : 'transparent',
-                                border: `1px solid ${selectedCategory === category.id ? '#E60000' : 'rgba(255,255,255,0.1)'}`,
+                                background: selectedCategory === category.id ? 'var(--color-brand-red)' : 'transparent',
+                                border: `1px solid ${selectedCategory === category.id ? 'var(--color-brand-red)' : 'rgba(255,255,255,0.1)'}`,
                                 borderRadius: '4px',
                                 color: '#fff',
                                 cursor: 'pointer',
@@ -158,11 +158,12 @@ const Projects = () => {
                             transition={{ delay: index * 0.05 }}
                             whileHover={{ y: -5 }}
                             style={{
-                                background: 'rgba(255, 255, 255, 0.02)',
-                                borderRadius: '8px',
-                                border: '1px solid rgba(255, 255, 255, 0.05)',
+                                background: 'rgba(255, 255, 255, 0.03)',
+                                borderRadius: '12px',
+                                border: '1px solid var(--color-brand-red-glow)', // Dynamic theme border
                                 overflow: 'hidden',
-                                transition: 'background 0.3s',
+                                transition: 'all 0.3s ease',
+                                backdropFilter: 'blur(5px)'
                             }}
                         >
                             <div style={{
@@ -175,9 +176,9 @@ const Projects = () => {
                                 <span style={{ fontSize: '1.5rem' }}>{project.icon}</span>
                                 <div style={{
                                     fontSize: '0.7rem',
-                                    color: '#E60000',
+                                    color: 'var(--color-brand-red)',
                                     padding: '2px 8px',
-                                    border: '1px solid #E60000',
+                                    border: '1px solid var(--color-brand-red)',
                                     borderRadius: '10px',
                                     textTransform: 'uppercase'
                                 }}>
@@ -197,10 +198,10 @@ const Projects = () => {
                                         <span key={tag} style={{
                                             fontSize: '0.7rem',
                                             color: '#fff',
-                                            background: 'rgba(230, 0, 0, 0.2)',
+                                            background: 'var(--color-brand-red-glow)',
                                             padding: '2px 8px',
                                             borderRadius: '2px',
-                                            border: '1px solid rgba(230, 0, 0, 0.2)'
+                                            border: '1px solid var(--color-brand-red-glow)'
                                         }}>
                                             #{tag}
                                         </span>

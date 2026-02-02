@@ -5,20 +5,35 @@ import { Suspense, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 
 const HeroScene = () => {
+    const [themeColor, setThemeColor] = useState('#E60000');
+
+    useEffect(() => {
+        const updateColor = () => {
+            const color = getComputedStyle(document.documentElement).getPropertyValue('--color-brand-red').trim();
+            if (color) setThemeColor(color);
+        };
+        updateColor();
+
+        // Listen for changes (ColorPicker updates style directly)
+        const observer = new MutationObserver(updateColor);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <group>
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} color="#E60000" />
+            <pointLight position={[10, 10, 10]} intensity={2} color={themeColor} />
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
                 <mesh position={[0, 0, 0]} scale={2.0}>
                     <icosahedronGeometry args={[1, 1]} />
                     <meshStandardMaterial
-                        color="#E60000"
+                        color={themeColor}
                         wireframe
-                        emissive="#E60000"
-                        emissiveIntensity={0.2}
+                        emissive={themeColor}
+                        emissiveIntensity={0.5}
                     />
                 </mesh>
             </Float>
@@ -58,7 +73,7 @@ const TypewriterText = ({ text, delay = 150 }) => {
                 right: '-0.7em',
                 width: '0.6em',
                 height: '0.15em',
-                backgroundColor: '#E60000',
+                backgroundColor: 'var(--color-brand-red)',
                 opacity: showCursor ? 1 : 0
             }}></span>
         </span>
@@ -69,7 +84,7 @@ const Hero = () => {
     const { t } = useTranslation();
 
     return (
-        <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <section style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
             {/* 3D Object - Fixed centered, no scroll effects */}
             <div style={{
                 position: 'absolute',
@@ -110,7 +125,7 @@ const Hero = () => {
                 >
                     <div style={{
                         fontSize: '0.8rem',
-                        color: '#E60000',
+                        color: 'var(--color-brand-red)',
                         fontFamily: 'var(--font-accent)',
                         letterSpacing: '4px',
                         marginBottom: '1rem',
@@ -133,7 +148,7 @@ const Hero = () => {
                     <div style={{
                         height: '2px',
                         width: '60px',
-                        background: '#E60000',
+                        background: 'var(--color-brand-red)',
                         margin: '1.5rem auto'
                     }} />
 
@@ -152,7 +167,7 @@ const Hero = () => {
                         href="#projects"
                         whileHover={{
                             scale: 1.1,
-                            boxShadow: '0 0 40px rgba(230, 0, 0, 0.8)',
+                            boxShadow: '0 0 40px var(--color-brand-red)',
                             rotateX: 10,
                             z: 30
                         }}
@@ -160,15 +175,15 @@ const Hero = () => {
                         style={{
                             display: 'inline-block',
                             padding: '1rem 2.5rem',
-                            background: 'linear-gradient(135deg, #E60000, #ff4444)',
+                            background: 'linear-gradient(135deg, var(--color-brand-red), var(--color-brand-red-glow))',
                             color: 'white',
                             textDecoration: 'none',
                             borderRadius: '8px',
                             fontSize: '1.1rem',
                             fontWeight: 600,
                             fontFamily: 'var(--font-display)',
-                            border: '2px solid #E60000',
-                            boxShadow: '0 0 20px rgba(230, 0, 0, 0.5)',
+                            border: '2px solid var(--color-brand-red)',
+                            boxShadow: '0 0 20px var(--color-brand-red-glow)',
                             cursor: 'pointer',
                             transformStyle: 'preserve-3d'
                         }}

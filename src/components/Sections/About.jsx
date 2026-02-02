@@ -109,7 +109,7 @@ const About = () => {
                         <h2 style={{
                             fontSize: 'clamp(1.5rem, 5vw, 2.2rem)',
                             marginBottom: '1.5rem',
-                            color: '#E60000',
+                            color: 'var(--color-brand-red)',
                             fontFamily: 'var(--font-display)',
                         }}>
                             01. PROTOKOL ANALİZİ
@@ -118,7 +118,7 @@ const About = () => {
                         <div style={{
                             padding: '1.5rem',
                             background: 'rgba(255, 255, 255, 0.03)',
-                            borderLeft: '2px solid #E60000',
+                            borderLeft: '2px solid var(--color-brand-red)',
                             marginBottom: '2rem'
                         }}>
                             <p style={{ fontSize: '1rem', color: '#fff', lineHeight: '1.6', marginBottom: '1rem' }}>
@@ -155,7 +155,7 @@ const About = () => {
                             marginBottom: '2rem',
                             color: '#fff',
                             letterSpacing: '2px',
-                            borderBottom: '1px solid rgba(230, 0, 0, 0.3)',
+                            borderBottom: '1px solid var(--color-brand-red)',
                             paddingBottom: '0.5rem'
                         }}>
                             YETENEK MATRİSİ
@@ -193,8 +193,8 @@ const About = () => {
                                             transition={{ duration: 1, delay: i * 0.1 }}
                                             style={{
                                                 height: '100%',
-                                                background: '#E60000',
-                                                boxShadow: '0 0 10px rgba(230, 0, 0, 0.5)'
+                                                background: 'var(--color-brand-red)',
+                                                boxShadow: '0 0 10px var(--color-brand-red-glow)'
                                             }}
                                         />
                                     </div>
