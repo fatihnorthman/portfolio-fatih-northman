@@ -30,11 +30,11 @@ const SpaceNavigator = ({ children }) => {
         >
             {/* Render each section centered and fixed with cinematic 3D transitions */}
             {children.map((child, index) => {
-                // Very narrow range for an aggressive 'hard snap'
+                const total = children.length - 1;
                 const range = [
-                    (index - 0.3) / (children.length - 1),
-                    index / (children.length - 1),
-                    (index + 0.3) / (children.length - 1)
+                    (index - 1) / total,
+                    index / total,
+                    (index + 1) / total
                 ];
 
                 // Advanced 3D Transformations with strict clamping to prevent bleed-through
