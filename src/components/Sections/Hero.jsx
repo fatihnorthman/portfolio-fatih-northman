@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Float } from '@react-three/drei'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Suspense, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +11,7 @@ const HeroScene = () => {
             <pointLight position={[10, 10, 10]} intensity={1} color="#E60000" />
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
-            <Float speed={2} rotationIntensity={1} floatIntensity={1}>
+            <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
                 <mesh position={[0, 0, 0]} scale={2.5}>
                     <icosahedronGeometry args={[1, 1]} />
                     <meshStandardMaterial
