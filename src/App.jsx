@@ -1,7 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Stars, useGLTF, Float, Environment, ContactShadows } from '@react-three/drei'
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { useRef, Suspense, useEffect } from 'react'
+import { useRef, Suspense, useEffect, useState } from 'react'
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Sections/Hero';
 import About from './components/Sections/About';
@@ -72,6 +72,18 @@ function FloatingModel({ scrollProgress }) {
 
 function App() {
     const { scrollYProgress } = useScroll()
+    const [themeColor, setThemeColor] = useState('#E60000')
+
+    useEffect(() => {
+        const updateColor = () => {
+            const color = getComputedStyle(document.documentElement).getPropertyValue('--color-brand-red').trim();
+            if (color) setThemeColor(color);
+        };
+        updateColor();
+        const observer = new MutationObserver(updateColor);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+        return () => observer.disconnect();
+    }, []);
 
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 45,
@@ -98,21 +110,20 @@ function App() {
 
             {/* Fixed Space Background */}
             <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-                <Canvas
-                    shadows
-                    gl={{ antialias: true, alpha: true }}
-                    camera={{ position: [0, 0, 8], fov: 50 }}
-                >
-                    <Suspense fallback={null}>
+                <Suspense fallback={<div style={{ position: 'absolute', inset: 0, background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', color: themeColor }}>[ INITIALIZING ENGINE... ]</div>}>
+                    <Canvas
+                        shadows
+                        gl={{ antialias: false, alpha: true }}
+                        camera={{ position: [0, 0, 8], fov: 50 }}
+                    >
                         <ScrollStars scrollProgress={smoothProgress} />
                         <FloatingModel scrollProgress={smoothProgress} />
 
-                        {/* Improved Lighting System */}
-                        <ambientLight intensity={1} />
+                        <ambientLight intensity={0.5} />
                         <Environment preset="city" />
-                        <hemisphereLight intensity={1} groundColor="black" />
-                        <pointLight position={[10, 10, 10]} intensity={5} color="var(--color-brand-red)" />
-                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={10} castShadow />
+                        <hemisphereLight intensity={0.5} groundColor="black" />
+                        <pointLight position={[10, 10, 10]} intensity={2} color={themeColor} />
+                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={5} castShadow />
 
                         <ContactShadows
                             position={[0, -4, 0]}
@@ -121,8 +132,8 @@ function App() {
                             blur={2}
                             far={4.5}
                         />
-                    </Suspense>
-                </Canvas>
+                    </Canvas>
+                </Suspense>
             </div>
 
             {/* Content Layers */}
