@@ -1,7 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Stars } from '@react-three/drei'
+import { Stars, useGLTF, Float } from '@react-three/drei'
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { useRef, Suspense } from 'react'
+import { useRef, Suspense, useEffect } from 'react'
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Sections/Hero';
 import About from './components/Sections/About';
@@ -17,17 +17,55 @@ function ScrollStars({ scrollProgress }) {
 
     useFrame(({ clock }) => {
         if (starsRef.current) {
-            starsRef.current.position.z = ((clock.getElapsedTime() * 5) % 100) - 50
+            starsRef.current.position.z = ((clock.getElapsedTime() * 2) % 100) - 50
             const scrollValue = scrollProgress.get()
-            starsRef.current.rotation.x = scrollValue * Math.PI * 0.5
-            starsRef.current.rotation.y = scrollValue * Math.PI * 0.3
+            starsRef.current.rotation.x = scrollValue * Math.PI * 0.2
+            starsRef.current.rotation.y = scrollValue * Math.PI * 0.1
         }
     })
 
     return (
         <group ref={starsRef}>
-            <Stars radius={150} depth={150} count={10000} factor={8} saturation={0} fade speed={2} />
+            <Stars radius={150} depth={150} count={5000} factor={6} saturation={0} fade speed={1} />
         </group>
+    )
+}
+
+function FloatingModel({ scrollProgress }) {
+    const { scene } = useGLTF('/gameboy.glb')
+    const meshRef = useRef()
+
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime()
+        const scrollValue = scrollProgress.get()
+
+        if (meshRef.current) {
+            // Constant subtle float
+            meshRef.current.position.y = Math.sin(t * 0.5) * 0.2
+
+            // Scroll-driven rotation
+            meshRef.current.rotation.x = scrollValue * Math.PI * 2
+            meshRef.current.rotation.y = t * 0.2 + scrollValue * Math.PI
+            meshRef.current.rotation.z = Math.sin(t * 0.3) * 0.1
+
+            // Dynamic scaling based on scroll
+            const s = 1.2 + Math.sin(scrollValue * Math.PI) * 0.3
+            meshRef.current.scale.set(s, s, s)
+
+            // Move it slightly left/right based on scroll
+            meshRef.current.position.x = Math.cos(scrollValue * Math.PI) * 2
+        }
+    })
+
+    return (
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+            <primitive
+                object={scene}
+                ref={meshRef}
+                position={[2, 0, -2]}
+                scale={1.5}
+            />
+        </Float>
     )
 }
 
@@ -60,11 +98,16 @@ function App() {
             {/* Fixed Space Background */}
             <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
                 <Canvas
-                    gl={{ antialias: false, alpha: true }}
-                    camera={{ position: [0, 0, 5], fov: 80 }}
+                    gl={{ antialias: true, alpha: true }}
+                    camera={{ position: [0, 0, 8], fov: 50 }}
                 >
-                    <ScrollStars scrollProgress={smoothProgress} />
-                    <ambientLight intensity={0.5} />
+                    <Suspense fallback={null}>
+                        <ScrollStars scrollProgress={smoothProgress} />
+                        <FloatingModel scrollProgress={smoothProgress} />
+                        <ambientLight intensity={1.5} />
+                        <pointLight position={[10, 10, 10]} intensity={2} color="var(--color-brand-red)" />
+                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={3} />
+                    </Suspense>
                 </Canvas>
             </div>
 
