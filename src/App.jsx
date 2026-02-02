@@ -212,11 +212,24 @@ function App() {
 
             {/* Space Navigator - Sections move diagonally */}
             <SpaceNavigator>
-                <div style={{ position: 'relative' }}>
-                    <Hero />
-                    <About />
-                    <Projects />
-                    <Contact />
+                <div style={{
+                    position: 'relative',
+                    width: '100vw',
+                    height: '100vh'
+                }}>
+                    {/* Each section positioned absolutely for layering */}
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                        <Hero />
+                    </div>
+                    <div style={{ position: 'absolute', top: '100vh', left: 0, width: '100%', height: '100%' }}>
+                        <About />
+                    </div>
+                    <div style={{ position: 'absolute', top: '200vh', left: 0, width: '100%', height: '100%' }}>
+                        <Projects />
+                    </div>
+                    <div style={{ position: 'absolute', top: '300vh', left: 0, width: '100%', height: '100%' }}>
+                        <Contact />
+                    </div>
                 </div>
             </SpaceNavigator>
         </>

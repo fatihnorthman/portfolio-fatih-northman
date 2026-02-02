@@ -5,24 +5,16 @@ const SpaceNavigator = ({ children }) => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll();
 
-    // Define positions for each section (Hero, About, Projects, Contact)
-    // Each position is a percentage of viewport width/height
+    // Define MORE DRAMATIC positions for each section
+    // Increased offsets for more visible diagonal movement
     const sectionPositions = [
         { x: 0, y: 0, rotation: 0 },           // Hero - center start
-        { x: -25, y: 15, rotation: -3 },       // About - diagonal left-down
-        { x: 30, y: -10, rotation: 2 },        // Projects - right-up
-        { x: -15, y: 25, rotation: -2 }        // Contact - left-down
+        { x: -40, y: 25, rotation: -5 },       // About - diagonal left-down
+        { x: 45, y: -20, rotation: 4 },        // Projects - right-up  
+        { x: -30, y: 35, rotation: -3 }        // Contact - left-down
     ];
 
-    // Map scroll progress to section index
-    // 0-0.25: Hero, 0.25-0.5: About, 0.5-0.75: Projects, 0.75-1: Contact
-    const sectionIndex = useTransform(
-        scrollYProgress,
-        [0, 0.25, 0.5, 0.75, 1],
-        [0, 1, 2, 3, 3]
-    );
-
-    // Calculate X position based on scroll
+    // Map scroll progress to section positions with smoother transitions
     const rawX = useTransform(
         scrollYProgress,
         [0, 0.25, 0.5, 0.75, 1],
@@ -35,7 +27,6 @@ const SpaceNavigator = ({ children }) => {
         ]
     );
 
-    // Calculate Y position based on scroll
     const rawY = useTransform(
         scrollYProgress,
         [0, 0.25, 0.5, 0.75, 1],
@@ -48,7 +39,6 @@ const SpaceNavigator = ({ children }) => {
         ]
     );
 
-    // Calculate rotation based on scroll
     const rawRotation = useTransform(
         scrollYProgress,
         [0, 0.25, 0.5, 0.75, 1],
@@ -61,10 +51,10 @@ const SpaceNavigator = ({ children }) => {
         ]
     );
 
-    // Apply spring physics for smooth movement
-    const x = useSpring(rawX, { stiffness: 100, damping: 30 });
-    const y = useSpring(rawY, { stiffness: 100, damping: 30 });
-    const rotation = useSpring(rawRotation, { stiffness: 100, damping: 30 });
+    // Apply spring physics for smooth, weighty movement
+    const x = useSpring(rawX, { stiffness: 80, damping: 25 });
+    const y = useSpring(rawY, { stiffness: 80, damping: 25 });
+    const rotation = useSpring(rawRotation, { stiffness: 80, damping: 25 });
 
     return (
         <div
@@ -76,7 +66,8 @@ const SpaceNavigator = ({ children }) => {
                 width: '100vw',
                 height: '100vh',
                 overflow: 'hidden',
-                perspective: '1000px'
+                perspective: '2000px',
+                zIndex: 10
             }}
         >
             <motion.div
@@ -85,12 +76,14 @@ const SpaceNavigator = ({ children }) => {
                     y: useTransform(y, (value) => `${value}vh`),
                     rotate: rotation,
                     transformStyle: 'preserve-3d',
-                    willChange: 'transform'
+                    willChange: 'transform',
+                    width: '100vw',
+                    height: '100vh'
                 }}
             >
                 {children}
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
 
