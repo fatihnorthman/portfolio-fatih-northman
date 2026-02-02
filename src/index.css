@@ -5,9 +5,9 @@
   --color-bg-card: #0a0a0a;
   --color-text-main: #ffffff;
   --color-text-muted: #a0a0a0;
-  
-  --font-display: 'Orbitron', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Space Mono', monospace;
 
   --spacing-unit: 8px;
 }
@@ -27,7 +27,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
