@@ -319,7 +319,7 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(30)].map((_, i) => {
+                {[...Array(15)].map((_, i) => {
                     const startX = (Math.random() - 0.5) * 120
                     const startY = (Math.random() - 0.5) * 120
                     const speed = Math.random() * 2.5 + 1.5
