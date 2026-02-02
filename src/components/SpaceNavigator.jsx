@@ -83,7 +83,7 @@ const SpaceNavigator = ({ children }) => {
             >
                 {children}
             </motion.div>
-        </motion.div>
+        </div>
     );
 };
 
