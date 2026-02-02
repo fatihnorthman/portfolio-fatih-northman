@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
+    const { t, i18n } = useTranslation();
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'tr' : 'en';
+        i18n.changeLanguage(newLang);
+    };
+
     return (
         <motion.nav
             initial={{ y: -100 }}
@@ -22,27 +30,52 @@ const Navbar = () => {
             }}
         >
             <div style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'white' }}>
-                FN<span style={{ color: 'var(--color-brand-red)' }}>.</span>
+                NORTH PROTOCOL<span style={{ color: 'var(--color-brand-red)' }}>.</span>
             </div>
 
-            <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>
-                {['Projects', 'Skills', 'About', 'Contact'].map((item) => (
-                    <li key={item}>
-                        <a href={`#${item.toLowerCase()}`} style={{
-                            fontSize: '1rem',
-                            fontWeight: 500,
-                            color: 'var(--color-text-muted)',
-                            transition: 'color 0.3s',
-                            cursor: 'pointer'
-                        }}
-                            onMouseEnter={(e) => e.target.style.color = 'var(--color-brand-red)'}
-                            onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-                        >
-                            {item}
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+                <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>
+                    {['projects', 'skills', 'about', 'contact'].map((item) => (
+                        <li key={item}>
+                            <a href={`#${item}`} style={{
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                color: 'var(--color-text-muted)',
+                                transition: 'color 0.3s',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => e.target.style.color = 'var(--color-brand-red)'}
+                                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
+                            >
+                                {t(`navbar.${item}`)}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+
+                <button
+                    onClick={toggleLanguage}
+                    style={{
+                        background: 'transparent',
+                        border: '1px solid var(--color-brand-red)',
+                        color: 'white',
+                        padding: '0.4rem 0.8rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.background = 'var(--color-brand-red)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.background = 'transparent';
+                    }}
+                >
+                    {i18n.language === 'en' ? 'TR' : 'EN'}
+                </button>
+            </div>
         </motion.nav>
     );
 };

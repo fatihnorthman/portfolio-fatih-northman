@@ -1,0 +1,28 @@
+{
+    "navbar": {
+        "projects": "Projects",
+        "skills": "Skills",
+        "about": "About",
+        "contact": "Contact",
+        "lang": "TR"
+    },
+    "hero": {
+        "title": "NORTH PROTOCOL",
+        "subtitle": "INDIE GAME DEVELOPMENT STUDIO",
+        "cta": "VIEW STUDIOS WORK"
+    },
+    "projects": {
+        "title": "Selected Projects",
+        "categories": {
+            "pc_console": "PC / Console",
+            "mobile_3d": "Mobile 3D",
+            "mobile_2d": "Mobile 2D"
+        }
+    },
+    "contact": {
+        "title": "Let's Build The Future",
+        "desc": "North Protocol is always open to new collaborations and challenges. Reach out to build something extraordinary.",
+        "cta": "Contact Studio",
+        "footer": "© {{year}} North Protocol. All Rights Reserved."
+    }
+}

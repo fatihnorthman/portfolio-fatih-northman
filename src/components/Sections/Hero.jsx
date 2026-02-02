@@ -1,24 +1,24 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stars, Float } from '@react-three/drei'
+import { OrbitControls, Float } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { Suspense } from 'react'
+import { useTranslation } from 'react-i18next';
 
 const HeroScene = () => {
     return (
         <group>
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} color="#E60000" />
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
             <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-                <mesh position={[0, 0, 0]} scale={1.2}>
+                <mesh position={[0, 0, 0]} scale={2.5}>
                     <icosahedronGeometry args={[1, 1]} />
                     <meshStandardMaterial
                         color="#E60000"
                         wireframe
                         emissive="#E60000"
-                        emissiveIntensity={0.5}
+                        emissiveIntensity={0.2}
                     />
                 </mesh>
             </Float>
@@ -29,13 +29,14 @@ const HeroScene = () => {
 }
 
 const Hero = () => {
+    const { t } = useTranslation();
+
     return (
-        <section style={{ height: '100vh', width: '100%', position: 'relative' }}>
-            {/* 3D Background */}
+        <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
+            {/* 3D Object - Background stars are now in App.jsx */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 <Canvas camera={{ position: [0, 0, 5] }}>
                     <Suspense fallback={null}>
-                        <color attach="background" args={['#050505']} />
                         <HeroScene />
                     </Suspense>
                 </Canvas>
@@ -67,7 +68,7 @@ const Hero = () => {
                         WebkitTextFillColor: 'transparent',
                         textShadow: '0 0 30px rgba(230, 0, 0, 0.3)'
                     }}>
-                        FATIH NORTHMAN
+                        {t('hero.title')}
                     </h1>
                     <h2 style={{
                         fontSize: '1.5rem',
@@ -76,7 +77,7 @@ const Hero = () => {
                         letterSpacing: '4px',
                         marginBottom: '3rem'
                     }}>
-                        UNITY GAME DEVELOPER
+                        {t('hero.subtitle')}
                     </h2>
 
                     <button style={{
@@ -100,7 +101,7 @@ const Hero = () => {
                             e.target.style.boxShadow = 'none';
                         }}
                     >
-                        VIEW PORTFOLIO
+                        {t('hero.cta')}
                     </button>
                 </motion.div>
             </div>

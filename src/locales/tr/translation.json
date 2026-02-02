@@ -1,0 +1,28 @@
+{
+    "navbar": {
+        "projects": "Projeler",
+        "skills": "Yetenekler",
+        "about": "Hakkımızda",
+        "contact": "İletişim",
+        "lang": "EN"
+    },
+    "hero": {
+        "title": "NORTH PROTOCOL",
+        "subtitle": "BAĞIMSIZ OYUN GELİŞTİRME STÜDYOSU",
+        "cta": "STÜDYO İŞLERİNİ GÖR"
+    },
+    "projects": {
+        "title": "Seçilmiş Projeler",
+        "categories": {
+            "pc_console": "PC / Konsol",
+            "mobile_3d": "Mobil 3D",
+            "mobile_2d": "Mobil 2D"
+        }
+    },
+    "contact": {
+        "title": "Geleceği İnşa Edelim",
+        "desc": "North Protocol yeni işbirliklerine ve meydan okumalara her zaman açıktır. Sıradışı bir şeyler inşa etmek için ulaşın.",
+        "cta": "Stüdyo ile İletişim",
+        "footer": "© {{year}} North Protocol. Tüm Hakları Saklıdır."
+    }
+}

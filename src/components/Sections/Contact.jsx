@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
+    const { t } = useTranslation();
+
     return (
         <section id="contact" style={{ padding: '6rem 2rem', background: '#080808', borderTop: '1px solid #111' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
@@ -9,12 +12,11 @@ const Contact = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     style={{ fontSize: '3rem', marginBottom: '2rem', color: 'white' }}
                 >
-                    Let's Work Together
+                    {t('contact.title')}
                 </motion.h2>
 
                 <p style={{ fontSize: '1.2rem', color: '#888', marginBottom: '3rem' }}>
-                    Currently looking for new opportunities in Game Development. <br />
-                    Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                    {t('contact.desc')}
                 </p>
 
                 <motion.a
@@ -32,15 +34,15 @@ const Contact = () => {
                         boxShadow: '0 0 20px rgba(230, 0, 0, 0.3)'
                     }}
                 >
-                    Say Hello
+                    {t('contact.cta')}
                 </motion.a>
 
                 <footer style={{ marginTop: '5rem', color: '#444', fontSize: '0.9rem' }}>
-                    &copy; {new Date().getFullYear()} Fatih Northman. All Rights Reserved.
+                    {t('contact.footer', { year: new Date().getFullYear() })}
                 </footer>
             </div>
         </section>
     )
 }
 
-export default Contact
+export default Contact;
