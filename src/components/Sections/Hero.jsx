@@ -55,16 +55,14 @@ const TypewriterText = ({ text, delay = 150 }) => {
         <span style={{ position: 'relative', display: 'inline-block' }}>
             {displayText}
             <span style={{
-                position: 'relative',
-                display: 'inline-block',
+                position: 'absolute',
+                bottom: '0.1em',
+                right: '-0.7em',
                 width: '0.6em',
                 height: '0.15em',
                 backgroundColor: '#E60000',
-                opacity: showCursor ? 1 : 0,
-                marginLeft: '0.1em',
-                verticalAlign: 'baseline',
-                transform: 'translateY(0.3em)'
-            }}>_</span>
+                opacity: showCursor ? 1 : 0
+            }}></span>
         </span>
     );
 };
