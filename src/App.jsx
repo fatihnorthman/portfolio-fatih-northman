@@ -47,14 +47,38 @@ function App() {
 
     return (
         <>
-            {/* Scroll tracker - invisible but enables scroll with snap */}
+            {/* Scroll tracker with snap points for each section */}
             <div style={{
-                height: '400vh',
                 position: 'absolute',
-                width: '1px',
-                pointerEvents: 'none',
-                scrollSnapType: 'y mandatory'
-            }} />
+                width: '100%',
+                height: '400vh',
+                pointerEvents: 'none'
+            }}>
+                {/* Hero snap point */}
+                <div style={{
+                    height: '100vh',
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'always'
+                }} />
+                {/* About snap point */}
+                <div style={{
+                    height: '100vh',
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'always'
+                }} />
+                {/* Projects snap point */}
+                <div style={{
+                    height: '100vh',
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'always'
+                }} />
+                {/* Contact snap point */}
+                <div style={{
+                    height: '100vh',
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'always'
+                }} />
+            </div>
 
             {/* Navbar - always visible */}
             <Navbar />
