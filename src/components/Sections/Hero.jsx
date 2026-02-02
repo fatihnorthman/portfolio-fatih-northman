@@ -103,42 +103,51 @@ const Hero = () => {
                 pointerEvents: 'none'
             }}>
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    style={{ textAlign: 'center', pointerEvents: 'auto' }}
+                    style={{ textAlign: 'center', pointerEvents: 'auto', maxWidth: '900px' }}
                 >
+                    <div style={{
+                        fontSize: '0.8rem',
+                        color: '#E60000',
+                        fontFamily: 'var(--font-accent)',
+                        letterSpacing: '4px',
+                        marginBottom: '1rem',
+                        opacity: 0.8
+                    }}>
+                        [ INITIALIZING SESSION... ]
+                    </div>
+
                     <h1 style={{
-                        fontSize: '5rem',
+                        fontSize: 'clamp(2.5rem, 8vw, 4rem)',
                         marginBottom: '1rem',
                         color: '#fff',
                         fontFamily: 'var(--font-display)',
-                        textShadow: '0 0 30px rgba(230, 0, 0, 0.5)',
-                        letterSpacing: '0.1em',
-                        lineHeight: '1.2'
+                        letterSpacing: '0.05em',
+                        lineHeight: '1.1'
                     }}>
-                        <TypewriterText text="NORTH PROTOCOL" delay={150} />
+                        <TypewriterText text="FATIH NORTHMAN" delay={120} />
                     </h1>
+
+                    <div style={{
+                        height: '2px',
+                        width: '60px',
+                        background: '#E60000',
+                        margin: '1.5rem auto'
+                    }} />
+
                     <h2 style={{
-                        fontSize: '1.5rem',
-                        color: '#E60000',
+                        fontSize: '1.1rem',
+                        color: '#eee',
                         fontWeight: 400,
-                        letterSpacing: '4px',
-                        marginBottom: '1rem',
+                        letterSpacing: '2px',
+                        marginBottom: '2rem',
                         fontFamily: 'var(--font-accent)'
                     }}>
-                        SAĞINIZLI OYUN GELİŞTİRME STÜDYOSU
+                        UNITY DEVELOPER & TECHNICAL ARCHITECT
                     </h2>
-                    <p style={{
-                        fontSize: '1.1rem',
-                        color: '#ccc',
-                        maxWidth: '600px',
-                        margin: '0 auto 2rem',
-                        lineHeight: '1.6',
-                        fontFamily: 'var(--font-body)'
-                    }}>
-                        Unity ile profesyonel oyun geliştirme çözümleri sunuyoruz
-                    </p>
+
                     <motion.a
                         href="#projects"
                         whileHover={{

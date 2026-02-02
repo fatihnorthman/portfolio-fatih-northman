@@ -2,12 +2,18 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 const skills = [
-    { name: "Unity", level: 95, icon: "🎮" },
-    { name: "C#", level: 90, icon: "💻" },
-    { name: "Game Design", level: 85, icon: "🎨" },
-    { name: "3D Modeling", level: 75, icon: "🗿" },
-    { name: "Shader Programming", level: 80, icon: "✨" },
-    { name: "Mobile Optimization", level: 85, icon: "📱" }
+    { name: "Unity", level: 95, icon: "🎮", category: "Engine" },
+    { name: "C#", level: 90, icon: "💻", category: "Language" },
+    { name: "ShaderLab", level: 80, icon: "✨", category: "Graphics" },
+    { name: "3D Math", level: 85, icon: "📐", category: "Core" },
+    { name: "Optimization", level: 85, icon: "🚀", category: "Performance" },
+    { name: "UI/UX", level: 75, icon: "🎨", category: "Design" }
+];
+
+const stats = [
+    { label: "Experience", value: "5+ Years" },
+    { label: "Projects", value: "20+" },
+    { label: "Coffee", value: "∞" }
 ];
 
 const About = () => {
@@ -72,8 +78,10 @@ const About = () => {
         <section
             id="about"
             style={{
-                minHeight: '100vh',
-                padding: '8rem 2rem',
+                width: '100%',
+                maxWidth: '1200px',
+                padding: '4rem 1rem',
+                margin: '0 auto',
                 position: 'relative',
                 perspective: '2000px',
                 transformStyle: 'preserve-3d'
@@ -83,128 +91,118 @@ const About = () => {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: false, amount: 0.1 }}
                 style={{
-                    maxWidth: '1200px',
+                    maxWidth: '1100px',
                     margin: '0 auto',
                     transformStyle: 'preserve-3d'
                 }}
             >
-                <motion.h2
-                    variants={itemVariants}
-                    style={{
-                        fontSize: '3.5rem',
-                        marginBottom: '3rem',
-                        textAlign: 'center',
-                        background: 'linear-gradient(135deg, #fff, #E60000)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        textShadow: '0 0 40px rgba(230, 0, 0, 0.3)',
-                        transformStyle: 'preserve-3d'
-                    }}
-                >
-                    HAKKIMIZDA
-                </motion.h2>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '3rem',
+                    alignItems: 'start'
+                }}>
+                    {/* Left Column: Bio & Stats */}
+                    <motion.div variants={itemVariants}>
+                        <h2 style={{
+                            fontSize: 'clamp(1.5rem, 5vw, 2.2rem)',
+                            marginBottom: '1.5rem',
+                            color: '#E60000',
+                            fontFamily: 'var(--font-display)',
+                        }}>
+                            01. PROTOKOL ANALİZİ
+                        </h2>
 
-                <motion.p
-                    variants={itemVariants}
-                    style={{
-                        fontSize: '1.2rem',
-                        lineHeight: '1.8',
-                        color: '#ccc',
-                        textAlign: 'center',
-                        marginBottom: '4rem',
-                        maxWidth: '800px',
-                        margin: '0 auto 4rem',
-                        transformStyle: 'preserve-3d'
-                    }}
-                >
-                    Unity oyun motoru ile yüksek kaliteli, performanslı ve etkileyici oyunlar geliştiriyoruz. Mobil, PC ve konsol platformları için profesyonel çözümler sunuyoruz.
-                </motion.p>
+                        <div style={{
+                            padding: '1.5rem',
+                            background: 'rgba(255, 255, 255, 0.03)',
+                            borderLeft: '2px solid #E60000',
+                            marginBottom: '2rem'
+                        }}>
+                            <p style={{ fontSize: '1rem', color: '#fff', lineHeight: '1.6', marginBottom: '1rem' }}>
+                                Yazılım dünyasına Unity ve C# ile adım attığımdan beri, karmaşık sistemleri zarif çözümlere dönüştürmeye odaklanıyorum. Sadece oyun değil, yaşayan dünyalar yaratma tutkum beni her zaman daha derin teknik detaylara itti.
+                            </p>
+                            <p style={{ fontSize: '1rem', color: '#fff', lineHeight: '1.6' }}>
+                                Performans odaklı mimari yapılar ve görsel olarak etkileyici shader çalışmaları uzmanlık alanımdır.
+                            </p>
+                        </div>
 
-                <motion.div
-                    variants={itemVariants}
-                    style={{
-                        background: 'rgba(10, 10, 10, 0.6)',
-                        padding: '3rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(230, 0, 0, 0.2)',
-                        boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(230, 0, 0, 0.1)',
-                        backdropFilter: 'blur(10px)',
-                        transformStyle: 'preserve-3d'
-                    }}
-                >
-                    <h3 style={{
-                        fontSize: '2rem',
-                        marginBottom: '2rem',
-                        color: '#E60000',
-                        textAlign: 'center'
-                    }}>
-                        YETENEKLERİMİZ
-                    </h3>
+                        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+                            {stats.map((stat, i) => (
+                                <div key={i}>
+                                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff' }}>{stat.value}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#ddd', textTransform: 'uppercase' }}>{stat.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                    <div style={{ display: 'grid', gap: '1.5rem' }}>
-                        {skills.map((skill, i) => (
-                            <motion.div
-                                key={skill.name}
-                                custom={i}
-                                variants={skillVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: false, amount: 0.5 }}
-                                whileHover={{
-                                    scale: 1.05,
-                                    x: 20,
-                                    rotateY: 5,
-                                    z: 30,
-                                    transition: { type: 'spring', stiffness: 300 }
-                                }}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                    transformStyle: 'preserve-3d'
-                                }}
-                            >
-                                <span style={{ fontSize: '2rem' }}>{skill.icon}</span>
-                                <div style={{ flex: 1 }}>
+                    {/* Right Column: Skills */}
+                    <motion.div
+                        variants={itemVariants}
+                        style={{
+                            background: 'rgba(10, 10, 10, 0.4)',
+                            padding: '2rem',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(255, 255, 255, 0.05)',
+                            backdropFilter: 'blur(5px)',
+                        }}
+                    >
+                        <h3 style={{
+                            fontSize: '1.2rem',
+                            marginBottom: '2rem',
+                            color: '#fff',
+                            letterSpacing: '2px',
+                            borderBottom: '1px solid rgba(230, 0, 0, 0.3)',
+                            paddingBottom: '0.5rem'
+                        }}>
+                            YETENEK MATRİSİ
+                        </h3>
+
+                        <div style={{ display: 'grid', gap: '1.2rem' }}>
+                            {skills.map((skill, i) => (
+                                <motion.div
+                                    key={skill.name}
+                                    custom={i}
+                                    variants={skillVariants}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '0.5rem'
+                                    }}
+                                >
                                     <div style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
-                                        marginBottom: '0.5rem'
+                                        fontSize: '0.9rem'
                                     }}>
-                                        <span style={{ fontWeight: 600 }}>{skill.name}</span>
-                                        <span style={{ color: '#E60000' }}>{skill.level}%</span>
+                                        <span style={{ color: '#fff' }}>{skill.icon} {skill.name}</span>
+                                        <span style={{ color: '#E60000', opacity: 0.8 }}>{skill.level}%</span>
                                     </div>
                                     <div style={{
-                                        height: '8px',
-                                        background: 'rgba(255, 255, 255, 0.1)',
-                                        borderRadius: '4px',
-                                        overflow: 'hidden',
-                                        position: 'relative'
+                                        height: '4px',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        borderRadius: '2px',
+                                        overflow: 'hidden'
                                     }}>
                                         <motion.div
                                             initial={{ width: 0 }}
                                             whileInView={{ width: `${skill.level}%` }}
-                                            viewport={{ once: false }}
-                                            transition={{
-                                                duration: 1.5,
-                                                delay: i * 0.1,
-                                                ease: 'easeOut'
-                                            }}
+                                            transition={{ duration: 1, delay: i * 0.1 }}
                                             style={{
                                                 height: '100%',
-                                                background: 'linear-gradient(90deg, #E60000, #ff4444)',
-                                                boxShadow: '0 0 10px #E60000',
-                                                borderRadius: '4px'
+                                                background: '#E60000',
+                                                boxShadow: '0 0 10px rgba(230, 0, 0, 0.5)'
                                             }}
                                         />
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
             </motion.div>
         </section>
     );

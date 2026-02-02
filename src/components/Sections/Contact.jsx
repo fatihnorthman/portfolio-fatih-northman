@@ -60,7 +60,8 @@ const Contact = () => {
         <section
             id="contact"
             style={{
-                padding: '8rem 2rem',
+                width: '100%',
+                padding: '4rem 1rem',
                 position: 'relative',
                 perspective: '2000px',
                 transformStyle: 'preserve-3d'
@@ -81,114 +82,87 @@ const Contact = () => {
                 <motion.h2
                     variants={itemVariants}
                     style={{
-                        fontSize: '3.5rem',
-                        marginBottom: '2rem',
-                        background: 'linear-gradient(135deg, #fff, #E60000)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        textShadow: '0 0 40px rgba(230, 0, 0, 0.3)',
-                        transformStyle: 'preserve-3d'
+                        fontSize: '2rem',
+                        marginBottom: '1rem',
+                        color: '#E60000',
+                        fontFamily: 'var(--font-display)',
                     }}
                 >
-                    GELECEĞİ İNŞA EDEL İM
+                    03. İLETİŞİM KANALLARI
                 </motion.h2>
 
                 <motion.p
                     variants={itemVariants}
                     style={{
-                        fontSize: '1.2rem',
-                        color: '#ccc',
+                        fontSize: '0.9rem',
+                        color: '#eee',
                         marginBottom: '3rem',
-                        lineHeight: '1.8',
-                        transformStyle: 'preserve-3d'
+                        lineHeight: '1.6',
+                        fontWeight: 500
                     }}
                 >
-                    Bir sonraki projeniz için bizimle iletişime geçin. Harika bir şeyler yaratmaya hazırız!
+                    Yeni projeler, iş birlikleri veya sadece merhaba demek için.
                 </motion.p>
 
-                <motion.div
-                    variants={itemVariants}
-                    whileHover={{
-                        scale: 1.1,
-                        rotateY: 5,
-                        z: 50,
-                        boxShadow: '0 30px 80px rgba(230, 0, 0, 0.6)'
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    style={{
-                        display: 'inline-block',
-                        padding: '1.5rem 4rem',
-                        fontSize: '1.3rem',
-                        background: 'linear-gradient(135deg, #E60000, #ff4444)',
-                        border: 'none',
-                        borderRadius: '12px',
-                        color: 'white',
-                        fontFamily: 'var(--font-display)',
-                        cursor: 'pointer',
-                        boxShadow: '0 10px 40px rgba(230, 0, 0, 0.4)',
-                        marginBottom: '4rem',
-                        transformStyle: 'preserve-3d'
-                    }}
-                >
-                    <a
-                        href="mailto:contact@example.com"
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                    gap: '1.5rem',
+                    marginBottom: '4rem'
+                }}>
+                    <motion.div
+                        variants={itemVariants}
                         style={{
-                            color: 'inherit',
-                            textDecoration: 'none'
+                            padding: '1.5rem',
+                            background: 'rgba(255, 255, 255, 0.02)',
+                            border: '1px solid rgba(255, 255, 255, 0.05)',
+                            borderRadius: '4px',
+                            textAlign: 'left'
                         }}
                     >
-                        İLETİŞİME GEÇ
-                    </a>
-                </motion.div>
+                        <div style={{ color: '#E60000', fontSize: '0.7rem', marginBottom: '0.5rem' }}>E-POSTA</div>
+                        <a href="mailto:alkan2798@gmail.com" style={{ fontSize: '1.1rem', color: '#fff' }}>alkan2798@gmail.com</a>
+                    </motion.div>
 
-                <motion.div
-                    variants={itemVariants}
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '2rem',
-                        marginTop: '3rem',
-                        transformStyle: 'preserve-3d'
-                    }}
-                >
+                    <motion.div
+                        variants={itemVariants}
+                        style={{
+                            padding: '1.5rem',
+                            background: 'rgba(255, 255, 255, 0.02)',
+                            border: '1px solid rgba(255, 255, 255, 0.05)',
+                            borderRadius: '4px',
+                            textAlign: 'left'
+                        }}
+                    >
+                        <div style={{ color: '#E60000', fontSize: '0.7rem', marginBottom: '0.5rem' }}>LOKASYON</div>
+                        <div style={{ fontSize: '1.1rem', color: '#fff' }}>Sivas, Türkiye</div>
+                    </motion.div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
                     {[
-                        { name: 'GitHub', icon: '💻', url: 'https://github.com', rotation: 360 },
-                        { name: 'LinkedIn', icon: '💼', url: 'https://linkedin.com', rotation: -360 },
-                        { name: 'Twitter', icon: '🐦', url: 'https://twitter.com', rotation: 360 },
-                        { name: 'Instagram', icon: '📸', url: 'https://instagram.com', rotation: -360 }
+                        { name: 'GitHub', icon: '💻', url: 'https://github.com' },
+                        { name: 'LinkedIn', icon: '💼', url: 'https://linkedin.com' },
+                        { name: 'X', icon: '🐦', url: 'https://x.com' }
                     ].map((social, i) => (
                         <motion.a
                             key={social.name}
-                            custom={i}
                             variants={socialVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: false }}
-                            whileHover={{
-                                scale: 1.4,
-                                rotate: social.rotation,
-                                z: 80,
-                                transition: {
-                                    type: 'spring',
-                                    stiffness: 200,
-                                    damping: 10
-                                }
-                            }}
-                            whileTap={{ scale: 0.9 }}
+                            custom={i}
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
-                                fontSize: '3rem',
-                                textDecoration: 'none',
-                                filter: 'drop-shadow(0 0 20px rgba(230, 0, 0, 0.5))',
-                                transformStyle: 'preserve-3d'
+                                fontSize: '1.5rem',
+                                opacity: 0.6,
+                                transition: 'opacity 0.3s'
                             }}
+                            whileHover={{ opacity: 1, y: -2 }}
                         >
                             {social.icon}
                         </motion.a>
                     ))}
-                </motion.div>
+                </div>
 
                 <motion.div
                     variants={itemVariants}
@@ -202,8 +176,8 @@ const Contact = () => {
                         transformStyle: 'preserve-3d'
                     }}
                 >
-                    <p style={{ color: '#888', fontSize: '0.9rem' }}>
-                        © 2024 Fatih Northman. Tüm hakları saklıdır.
+                    <p style={{ color: '#fff', opacity: 0.8, fontSize: '0.9rem' }}>
+                        © 2026 Fatih Northman. Tüm hakları saklıdır.
                     </p>
                 </motion.div>
             </motion.div>

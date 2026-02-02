@@ -4,71 +4,53 @@ import { useTranslation } from 'react-i18next';
 
 // Project data with different categories
 const tempProjects = [
-    // Games
     {
         id: 'game1',
-        title: 'Space Shooter VR',
+        title: 'Cyber Drift',
         category: 'game',
-        tags: ['Unity', 'VR', 'C#'],
-        icon: '🚀',
-        description: 'Immersive VR space combat game with realistic physics'
+        tags: ['Unity', 'Custom Physics'],
+        icon: '🏎️',
+        description: 'Raycast-based arcade racing system with custom drifting physics.'
     },
     {
         id: 'game2',
-        title: 'Mobile RPG Adventure',
+        title: 'Shadow Protocol',
         category: 'game',
-        tags: ['Unity', 'Mobile', '3D'],
-        icon: '⚔️',
-        description: 'Epic mobile RPG with stunning graphics and deep gameplay'
+        tags: ['Unity', 'Networking'],
+        icon: '🕵️',
+        description: 'Co-op stealth game featuring dynamic lighting and AI vision systems.'
     },
     {
         id: 'game3',
-        title: 'Puzzle Platformer',
+        title: 'Vox World',
         category: 'game',
-        tags: ['Unity', '2D', 'Physics'],
-        icon: '🎮',
-        description: 'Mind-bending puzzle platformer with unique mechanics'
+        tags: ['Unity', 'Generation'],
+        icon: '🧊',
+        description: 'Infinite voxel world generation using compute shaders.'
     },
-    {
-        id: 'game4',
-        title: 'Racing Simulator',
-        category: 'game',
-        tags: ['Unity', 'Multiplayer', 'Physics'],
-        icon: '🏎️',
-        description: 'Realistic racing simulator with online multiplayer'
-    },
-    // Tools
     {
         id: 'tool1',
-        title: 'Level Editor Pro',
+        title: 'Node Graph',
         category: 'tool',
-        tags: ['Unity', 'Editor', 'Tool'],
-        icon: '🛠️',
-        description: 'Advanced level editor for Unity game development'
+        tags: ['Editor', 'UI Toolkit'],
+        icon: '🕸️',
+        description: 'Visual scripting node editor built for custom dialogue systems.'
     },
     {
         id: 'tool2',
-        title: 'Shader Graph Library',
+        title: 'Post-FX Lite',
         category: 'tool',
-        tags: ['Shaders', 'Graphics', 'Unity'],
-        icon: '✨',
-        description: 'Collection of professional shader graphs for Unity'
+        tags: ['Shaders', 'URP'],
+        icon: '🌈',
+        description: 'Mobile-optimized post-processing stack for low-end devices.'
     },
     {
         id: 'tool3',
-        title: 'Animation Controller',
+        title: 'Build Automator',
         category: 'tool',
-        tags: ['Unity', 'Animation', 'Tool'],
-        icon: '🎬',
-        description: 'Advanced animation controller system for Unity'
-    },
-    {
-        id: 'tool4',
-        title: 'Asset Manager',
-        category: 'tool',
-        tags: ['Unity', 'Workflow', 'Tool'],
-        icon: '📦',
-        description: 'Powerful asset management tool for Unity projects'
+        tags: ['CI/CD', 'Python'],
+        icon: '🤖',
+        description: 'Automated build and deployment pipeline for multi-platform Unity projects.'
     }
 ];
 
@@ -90,7 +72,8 @@ const Projects = () => {
         <section
             id="projects"
             style={{
-                padding: '8rem 2rem',
+                width: '100%',
+                padding: '4rem 1rem',
                 position: 'relative',
                 perspective: '2000px',
                 transformStyle: 'preserve-3d'
@@ -98,77 +81,48 @@ const Projects = () => {
         >
             <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <motion.h2
-                    initial={{ opacity: 0, y: -80, rotateX: 45, z: -200 }}
-                    whileInView={{ opacity: 1, y: 0, rotateX: 0, z: 0 }}
-                    viewport={{ once: false, amount: 0.3 }}
-                    transition={{
-                        type: 'spring',
-                        stiffness: 80,
-                        damping: 20
-                    }}
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     style={{
-                        fontSize: '3.5rem',
-                        marginBottom: '3rem',
-                        textAlign: 'center',
-                        background: 'linear-gradient(135deg, #fff, #E60000)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        textShadow: '0 0 40px rgba(230, 0, 0, 0.3)',
-                        transformStyle: 'preserve-3d'
+                        fontSize: '2rem',
+                        marginBottom: '1rem',
+                        color: '#E60000',
+                        fontFamily: 'var(--font-display)',
                     }}
                 >
-                    {t('projects.title')}
+                    02. PROJE ARŞİVİ
                 </motion.h2>
+                <p style={{ color: '#eee', marginBottom: '3rem', fontSize: '0.9rem', fontWeight: 500 }}>
+                    Sınırları zorlayan teknik çalışmalar ve yaratıcı oyun deneyimleri.
+                </p>
 
                 {/* Category Filter */}
                 <motion.div
-                    initial={{ opacity: 0, y: 50, rotateX: -30 }}
-                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                    viewport={{ once: false }}
-                    transition={{ delay: 0.2 }}
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
-                        gap: '1rem',
-                        marginBottom: '4rem',
+                        justifyContent: 'flex-start',
+                        gap: '0.5rem',
+                        marginBottom: '2rem',
                         flexWrap: 'wrap',
-                        transformStyle: 'preserve-3d'
                     }}
                 >
-                    {tempCategories.map((category, i) => (
-                        <motion.button
+                    {tempCategories.map((category) => (
+                        <button
                             key={category.id}
-                            initial={{ opacity: 0, scale: 0.8, rotateY: -45 }}
-                            whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                            viewport={{ once: false }}
-                            transition={{ delay: 0.3 + i * 0.1 }}
-                            whileHover={{
-                                scale: 1.1,
-                                rotateY: 10,
-                                z: 20
-                            }}
-                            whileTap={{ scale: 0.95 }}
                             onClick={() => setSelectedCategory(category.id)}
                             style={{
-                                padding: '0.8rem 1.5rem',
-                                background: selectedCategory === category.id
-                                    ? 'linear-gradient(135deg, #E60000, #ff4444)'
-                                    : 'rgba(230, 0, 0, 0.1)',
-                                border: `1px solid ${selectedCategory === category.id ? '#E60000' : 'rgba(230, 0, 0, 0.3)'}`,
-                                borderRadius: '8px',
-                                color: 'white',
+                                padding: '0.5rem 1rem',
+                                background: selectedCategory === category.id ? '#E60000' : 'transparent',
+                                border: `1px solid ${selectedCategory === category.id ? '#E60000' : 'rgba(255,255,255,0.1)'}`,
+                                borderRadius: '4px',
+                                color: '#fff',
                                 cursor: 'pointer',
-                                fontSize: '1rem',
-                                fontFamily: 'var(--font-display)',
-                                boxShadow: selectedCategory === category.id
-                                    ? '0 0 20px rgba(230, 0, 0, 0.5)'
-                                    : 'none',
-                                transition: 'all 0.3s',
-                                transformStyle: 'preserve-3d'
+                                fontSize: '0.8rem',
+                                transition: 'all 0.2s',
                             }}
                         >
                             {category.name}
-                        </motion.button>
+                        </button>
                     ))}
                 </motion.div>
 
@@ -191,128 +145,64 @@ const Projects = () => {
                     layout
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-                        gap: '2.5rem',
-                        transformStyle: 'preserve-3d'
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                        gap: '1.5rem',
                     }}
                 >
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}
                             layout
-                            initial={{
-                                opacity: 0,
-                                rotateX: -60,
-                                rotateY: -30,
-                                y: 100,
-                                z: -300,
-                                scale: 0.7
-                            }}
-                            animate={{
-                                opacity: 1,
-                                rotateX: 0,
-                                rotateY: 0,
-                                y: 0,
-                                z: 0,
-                                scale: 1
-                            }}
-                            exit={{
-                                opacity: 0,
-                                scale: 0.8,
-                                transition: { duration: 0.2 }
-                            }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 60,
-                                damping: 20,
-                                delay: index * 0.1
-                            }}
-                            whileHover={{
-                                scale: 1.05,
-                                rotateY: 5,
-                                z: 30,
-                                boxShadow: '0 30px 80px rgba(230, 0, 0, 0.4)'
-                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            whileHover={{ y: -5 }}
                             style={{
-                                position: 'relative',
-                                background: 'rgba(10, 10, 10, 0.7)',
-                                borderRadius: '16px',
+                                background: 'rgba(255, 255, 255, 0.02)',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(255, 255, 255, 0.05)',
                                 overflow: 'hidden',
-                                border: '1px solid rgba(230, 0, 0, 0.2)',
-                                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
-                                cursor: 'pointer',
-                                transformStyle: 'preserve-3d',
-                                perspective: '1500px'
+                                transition: 'background 0.3s',
                             }}
                         >
                             <div style={{
-                                height: '250px',
-                                background: project.category === 'game'
-                                    ? 'linear-gradient(135deg, rgba(230, 0, 0, 0.3), rgba(0, 0, 0, 0.8))'
-                                    : 'linear-gradient(135deg, rgba(0, 100, 230, 0.3), rgba(0, 0, 0, 0.8))',
+                                padding: '1.5rem',
+                                borderBottom: '1px solid rgba(255, 255, 255, 0.03)',
                                 display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '6rem',
-                                position: 'relative'
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
                             }}>
-                                {project.icon}
+                                <span style={{ fontSize: '1.5rem' }}>{project.icon}</span>
                                 <div style={{
-                                    position: 'absolute',
-                                    top: '1rem',
-                                    right: '1rem',
-                                    padding: '0.5rem 1rem',
-                                    background: project.category === 'game'
-                                        ? 'rgba(230, 0, 0, 0.8)'
-                                        : 'rgba(0, 100, 230, 0.8)',
-                                    borderRadius: '6px',
-                                    fontSize: '0.85rem',
-                                    fontFamily: 'var(--font-display)',
+                                    fontSize: '0.7rem',
+                                    color: '#E60000',
+                                    padding: '2px 8px',
+                                    border: '1px solid #E60000',
+                                    borderRadius: '10px',
                                     textTransform: 'uppercase'
                                 }}>
                                     {project.category}
                                 </div>
                             </div>
 
-                            <div style={{ padding: '2rem' }}>
-                                <h3 style={{
-                                    fontSize: '1.8rem',
-                                    marginBottom: '1rem',
-                                    color: project.category === 'game' ? '#E60000' : '#0064E6'
-                                }}>
+                            <div style={{ padding: '1.5rem' }}>
+                                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#fff' }}>
                                     {project.title}
                                 </h3>
-
-                                <p style={{
-                                    color: '#ccc',
-                                    lineHeight: '1.6',
-                                    marginBottom: '1.5rem'
-                                }}>
+                                <p style={{ fontSize: '0.85rem', color: '#eee', marginBottom: '1rem', lineHeight: '1.5' }}>
                                     {project.description}
                                 </p>
-
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '0.5rem',
-                                    flexWrap: 'wrap'
-                                }}>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                                     {project.tags.map(tag => (
-                                        <span
-                                            key={tag}
-                                            style={{
-                                                padding: '0.4rem 0.8rem',
-                                                background: project.category === 'game'
-                                                    ? 'rgba(230, 0, 0, 0.2)'
-                                                    : 'rgba(0, 100, 230, 0.2)',
-                                                border: `1px solid ${project.category === 'game'
-                                                    ? 'rgba(230, 0, 0, 0.4)'
-                                                    : 'rgba(0, 100, 230, 0.4)'}`,
-                                                borderRadius: '4px',
-                                                fontSize: '0.85rem',
-                                                color: '#fff'
-                                            }}
-                                        >
-                                            {tag}
+                                        <span key={tag} style={{
+                                            fontSize: '0.7rem',
+                                            color: '#fff',
+                                            background: 'rgba(230, 0, 0, 0.2)',
+                                            padding: '2px 8px',
+                                            borderRadius: '2px',
+                                            border: '1px solid rgba(230, 0, 0, 0.2)'
+                                        }}>
+                                            #{tag}
                                         </span>
                                     ))}
                                 </div>
