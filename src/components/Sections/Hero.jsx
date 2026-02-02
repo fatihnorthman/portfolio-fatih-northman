@@ -56,7 +56,7 @@ const TypewriterText = ({ text, delay = 150 }) => {
             {displayText}
             <span style={{
                 position: 'absolute',
-                bottom: '0.1em',
+                bottom: '-0.1em',
                 right: '-0.7em',
                 width: '0.6em',
                 height: '0.15em',
@@ -87,31 +87,38 @@ const Hero = () => {
 
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* 3D Object */}
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    inset: 0,
-                    zIndex: 0,
-                    scale: sphereScale,
-                    opacity: sphereOpacity,
-                    z: sphereZ,
-                    transformStyle: 'preserve-3d',
-                    transformOrigin: 'center center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                <Canvas
-                    camera={{ position: [0, 0, 5], fov: 50 }}
-                    style={{ width: '100%', height: '100%' }}
+            {/* 3D Object - Centered with fixed dimensions */}
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 0
+            }}>
+                <motion.div
+                    style={{
+                        width: '600px',
+                        height: '600px',
+                        scale: sphereScale,
+                        opacity: sphereOpacity,
+                        z: sphereZ,
+                        transformStyle: 'preserve-3d'
+                    }}
                 >
-                    <Suspense fallback={null}>
-                        <HeroScene />
-                    </Suspense>
-                </Canvas>
-            </motion.div>
+                    <Canvas
+                        camera={{ position: [0, 0, 5], fov: 50 }}
+                        style={{ width: '100%', height: '100%' }}
+                    >
+                        <Suspense fallback={null}>
+                            <HeroScene />
+                        </Suspense>
+                    </Canvas>
+                </motion.div>
+            </div>
 
             {/* Content Overlay */}
             <div style={{
@@ -151,45 +158,45 @@ const Hero = () => {
                     }}>
                         {t('hero.subtitle')}
                     </h2>
-
-                    {/* Founder Byline */}
                     <p style={{
-                        color: '#888',
-                        fontSize: '1rem',
-                        marginBottom: '3rem',
-                        fontFamily: 'var(--font-body)',
-                        letterSpacing: '2px'
-                    }}>
-                        {t('hero.founder')} <span style={{ color: 'white', fontWeight: 600 }}>Fatih Northman</span>
-                    </p>
-
-                    <button style={{
-                        padding: '1rem 3rem',
                         fontSize: '1.1rem',
-                        background: 'transparent',
-                        border: '1px solid #E60000',
-                        color: 'white',
-                        fontFamily: 'var(--font-display)',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        transition: 'all 0.3s'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.target.style.background = '#E60000';
-                            e.target.style.boxShadow = '0 0 20px #E60000';
+                        color: '#ccc',
+                        maxWidth: '600px',
+                        margin: '0 auto 2rem',
+                        lineHeight: '1.6'
+                    }}>
+                        {t('hero.description')}
+                    </p>
+                    <motion.a
+                        href="#projects"
+                        whileHover={{
+                            scale: 1.1,
+                            boxShadow: '0 0 40px rgba(230, 0, 0, 0.8)',
+                            rotateX: 10,
+                            z: 30
                         }}
-                        onMouseLeave={(e) => {
-                            e.target.style.background = 'transparent';
-                            e.target.style.boxShadow = 'none';
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                            display: 'inline-block',
+                            padding: '1rem 2.5rem',
+                            background: 'linear-gradient(135deg, #E60000, #ff4444)',
+                            color: 'white',
+                            textDecoration: 'none',
+                            borderRadius: '8px',
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                            border: '2px solid #E60000',
+                            boxShadow: '0 0 20px rgba(230, 0, 0, 0.5)',
+                            cursor: 'pointer',
+                            transformStyle: 'preserve-3d'
                         }}
                     >
                         {t('hero.cta')}
-                    </button>
+                    </motion.a>
                 </motion.div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Hero
+export default Hero;
