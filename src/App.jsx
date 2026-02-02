@@ -49,7 +49,8 @@ function App() {
                 height: '400vh',
                 width: '100%',
                 position: 'relative',
-                zIndex: 1
+                zIndex: 20, // Sit on top of the fixed background to capture all interactions
+                pointerEvents: 'auto'
             }}>
                 {/* Invisible snap points for the browser's scroll-snap */}
                 <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />

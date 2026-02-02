@@ -6,11 +6,10 @@ const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
 
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 120, // High stiffness for hard lock-in
-        damping: 40,   // Sufficient damping to prevent overshoot but stay firm
-        restDelta: 0.00001,
-        precision: 0.00001,
-        restSpeed: 0.00001
+        stiffness: 250, // Extremely stiff for immediate reaction
+        damping: 50,   // High damping to eliminate any oscillation
+        restDelta: 0.000001,
+        precision: 0.000001
     });
 
     return (
@@ -24,17 +23,18 @@ const SpaceNavigator = ({ children }) => {
                 height: '100vh',
                 overflow: 'hidden',
                 zIndex: 10,
-                background: 'transparent', // Allow background stars to show
-                perspective: '1500px' // Unified perspective
+                background: 'transparent',
+                perspective: '1500px',
+                pointerEvents: 'none' // Critical: Allow scroll events to pass through to the ghost area
             }}
         >
             {/* Render each section centered and fixed with cinematic 3D transitions */}
             {children.map((child, index) => {
-                // Narrower range for a 'harder' transition feel
+                // Very narrow range for an aggressive 'hard snap'
                 const range = [
-                    (index - 0.45) / (children.length - 1),
+                    (index - 0.3) / (children.length - 1),
                     index / (children.length - 1),
-                    (index + 0.45) / (children.length - 1)
+                    (index + 0.3) / (children.length - 1)
                 ];
 
                 // Advanced 3D Transformations with strict clamping to prevent bleed-through
