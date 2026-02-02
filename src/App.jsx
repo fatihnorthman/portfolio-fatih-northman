@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Stars, useGLTF, Float } from '@react-three/drei'
+import { Stars, useGLTF, Float, Environment, ContactShadows } from '@react-three/drei'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import { useRef, Suspense, useEffect } from 'react'
 import Navbar from './components/Layout/Navbar';
@@ -64,6 +64,7 @@ function FloatingModel({ scrollProgress }) {
                 ref={meshRef}
                 position={[2, 0, -2]}
                 scale={1.5}
+                castShadow
             />
         </Float>
     )
@@ -98,15 +99,28 @@ function App() {
             {/* Fixed Space Background */}
             <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
                 <Canvas
+                    shadows
                     gl={{ antialias: true, alpha: true }}
                     camera={{ position: [0, 0, 8], fov: 50 }}
                 >
                     <Suspense fallback={null}>
                         <ScrollStars scrollProgress={smoothProgress} />
                         <FloatingModel scrollProgress={smoothProgress} />
-                        <ambientLight intensity={1.5} />
-                        <pointLight position={[10, 10, 10]} intensity={2} color="var(--color-brand-red)" />
-                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={3} />
+
+                        {/* Improved Lighting System */}
+                        <ambientLight intensity={1} />
+                        <Environment preset="city" />
+                        <hemisphereLight intensity={1} groundColor="black" />
+                        <pointLight position={[10, 10, 10]} intensity={5} color="var(--color-brand-red)" />
+                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={10} castShadow />
+
+                        <ContactShadows
+                            position={[0, -4, 0]}
+                            opacity={0.4}
+                            scale={20}
+                            blur={2}
+                            far={4.5}
+                        />
                     </Suspense>
                 </Canvas>
             </div>
