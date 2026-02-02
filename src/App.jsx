@@ -75,42 +75,6 @@ function App() {
                 </Canvas>
             </motion.div>
 
-            {/* Optimized radial speed lines */}
-            <div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 1,
-                    pointerEvents: 'none'
-                }}
-            >
-                {[...Array(40)].map((_, i) => {
-                    const angle = (i / 40) * Math.PI * 2
-                    return (
-                        <motion.div
-                            key={i}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                width: '3px',
-                                height: '200vh',
-                                background: `linear-gradient(to bottom, transparent, rgba(${Math.random() > 0.7 ? '230, 0, 0' : '255, 255, 255'}, ${Math.random() * 0.3 + 0.2}), transparent)`,
-                                transform: `translate(-50%, -50%) rotate(${angle}rad)`,
-                                transformOrigin: 'center',
-                                filter: 'blur(1.5px)',
-                                opacity: useTransform(smoothProgress, [0, 0.1, 0.5, 0.9, 1], [0, 0.5, 0.7, 0.5, 0]),
-                                scale: useTransform(smoothProgress, [0, 1], [1, 2]),
-                                willChange: 'opacity, transform'
-                            }}
-                        />
-                    )
-                })}
-            </div>
-
             {/* Floating nebula clouds */}
             <motion.div
                 style={{
