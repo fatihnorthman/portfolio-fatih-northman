@@ -17,9 +17,9 @@ function ScrollStars({ scrollProgress }) {
             starsRef.current.position.z = ((clock.getElapsedTime() * 10) % 100) - 50
 
             const scrollValue = scrollProgress.get()
-            starsRef.current.rotation.x = scrollValue * Math.PI * 0.8
-            starsRef.current.rotation.y = scrollValue * Math.PI * 0.5
-            starsRef.current.rotation.z = clock.getElapsedTime() * 0.03 + scrollValue * Math.PI * 0.2
+            starsRef.current.rotation.x = scrollValue * Math.PI * 1.2
+            starsRef.current.rotation.y = scrollValue * Math.PI * 0.8
+            starsRef.current.rotation.z = clock.getElapsedTime() * 0.03 + scrollValue * Math.PI * 0.3
         }
     })
 
@@ -40,11 +40,20 @@ function App() {
         restDelta: 0.001
     })
 
-    const starsY = useTransform(smoothProgress, [0, 1], [0, -500])
-    const starsScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.2, 1])
+    // Enhanced parallax with more dramatic depth
+    const starsY = useTransform(smoothProgress, [0, 1], [0, -800])
+    const starsScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.3, 1])
+    const starsRotateZ = useTransform(smoothProgress, [0, 1], [0, 15])
 
-    const contentScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.08, 1])
-    const contentRotateX = useTransform(smoothProgress, [0, 0.5, 1], [0, 2, 0])
+    // Multi-layer parallax for depth
+    const layer1Y = useTransform(smoothProgress, [0, 1], [0, -200])
+    const layer2Y = useTransform(smoothProgress, [0, 1], [0, -400])
+    const layer3Y = useTransform(smoothProgress, [0, 1], [0, -600])
+
+    // Content depth transforms
+    const contentScale = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [1, 1.12, 1.12, 1])
+    const contentRotateX = useTransform(smoothProgress, [0, 0.5, 1], [0, 3, 0])
+    const contentZ = useTransform(smoothProgress, [0, 0.5, 1], [0, 100, 0])
 
     return (
         <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
@@ -60,7 +69,8 @@ function App() {
                     height: '100vh',
                     zIndex: 0,
                     y: starsY,
-                    scale: starsScale
+                    scale: starsScale,
+                    rotateZ: starsRotateZ
                 }}
             >
                 <Canvas
@@ -75,7 +85,7 @@ function App() {
                 </Canvas>
             </motion.div>
 
-            {/* Floating nebula clouds */}
+            {/* Parallax Layer 1 - Distant particles */}
             <motion.div
                 style={{
                     position: 'fixed',
@@ -84,6 +94,139 @@ function App() {
                     width: '100%',
                     height: '100vh',
                     zIndex: 1,
+                    y: layer1Y,
+                    pointerEvents: 'none'
+                }}
+            >
+                {[...Array(15)].map((_, i) => (
+                    <motion.div
+                        key={`layer1-${i}`}
+                        animate={{
+                            opacity: [0.1, 0.3, 0.1],
+                            scale: [1, 1.5, 1]
+                        }}
+                        transition={{
+                            duration: Math.random() * 5 + 3,
+                            repeat: Infinity,
+                            delay: Math.random() * 2
+                        }}
+                        style={{
+                            position: 'absolute',
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            width: '3px',
+                            height: '3px',
+                            background: '#fff',
+                            borderRadius: '50%',
+                            boxShadow: '0 0 10px #fff'
+                        }}
+                    />
+                ))}
+            </motion.div>
+
+            {/* Parallax Layer 2 - Mid-distance stars */}
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    zIndex: 2,
+                    y: layer2Y,
+                    pointerEvents: 'none'
+                }}
+            >
+                {[...Array(20)].map((_, i) => (
+                    <motion.div
+                        key={`layer2-${i}`}
+                        animate={{
+                            opacity: [0.2, 0.5, 0.2],
+                            scale: [1, 1.3, 1]
+                        }}
+                        transition={{
+                            duration: Math.random() * 4 + 2,
+                            repeat: Infinity,
+                            delay: Math.random() * 2
+                        }}
+                        style={{
+                            position: 'absolute',
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            width: '5px',
+                            height: '5px',
+                            background: Math.random() > 0.7 ? '#E60000' : '#fff',
+                            borderRadius: '50%',
+                            boxShadow: `0 0 15px ${Math.random() > 0.7 ? '#E60000' : '#fff'}`
+                        }}
+                    />
+                ))}
+            </motion.div>
+
+            {/* Parallax Layer 3 - Close particles */}
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    zIndex: 3,
+                    y: layer3Y,
+                    pointerEvents: 'none'
+                }}
+            >
+                {[...Array(10)].map((_, i) => (
+                    <motion.div
+                        key={`layer3-${i}`}
+                        animate={{
+                            opacity: [0.3, 0.7, 0.3],
+                            scale: [1, 2, 1]
+                        }}
+                        transition={{
+                            duration: Math.random() * 3 + 2,
+                            repeat: Infinity,
+                            delay: Math.random() * 2
+                        }}
+                        style={{
+                            position: 'absolute',
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            width: '8px',
+                            height: '8px',
+                            background: '#E60000',
+                            borderRadius: '50%',
+                            boxShadow: '0 0 25px #E60000',
+                            filter: 'blur(2px)'
+                        }}
+                    />
+                ))}
+            </motion.div>
+
+            {/* Atmospheric depth fog */}
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    zIndex: 4,
+                    pointerEvents: 'none',
+                    background: 'radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.7) 100%)',
+                    opacity: useTransform(smoothProgress, [0, 0.5, 1], [0.5, 1, 0.5])
+                }}
+            />
+
+            {/* Floating nebula clouds */}
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    zIndex: 5,
                     pointerEvents: 'none',
                     opacity: useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.3, 0.5, 0.5, 0.3])
                 }}
@@ -139,7 +282,7 @@ function App() {
                 left: 0,
                 width: '100%',
                 height: '100vh',
-                zIndex: 2,
+                zIndex: 6,
                 pointerEvents: 'none',
                 background: 'radial-gradient(ellipse at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.95) 100%)',
                 boxShadow: 'inset 0 0 400px rgba(0,0,0,0.9)',
@@ -153,6 +296,7 @@ function App() {
                     zIndex: 10,
                     scale: contentScale,
                     rotateX: contentRotateX,
+                    z: contentZ,
                     transformStyle: 'preserve-3d',
                     perspective: '1500px'
                 }}
