@@ -32,20 +32,20 @@ function App() {
         offset: ["start start", "end end"]
     })
 
-    // Smooth spring physics for smoother motion
+    // Smooth spring physics
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 100,
         damping: 30,
         restDelta: 0.001
     })
 
-    // Each section at different Z depths (like layers in space)
+    // Each section at different Z depths
     const heroZ = useTransform(smoothProgress, [0, 0.25], [0, 1500])
     const aboutZ = useTransform(smoothProgress, [0.25, 0.5], [-1500, 1500])
     const projectsZ = useTransform(smoothProgress, [0.5, 0.75], [-1500, 1500])
     const contactZ = useTransform(smoothProgress, [0.75, 1], [-1500, 1500])
 
-    // Scale for depth perception (things get bigger as they approach)
+    // Scale for depth perception
     const heroScale = useTransform(smoothProgress, [0, 0.25], [1, 2.5])
     const aboutScale = useTransform(smoothProgress, [0.2, 0.25, 0.5], [0.5, 1, 2.5])
     const projectsScale = useTransform(smoothProgress, [0.45, 0.5, 0.75], [0.5, 1, 2.5])
@@ -58,15 +58,20 @@ function App() {
     const contactOpacity = useTransform(smoothProgress, [0.7, 0.75, 1], [0, 1, 1])
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                background: '#000',
-                height: '400vh', // Extended for smooth scrolling
-                position: 'relative',
-                overflow: 'hidden'
-            }}
-        >
+        <>
+            {/* Scrollable container - this creates the scroll area */}
+            <div
+                ref={containerRef}
+                style={{
+                    height: '500vh', // This allows scrolling
+                    position: 'relative'
+                }}
+            >
+                {/* Spacer to enable scroll */}
+                <div style={{ height: '100%', pointerEvents: 'none' }} />
+            </div>
+
+            {/* Fixed viewport for 3D content */}
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -75,7 +80,9 @@ function App() {
                 height: '100vh',
                 perspective: '1000px',
                 perspectiveOrigin: '50% 50%',
-                transformStyle: 'preserve-3d'
+                transformStyle: 'preserve-3d',
+                pointerEvents: 'none',
+                zIndex: 1
             }}>
                 <Navbar />
 
@@ -156,7 +163,8 @@ function App() {
                     width: '100%',
                     height: '100%',
                     zIndex: 10,
-                    transformStyle: 'preserve-3d'
+                    transformStyle: 'preserve-3d',
+                    pointerEvents: 'auto'
                 }}>
                     {/* Hero Section */}
                     <motion.div
@@ -277,7 +285,7 @@ function App() {
                     })}
                 </motion.div>
             </div>
-        </div>
+        </>
     )
 }
 
