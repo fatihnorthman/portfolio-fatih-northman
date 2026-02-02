@@ -24,7 +24,7 @@ html {
   scroll-behavior: smooth;
   overflow-y: scroll;
   overflow-x: hidden;
-  scroll-padding-top: 0;
+  height: 100%;
 }
 
 body {
@@ -39,6 +39,7 @@ body {
   font-kerning: normal;
   overflow-x: hidden;
   position: relative;
+  height: auto;
 }
 
 body::after {

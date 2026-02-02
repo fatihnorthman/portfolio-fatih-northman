@@ -46,17 +46,16 @@ function App() {
         <>
             {/* Scroll Area - Provides the physical scroll height for the page */}
             <div style={{
-                height: '400vh', // 100vh * number of sections
+                height: '400vh',
                 width: '100%',
                 position: 'relative',
-                zIndex: 1,
-                pointerEvents: 'none'
+                zIndex: 1
             }}>
                 {/* Invisible snap points for the browser's scroll-snap */}
-                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
-                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
-                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
-                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
             </div>
 
             {/* Navbar - always visible */}

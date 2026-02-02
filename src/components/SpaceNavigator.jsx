@@ -6,8 +6,8 @@ const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
 
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 30, // More weighted
-        damping: 18,
+        stiffness: 45, // Slightly snappier for better scroll-snap alignment
+        damping: 22,
         restDelta: 0.00001,
         precision: 0.00001,
         restSpeed: 0.00001
