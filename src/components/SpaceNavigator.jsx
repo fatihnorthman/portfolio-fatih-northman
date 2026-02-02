@@ -37,13 +37,13 @@ const SpaceNavigator = ({ children }) => {
                     (index + 1) / (children.length - 1)
                 ];
 
-                // Advanced 3D Transformations with strict clamping
-                const opacity = useTransform(smoothProgress, range, [0, 1, 0]);
-                const scale = useTransform(smoothProgress, range, [0.8, 1, 1.2]);
-                const rotateX = useTransform(smoothProgress, range, [15, 0, -15]);
-                const translateZ = useTransform(smoothProgress, range, [-300, 0, 300]);
-                const blur = useTransform(smoothProgress, range, [8, 0, 4]);
-                const brightness = useTransform(smoothProgress, range, [0.2, 1, 0.4]);
+                // Advanced 3D Transformations with strict clamping to prevent bleed-through
+                const opacity = useTransform(smoothProgress, range, [0, 1, 0], { clamp: true });
+                const scale = useTransform(smoothProgress, range, [0.8, 1, 1.2], { clamp: true });
+                const rotateX = useTransform(smoothProgress, range, [15, 0, -15], { clamp: true });
+                const translateZ = useTransform(smoothProgress, range, [-300, 0, 300], { clamp: true });
+                const blur = useTransform(smoothProgress, range, [8, 0, 4], { clamp: true });
+                const brightness = useTransform(smoothProgress, range, [0.2, 1, 0.4], { clamp: true });
 
                 // Track Z-Index: Active section should be on top
                 const zIndex = useTransform(opacity, [0.5, 1], [0, 10]);
@@ -60,7 +60,8 @@ const SpaceNavigator = ({ children }) => {
                             scale,
                             rotateX,
                             z: translateZ,
-                            zIndex,
+                            zIndex: zIndex,
+                            visibility: useTransform(opacity, (o) => o <= 0 ? 'hidden' : 'visible'),
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
                             pointerEvents: useTransform(opacity, (o) => o > 0.8 ? 'auto' : 'none'),
                             display: 'flex',

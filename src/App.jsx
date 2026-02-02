@@ -44,37 +44,19 @@ function App() {
 
     return (
         <>
-            {/* Scroll tracker with snap points for each section */}
+            {/* Scroll Area - Provides the physical scroll height for the page */}
             <div style={{
-                position: 'absolute',
+                height: '400vh', // 100vh * number of sections
                 width: '100%',
-                height: '400vh',
+                position: 'relative',
+                zIndex: 1,
                 pointerEvents: 'none'
             }}>
-                {/* Hero snap point */}
-                <div style={{
-                    height: '100vh',
-                    scrollSnapAlign: 'start',
-                    scrollSnapStop: 'always'
-                }} />
-                {/* About snap point */}
-                <div style={{
-                    height: '100vh',
-                    scrollSnapAlign: 'start',
-                    scrollSnapStop: 'always'
-                }} />
-                {/* Projects snap point */}
-                <div style={{
-                    height: '100vh',
-                    scrollSnapAlign: 'start',
-                    scrollSnapStop: 'always'
-                }} />
-                {/* Contact snap point */}
-                <div style={{
-                    height: '100vh',
-                    scrollSnapAlign: 'start',
-                    scrollSnapStop: 'always'
-                }} />
+                {/* Invisible snap points for the browser's scroll-snap */}
+                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
+                <div style={{ height: '100vh', scrollSnapAlign: 'start' }} />
             </div>
 
             {/* Navbar - always visible */}
