@@ -12,9 +12,18 @@
         "founder": "Kurucu:",
         "cta": "STÜDYO İŞLERİNİ GÖR"
     },
+    "about": {
+        "title": "Hakkımızda",
+        "subtitle": "Stüdyo",
+        "bio1": "North Protocol, Fatih Northman tarafından kurulan, PC, konsol ve mobil platformlar için sürükleyici oyun deneyimleri yaratma konusunda uzmanlaşmış bağımsız bir oyun geliştirme stüdyosudur.",
+        "bio2": "Yenilikçi oynanış mekanikleri ve çarpıcı görseller tutkusuyla, son teknoloji ve yaratıcı tasarım kullanarak benzersiz oyun konseptlerini hayata geçiriyoruz.",
+        "skills": "Ana Yetenekler"
+    },
     "projects": {
         "title": "Seçilmiş Projeler",
+        "filter": "Filtre:",
         "categories": {
+            "all": "Tüm Projeler",
             "pc_console": "PC / Konsol",
             "mobile_3d": "Mobil 3D",
             "mobile_2d": "Mobil 2D"

@@ -1,45 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const projects = [
-    {
-        id: 1,
-        title: "Cyberpunk Shooter",
-        categoryKey: "pc_console",
-        description: "A fast-paced FPS with neon aesthetics and advanced AI mechanics.",
-        tech: ["Unity", "C#", "HDRP"],
-        image: "https://placehold.co/600x400/1a1a1a/e60000?text=FPS+Project",
-        video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-    },
-    {
-        id: 2,
-        title: "Mystic RPG",
-        categoryKey: "pc_console",
-        description: "Open-world RPG featuring a custom quest system and inventory management.",
-        tech: ["Unity", "C#", "Shader Graph"],
-        image: "https://placehold.co/600x400/1a1a1a/e60000?text=RPG+Project",
-        video: ""
-    },
-    {
-        id: 3,
-        title: "Hyper Run 3D",
-        categoryKey: "mobile_3d",
-        description: "Hypercasual endless runner optimized for mobile performance.",
-        tech: ["Unity", "Mobile", "URP"],
-        image: "https://placehold.co/600x400/1a1a1a/e60000?text=Mobile+3D",
-        video: ""
-    },
-    {
-        id: 4,
-        title: "Pixel Quest",
-        categoryKey: "mobile_2d",
-        description: "Classic 2D platformer with retro pixel art and touch controls.",
-        tech: ["Unity 2D", "Mobile", "Sprite Atlas"],
-        image: "https://placehold.co/600x400/1a1a1a/e60000?text=Mobile+2D",
-        video: ""
-    }
-];
+import { projectsData, categories } from '../../data/projectsData';
 
 const ProjectCard = ({ project, index, t }) => {
     const ref = useRef(null);
@@ -72,6 +34,11 @@ const ProjectCard = ({ project, index, t }) => {
         y.set(0);
         setIsHovered(false);
     };
+
+    // Use first image as thumbnail
+    const thumbnail = project.images && project.images.length > 0
+        ? project.images[0]
+        : "https://placehold.co/600x400/1a1a1a/e60000?text=" + encodeURIComponent(project.title);
 
     return (
         <motion.div
@@ -127,7 +94,7 @@ const ProjectCard = ({ project, index, t }) => {
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                background: `url(${project.image}) center/cover`,
+                                background: `url(${thumbnail}) center/cover`,
                                 transition: 'transform 0.5s'
                             }}
                             className="card-image"
@@ -147,6 +114,23 @@ const ProjectCard = ({ project, index, t }) => {
                     }}>
                         {t(`projects.categories.${project.categoryKey}`)}
                     </div>
+
+                    {/* Image Count Indicator */}
+                    {project.images && project.images.length > 1 && (
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '1rem',
+                            right: '1rem',
+                            background: 'rgba(0,0,0,0.8)',
+                            padding: '0.3rem 0.8rem',
+                            borderRadius: '20px',
+                            fontSize: '0.75rem',
+                            color: '#fff',
+                            border: '1px solid #333'
+                        }}>
+                            📷 {project.images.length}
+                        </div>
+                    )}
                 </div>
 
                 <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -155,7 +139,7 @@ const ProjectCard = ({ project, index, t }) => {
                         {project.description}
                     </p>
 
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
                         {project.tech.map(t => (
                             <span key={t} style={{
                                 fontSize: '0.7rem',
@@ -170,6 +154,28 @@ const ProjectCard = ({ project, index, t }) => {
                             </span>
                         ))}
                     </div>
+
+                    {/* Links */}
+                    {(project.githubUrl || project.liveDemoUrl) && (
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
+                            {project.githubUrl && (
+                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                                    style={{ color: '#888', fontSize: '1.2rem', transition: 'color 0.3s' }}
+                                    onMouseEnter={(e) => e.target.style.color = '#E60000'}
+                                    onMouseLeave={(e) => e.target.style.color = '#888'}>
+                                    🔗 GitHub
+                                </a>
+                            )}
+                            {project.liveDemoUrl && (
+                                <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer"
+                                    style={{ color: '#888', fontSize: '1.2rem', transition: 'color 0.3s' }}
+                                    onMouseEnter={(e) => e.target.style.color = '#E60000'}
+                                    onMouseLeave={(e) => e.target.style.color = '#888'}>
+                                    🎮 Demo
+                                </a>
+                            )}
+                        </div>
+                    )}
                 </div>
             </motion.div>
         </motion.div>
@@ -178,6 +184,11 @@ const ProjectCard = ({ project, index, t }) => {
 
 const Projects = () => {
     const { t } = useTranslation();
+    const [activeFilter, setActiveFilter] = useState('all');
+
+    const filteredProjects = activeFilter === 'all'
+        ? projectsData
+        : projectsData.filter(p => p.categoryKey === activeFilter);
 
     return (
         <section id="projects" style={{ padding: '8rem 2rem', background: '#050505', perspective: '1px' }}>
@@ -189,7 +200,7 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                     style={{
                         fontSize: '3.5rem',
-                        marginBottom: '5rem',
+                        marginBottom: '3rem',
                         color: 'white',
                         borderLeft: '5px solid #E60000',
                         paddingLeft: '1.5rem',
@@ -199,16 +210,64 @@ const Projects = () => {
                     {t('projects.title')}
                 </motion.h2>
 
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                    gap: '3rem',
-                    perspective: '2000px'
-                }}>
-                    {projects.map((project, index) => (
+                {/* Filter Buttons */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    style={{
+                        display: 'flex',
+                        gap: '1rem',
+                        marginBottom: '4rem',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                    }}
+                >
+                    {categories.map(category => (
+                        <button
+                            key={category.key}
+                            onClick={() => setActiveFilter(category.key)}
+                            style={{
+                                padding: '0.8rem 1.5rem',
+                                background: activeFilter === category.key ? '#E60000' : 'transparent',
+                                border: '1px solid #E60000',
+                                color: 'white',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontFamily: 'var(--font-display)',
+                                fontSize: '0.9rem',
+                                transition: 'all 0.3s',
+                                boxShadow: activeFilter === category.key ? '0 0 20px rgba(230, 0, 0, 0.3)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (activeFilter !== category.key) {
+                                    e.target.style.background = 'rgba(230, 0, 0, 0.2)';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (activeFilter !== category.key) {
+                                    e.target.style.background = 'transparent';
+                                }
+                            }}
+                        >
+                            {t(category.labelKey)}
+                        </button>
+                    ))}
+                </motion.div>
+
+                <motion.div
+                    layout
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                        gap: '3rem',
+                        perspective: '2000px'
+                    }}
+                >
+                    {filteredProjects.map((project, index) => (
                         <ProjectCard key={project.id} project={project} index={index} t={t} />
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     )

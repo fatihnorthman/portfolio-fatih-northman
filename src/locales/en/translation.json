@@ -12,9 +12,18 @@
         "founder": "Founded by",
         "cta": "VIEW STUDIOS WORK"
     },
+    "about": {
+        "title": "About",
+        "subtitle": "The Studio",
+        "bio1": "North Protocol is an indie game development studio founded by Fatih Northman, specializing in creating immersive gaming experiences across PC, console, and mobile platforms.",
+        "bio2": "With a passion for innovative gameplay mechanics and stunning visuals, we bring unique game concepts to life using cutting-edge technology and creative design.",
+        "skills": "Core Skills"
+    },
     "projects": {
         "title": "Selected Projects",
+        "filter": "Filter:",
         "categories": {
+            "all": "All Projects",
             "pc_console": "PC / Console",
             "mobile_3d": "Mobile 3D",
             "mobile_2d": "Mobile 2D"

@@ -3,6 +3,7 @@ import { OrbitControls, Stars } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Sections/Hero';
+import About from './components/Sections/About';
 import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
 
@@ -49,6 +50,7 @@ function App() {
 
             <div style={{ position: 'relative', zIndex: 5 }}>
                 <Hero />
+                <About />
                 <Projects />
                 <Contact />
             </div>
