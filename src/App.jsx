@@ -10,6 +10,8 @@ import Contact from './components/Sections/Contact';
 import SpaceNavigator from './components/SpaceNavigator';
 import ColorPicker from './components/ColorPicker/ColorPicker';
 import HUDIcons from './components/Layout/HUDIcons';
+import CustomCursor from './components/Layout/CustomCursor';
+import SideProgress from './components/Layout/SideProgress';
 
 function ScrollStars({ scrollProgress }) {
     const starsRef = useRef()
@@ -40,7 +42,32 @@ function App() {
     })
 
     return (
-        <div style={{ background: '#050505', minHeight: '100vh', width: '100%' }}>
+        <div style={{ background: '#050505', minHeight: '100vh', width: '100%', cursor: 'none' }}>
+            {/* Tactical Grid Overlay */}
+            <div style={{
+                position: 'fixed',
+                inset: 0,
+                backgroundImage: `
+                    linear-gradient(rgba(255, 60, 60, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 60, 60, 0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '40px 40px',
+                pointerEvents: 'none',
+                zIndex: 2,
+                opacity: 0.5
+            }} />
+
+            {/* Scanline Effect */}
+            <div className="scanline-overlay" style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%)',
+                backgroundSize: '100% 4px',
+                pointerEvents: 'none',
+                zIndex: 3,
+                opacity: 0.2
+            }} />
+
             {/* Scroll Area */}
             <div style={{
                 height: '400vh',
@@ -78,7 +105,9 @@ function App() {
             </SpaceNavigator>
 
             <HUDIcons />
+            <SideProgress />
             <ColorPicker />
+            <CustomCursor />
         </div>
     )
 }

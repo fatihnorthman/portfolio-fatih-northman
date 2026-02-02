@@ -197,6 +197,11 @@ const Hero = () => {
 
                     <motion.a
                         href="#projects"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            const vh = window.innerHeight;
+                            window.scrollTo({ top: 2 * vh, behavior: 'smooth' });
+                        }}
                         whileHover={{
                             scale: 1.1,
                             boxShadow: '0 0 40px var(--color-brand-red)',

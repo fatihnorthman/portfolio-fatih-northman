@@ -1,12 +1,28 @@
-import { motion, useTransform, useScroll, useSpring } from 'framer-motion';
+import { motion, useTransform, useScroll, useSpring, useMotionValueEvent } from 'framer-motion';
+import { useState } from 'react';
+
+const sectionIds = ['hero', 'about', 'projects', 'contact'];
 
 const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
+    const [activeSection, setActiveSection] = useState(0);
 
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 45,
         damping: 25,
         restDelta: 0.0001
+    });
+
+    // Sync URL and State with scroll progress
+    useMotionValueEvent(smoothProgress, "change", (latest) => {
+        const index = Math.round(latest * (children.length - 1));
+        if (index !== activeSection) {
+            setActiveSection(index);
+            const hash = index === 0 ? '#hero' : `#${sectionIds[index]}`;
+            window.history.replaceState(null, '', hash);
+            // Force hashchange event so Navbar updates instantly
+            window.dispatchEvent(new HashChangeEvent('hashchange'));
+        }
     });
 
     return (
@@ -42,7 +58,7 @@ const SpaceNavigator = ({ children }) => {
 
                 const zIndex = useTransform(smoothProgress,
                     [range[0], range[2], range[4]],
-                    [index, index + 40, index]
+                    [index, index + 100, index] // Increased zIndex boost for clarity
                 );
 
                 return (
