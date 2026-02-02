@@ -10,6 +10,7 @@ import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
 import SpaceNavigator from './components/SpaceNavigator';
 import ColorPicker from './components/ColorPicker/ColorPicker';
+import HUDIcons from './components/Layout/HUDIcons';
 
 // Optimized Animated Stars
 function ScrollStars({ scrollProgress }) {
@@ -141,6 +142,9 @@ function App() {
                     <Contact key="contact" />
                 ]}
             </SpaceNavigator>
+
+            {/* Custom Theme-Aware HUD Icons */}
+            <HUDIcons />
 
             {/* Color Picker - Dynamic theme changer */}
             <ColorPicker />
