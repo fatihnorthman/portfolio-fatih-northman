@@ -20,12 +20,12 @@ function App() {
 
                     <ambientLight intensity={0.5} />
 
-                    {/* Post Processing - Temporarily Disabled for Debugging */}
-                    {/* <EffectComposer>
+                    {/* Post Processing */}
+                    <EffectComposer>
                         <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={0.5} />
                         <Noise opacity={0.05} />
                         <Vignette eskil={false} offset={0.1} darkness={1.1} />
-                    </EffectComposer> */}
+                    </EffectComposer>
                 </Canvas>
             </div>
 

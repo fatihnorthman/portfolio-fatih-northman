@@ -75,10 +75,21 @@ const Hero = () => {
                         color: '#E60000',
                         fontWeight: 400,
                         letterSpacing: '4px',
-                        marginBottom: '3rem'
+                        marginBottom: '1rem' // Reduced margin to fit byline
                     }}>
                         {t('hero.subtitle')}
                     </h2>
+
+                    {/* Founder Byline */}
+                    <p style={{
+                        color: '#888',
+                        fontSize: '1rem',
+                        marginBottom: '3rem',
+                        fontFamily: 'var(--font-body)',
+                        letterSpacing: '2px'
+                    }}>
+                        {t('hero.founder')} <span style={{ color: 'white', fontWeight: 600 }}>Fatih Northman</span>
+                    </p>
 
                     <button style={{
                         padding: '1rem 3rem',
