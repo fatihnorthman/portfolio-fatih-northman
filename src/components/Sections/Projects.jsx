@@ -2,33 +2,78 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// Temporary simple projects data
+// Project data with different categories
 const tempProjects = [
+    // Games
     {
-        id: 'project1',
-        title: 'Game Project 1',
+        id: 'game1',
+        title: 'Space Shooter VR',
         category: 'game',
-        tags: ['Unity', 'C#', '3D'],
-        images: []
+        tags: ['Unity', 'VR', 'C#'],
+        icon: '🚀',
+        description: 'Immersive VR space combat game with realistic physics'
     },
     {
-        id: 'project2',
-        title: 'Game Project 2',
+        id: 'game2',
+        title: 'Mobile RPG Adventure',
         category: 'game',
-        tags: ['Unity', 'Mobile'],
-        images: []
+        tags: ['Unity', 'Mobile', '3D'],
+        icon: '⚔️',
+        description: 'Epic mobile RPG with stunning graphics and deep gameplay'
     },
     {
-        id: 'project3',
-        title: 'Game Project 3',
+        id: 'game3',
+        title: 'Puzzle Platformer',
         category: 'game',
-        tags: ['Unity', 'VR'],
-        images: []
+        tags: ['Unity', '2D', 'Physics'],
+        icon: '🎮',
+        description: 'Mind-bending puzzle platformer with unique mechanics'
+    },
+    {
+        id: 'game4',
+        title: 'Racing Simulator',
+        category: 'game',
+        tags: ['Unity', 'Multiplayer', 'Physics'],
+        icon: '🏎️',
+        description: 'Realistic racing simulator with online multiplayer'
+    },
+    // Tools
+    {
+        id: 'tool1',
+        title: 'Level Editor Pro',
+        category: 'tool',
+        tags: ['Unity', 'Editor', 'Tool'],
+        icon: '🛠️',
+        description: 'Advanced level editor for Unity game development'
+    },
+    {
+        id: 'tool2',
+        title: 'Shader Graph Library',
+        category: 'tool',
+        tags: ['Shaders', 'Graphics', 'Unity'],
+        icon: '✨',
+        description: 'Collection of professional shader graphs for Unity'
+    },
+    {
+        id: 'tool3',
+        title: 'Animation Controller',
+        category: 'tool',
+        tags: ['Unity', 'Animation', 'Tool'],
+        icon: '🎬',
+        description: 'Advanced animation controller system for Unity'
+    },
+    {
+        id: 'tool4',
+        title: 'Asset Manager',
+        category: 'tool',
+        tags: ['Unity', 'Workflow', 'Tool'],
+        icon: '📦',
+        description: 'Powerful asset management tool for Unity projects'
     }
 ];
 
 const tempCategories = [
-    { id: 'all', name: 'All' },
+    { id: 'all', name: 'All Projects' },
     { id: 'game', name: 'Games' },
     { id: 'tool', name: 'Tools' }
 ];
@@ -127,16 +172,34 @@ const Projects = () => {
                     ))}
                 </motion.div>
 
+                {/* Project Count */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{
+                        textAlign: 'center',
+                        color: '#888',
+                        marginBottom: '2rem',
+                        fontSize: '1.1rem'
+                    }}
+                >
+                    Showing {filteredProjects.length} {selectedCategory === 'all' ? 'projects' : selectedCategory === 'game' ? 'games' : 'tools'}
+                </motion.p>
+
                 {/* Projects Grid */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-                    gap: '2.5rem',
-                    transformStyle: 'preserve-3d'
-                }}>
+                <motion.div
+                    layout
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                        gap: '2.5rem',
+                        transformStyle: 'preserve-3d'
+                    }}
+                >
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}
+                            layout
                             initial={{
                                 opacity: 0,
                                 rotateX: -60,
@@ -145,7 +208,7 @@ const Projects = () => {
                                 z: -300,
                                 scale: 0.7
                             }}
-                            whileInView={{
+                            animate={{
                                 opacity: 1,
                                 rotateX: 0,
                                 rotateY: 0,
@@ -153,17 +216,22 @@ const Projects = () => {
                                 z: 0,
                                 scale: 1
                             }}
-                            viewport={{ once: false, amount: 0.3 }}
+                            exit={{
+                                opacity: 0,
+                                scale: 0.8,
+                                transition: { duration: 0.2 }
+                            }}
                             transition={{
                                 type: "spring",
                                 stiffness: 60,
                                 damping: 20,
-                                delay: index * 0.15
+                                delay: index * 0.1
                             }}
                             whileHover={{
                                 scale: 1.05,
                                 rotateY: 5,
-                                z: 30
+                                z: 30,
+                                boxShadow: '0 30px 80px rgba(230, 0, 0, 0.4)'
                             }}
                             style={{
                                 position: 'relative',
@@ -179,20 +247,38 @@ const Projects = () => {
                         >
                             <div style={{
                                 height: '250px',
-                                background: 'linear-gradient(135deg, rgba(230, 0, 0, 0.2), rgba(0, 0, 0, 0.8))',
+                                background: project.category === 'game'
+                                    ? 'linear-gradient(135deg, rgba(230, 0, 0, 0.3), rgba(0, 0, 0, 0.8))'
+                                    : 'linear-gradient(135deg, rgba(0, 100, 230, 0.3), rgba(0, 0, 0, 0.8))',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                fontSize: '4rem'
+                                fontSize: '6rem',
+                                position: 'relative'
                             }}>
-                                🎮
+                                {project.icon}
+                                <div style={{
+                                    position: 'absolute',
+                                    top: '1rem',
+                                    right: '1rem',
+                                    padding: '0.5rem 1rem',
+                                    background: project.category === 'game'
+                                        ? 'rgba(230, 0, 0, 0.8)'
+                                        : 'rgba(0, 100, 230, 0.8)',
+                                    borderRadius: '6px',
+                                    fontSize: '0.85rem',
+                                    fontFamily: 'var(--font-display)',
+                                    textTransform: 'uppercase'
+                                }}>
+                                    {project.category}
+                                </div>
                             </div>
 
                             <div style={{ padding: '2rem' }}>
                                 <h3 style={{
                                     fontSize: '1.8rem',
                                     marginBottom: '1rem',
-                                    color: '#E60000'
+                                    color: project.category === 'game' ? '#E60000' : '#0064E6'
                                 }}>
                                     {project.title}
                                 </h3>
@@ -202,7 +288,7 @@ const Projects = () => {
                                     lineHeight: '1.6',
                                     marginBottom: '1.5rem'
                                 }}>
-                                    {t(`projects.items.${project.id}.description`) || 'An amazing game project built with Unity and C#.'}
+                                    {project.description}
                                 </p>
 
                                 <div style={{
@@ -215,8 +301,12 @@ const Projects = () => {
                                             key={tag}
                                             style={{
                                                 padding: '0.4rem 0.8rem',
-                                                background: 'rgba(230, 0, 0, 0.2)',
-                                                border: '1px solid rgba(230, 0, 0, 0.4)',
+                                                background: project.category === 'game'
+                                                    ? 'rgba(230, 0, 0, 0.2)'
+                                                    : 'rgba(0, 100, 230, 0.2)',
+                                                border: `1px solid ${project.category === 'game'
+                                                    ? 'rgba(230, 0, 0, 0.4)'
+                                                    : 'rgba(0, 100, 230, 0.4)'}`,
                                                 borderRadius: '4px',
                                                 fontSize: '0.85rem',
                                                 color: '#fff'
@@ -229,7 +319,7 @@ const Projects = () => {
                             </div>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
