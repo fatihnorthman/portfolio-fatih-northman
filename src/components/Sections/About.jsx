@@ -11,9 +11,9 @@ const skills = [
 ];
 
 const stats = [
-    { label: "Experience", value: "5+ Years" },
-    { label: "Projects", value: "20+" },
-    { label: "Coffee", value: "∞" }
+    { label: "experience", value: "5+" },
+    { label: "projects", value: "20+" },
+    { label: "coffee", value: "∞" }
 ];
 
 const About = () => {
@@ -100,7 +100,7 @@ const About = () => {
             >
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                     gap: '3rem',
                     alignItems: 'start'
                 }}>
@@ -112,7 +112,7 @@ const About = () => {
                             color: 'var(--color-brand-red)',
                             fontFamily: 'var(--font-display)',
                         }}>
-                            01. PROTOKOL ANALİZİ
+                            {t('about.title')}
                         </h2>
 
                         <div style={{
@@ -122,10 +122,10 @@ const About = () => {
                             marginBottom: '2rem'
                         }}>
                             <p style={{ fontSize: '1rem', color: '#fff', lineHeight: '1.6', marginBottom: '1rem' }}>
-                                Yazılım dünyasına Unity ve C# ile adım attığımdan beri, karmaşık sistemleri zarif çözümlere dönüştürmeye odaklanıyorum. Sadece oyun değil, yaşayan dünyalar yaratma tutkum beni her zaman daha derin teknik detaylara itti.
+                                {t('about.bio1')}
                             </p>
                             <p style={{ fontSize: '1rem', color: '#fff', lineHeight: '1.6' }}>
-                                Performans odaklı mimari yapılar ve görsel olarak etkileyici shader çalışmaları uzmanlık alanımdır.
+                                {t('about.bio2')}
                             </p>
                         </div>
 
@@ -133,7 +133,9 @@ const About = () => {
                             {stats.map((stat, i) => (
                                 <div key={i}>
                                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#fff' }}>{stat.value}</div>
-                                    <div style={{ fontSize: '0.8rem', color: '#ddd', textTransform: 'uppercase' }}>{stat.label}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#ddd', textTransform: 'uppercase' }}>
+                                        {t(`about.stats.${stat.label}`)}
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -158,7 +160,7 @@ const About = () => {
                             borderBottom: '1px solid var(--color-brand-red)',
                             paddingBottom: '0.5rem'
                         }}>
-                            YETENEK MATRİSİ
+                            {t('about.skillsTitle')}
                         </h3>
 
                         <div style={{ display: 'grid', gap: '1.2rem' }}>

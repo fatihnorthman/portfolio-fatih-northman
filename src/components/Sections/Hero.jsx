@@ -163,7 +163,7 @@ const Hero = () => {
                         marginBottom: '1rem',
                         opacity: 0.8
                     }}>
-                        [ INITIALIZING SESSION... ]
+                        {t('hero.initializing')}
                     </div>
 
                     <h1 style={{
@@ -174,7 +174,7 @@ const Hero = () => {
                         letterSpacing: '0.05em',
                         lineHeight: '1.1'
                     }}>
-                        <TypewriterText text="FATIH NORTHMAN" delay={120} />
+                        <TypewriterText text={t('hero.title')} delay={120} />
                     </h1>
 
                     <div style={{
@@ -192,7 +192,7 @@ const Hero = () => {
                         marginBottom: '2rem',
                         fontFamily: 'var(--font-accent)'
                     }}>
-                        UNITY DEVELOPER & TECHNICAL ARCHITECT
+                        {t('hero.subtitle')}
                     </h2>
 
                     <motion.a
@@ -225,7 +225,7 @@ const Hero = () => {
                             transformStyle: 'preserve-3d'
                         }}
                     >
-                        STÜDYO İŞLERİNİ GÖR
+                        {t('hero.cta')}
                     </motion.a>
                 </motion.div>
             </div>

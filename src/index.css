@@ -95,3 +95,66 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* Holographic Border Effect */
+.holo-border {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.4)) padding-box,
+    linear-gradient(45deg, var(--color-brand-red), transparent, var(--color-brand-red)) border-box;
+  animation: holo-rotate 3s linear infinite;
+}
+
+@keyframes holo-rotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Scanline Animation */
+.scanline-overlay {
+  animation: scanline-move 8s linear infinite;
+}
+
+@keyframes scanline-move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+.glitch {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both;
+}

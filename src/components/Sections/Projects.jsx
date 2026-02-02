@@ -2,71 +2,25 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// Project data with different categories
-const tempProjects = [
-    {
-        id: 'game1',
-        title: 'Cyber Drift',
-        category: 'game',
-        tags: ['Unity', 'Custom Physics'],
-        icon: '🏎️',
-        description: 'Raycast-based arcade racing system with custom drifting physics.'
-    },
-    {
-        id: 'game2',
-        title: 'Shadow Protocol',
-        category: 'game',
-        tags: ['Unity', 'Networking'],
-        icon: '🕵️',
-        description: 'Co-op stealth game featuring dynamic lighting and AI vision systems.'
-    },
-    {
-        id: 'game3',
-        title: 'Vox World',
-        category: 'game',
-        tags: ['Unity', 'Generation'],
-        icon: '🧊',
-        description: 'Infinite voxel world generation using compute shaders.'
-    },
-    {
-        id: 'tool1',
-        title: 'Node Graph',
-        category: 'tool',
-        tags: ['Editor', 'UI Toolkit'],
-        icon: '🕸️',
-        description: 'Visual scripting node editor built for custom dialogue systems.'
-    },
-    {
-        id: 'tool2',
-        title: 'Post-FX Lite',
-        category: 'tool',
-        tags: ['Shaders', 'URP'],
-        icon: '🌈',
-        description: 'Mobile-optimized post-processing stack for low-end devices.'
-    },
-    {
-        id: 'tool3',
-        title: 'Build Automator',
-        category: 'tool',
-        tags: ['CI/CD', 'Python'],
-        icon: '🤖',
-        description: 'Automated build and deployment pipeline for multi-platform Unity projects.'
-    }
+// Project keys map to translation file
+const projectKeys = [
+    { id: 'cyber_drift', category: 'game', tags: ['Unity', 'Custom Physics'], icon: '🏎️' },
+    { id: 'shadow_protocol', category: 'game', tags: ['Unity', 'Networking'], icon: '🕵️' },
+    { id: 'vox_world', category: 'game', tags: ['Unity', 'Generation'], icon: '🧊' },
+    { id: 'node_graph', category: 'tool', tags: ['Editor', 'UI Toolkit'], icon: '🕸️' },
+    { id: 'post_fx', category: 'tool', tags: ['Shaders', 'URP'], icon: '🌈' },
+    { id: 'build_automator', category: 'tool', tags: ['CI/CD', 'Python'], icon: '🤖' }
 ];
 
-const tempCategories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'game', name: 'Games' },
-    { id: 'tool', name: 'Tools' }
-];
+const categories = ['all', 'game', 'tool'];
 
 const Projects = () => {
     const { t } = useTranslation();
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     const filteredProjects = selectedCategory === 'all'
-        ? tempProjects
-        : tempProjects.filter(p => p.category === selectedCategory);
+        ? projectKeys
+        : projectKeys.filter(p => p.category === selectedCategory);
 
     return (
         <section
@@ -90,13 +44,12 @@ const Projects = () => {
                         fontFamily: 'var(--font-display)',
                     }}
                 >
-                    02. PROJE ARŞİVİ
+                    {t('projects.title')}
                 </motion.h2>
                 <p style={{ color: '#eee', marginBottom: '3rem', fontSize: '0.9rem', fontWeight: 500 }}>
-                    Sınırları zorlayan teknik çalışmalar ve yaratıcı oyun deneyimleri.
+                    {t('projects.subtitle')}
                 </p>
 
-                {/* Category Filter */}
                 <motion.div
                     style={{
                         display: 'flex',
@@ -106,14 +59,14 @@ const Projects = () => {
                         flexWrap: 'wrap',
                     }}
                 >
-                    {tempCategories.map((category) => (
+                    {categories.map((catId) => (
                         <button
-                            key={category.id}
-                            onClick={() => setSelectedCategory(category.id)}
+                            key={catId}
+                            onClick={() => setSelectedCategory(catId)}
                             style={{
                                 padding: '0.5rem 1rem',
-                                background: selectedCategory === category.id ? 'var(--color-brand-red)' : 'transparent',
-                                border: `1px solid ${selectedCategory === category.id ? 'var(--color-brand-red)' : 'rgba(255,255,255,0.1)'}`,
+                                background: selectedCategory === catId ? 'var(--color-brand-red)' : 'transparent',
+                                border: `1px solid ${selectedCategory === catId ? 'var(--color-brand-red)' : 'rgba(255,255,255,0.1)'}`,
                                 borderRadius: '4px',
                                 color: '#fff',
                                 cursor: 'pointer',
@@ -121,7 +74,7 @@ const Projects = () => {
                                 transition: 'all 0.2s',
                             }}
                         >
-                            {category.name}
+                            {t(`projects.filter.${catId}`)}
                         </button>
                     ))}
                 </motion.div>
@@ -137,7 +90,10 @@ const Projects = () => {
                         fontSize: '1.1rem'
                     }}
                 >
-                    Showing {filteredProjects.length} {selectedCategory === 'all' ? 'projects' : selectedCategory === 'game' ? 'games' : 'tools'}
+                    {t('projects.count', {
+                        count: filteredProjects.length,
+                        category: selectedCategory === 'all' ? '' : t(`projects.categories.${selectedCategory}`)
+                    })}
                 </motion.p>
 
                 {/* Projects Grid */}
@@ -145,7 +101,7 @@ const Projects = () => {
                     layout
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                         gap: '1.5rem',
                     }}
                 >
@@ -208,10 +164,10 @@ const Projects = () => {
 
                             <div style={{ padding: '1.5rem' }}>
                                 <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#fff' }}>
-                                    {project.title}
+                                    {t(`projects.items.${project.id}.title`)}
                                 </h3>
                                 <p style={{ fontSize: '0.85rem', color: '#eee', marginBottom: '1rem', lineHeight: '1.5' }}>
-                                    {project.description}
+                                    {t(`projects.items.${project.id}.desc`)}
                                 </p>
                                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                                     {project.tags.map(tag => (

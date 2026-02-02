@@ -12,6 +12,11 @@ import ColorPicker from './components/ColorPicker/ColorPicker';
 import HUDIcons from './components/Layout/HUDIcons';
 import CustomCursor from './components/Layout/CustomCursor';
 import SideProgress from './components/Layout/SideProgress';
+import CornerBrackets from './components/Layout/CornerBrackets';
+import SystemHUD from './components/Layout/SystemHUD';
+import DataStream from './components/Layout/DataStream';
+import EnergyBars from './components/Layout/EnergyBars';
+import useIsMobile from './hooks/useIsMobile';
 
 function ScrollStars({ scrollProgress }) {
     const starsRef = useRef()
@@ -34,6 +39,7 @@ function ScrollStars({ scrollProgress }) {
 
 function App() {
     const { scrollYProgress } = useScroll()
+    const isMobile = useIsMobile();
 
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 45,
@@ -42,8 +48,8 @@ function App() {
     })
 
     return (
-        <div style={{ background: '#050505', minHeight: '100vh', width: '100%', cursor: 'none' }}>
-            {/* Tactical Grid Overlay */}
+        <div style={{ background: '#050505', minHeight: '100vh', width: '100%', cursor: isMobile ? 'auto' : 'none' }}>
+            {/* Tactical Grid Overlay - Reduced opacity on mobile if needed */}
             <div style={{
                 position: 'fixed',
                 inset: 0,
@@ -105,9 +111,19 @@ function App() {
             </SpaceNavigator>
 
             <HUDIcons />
-            <SideProgress />
+
+            {!isMobile && (
+                <>
+                    <SideProgress />
+                    <CornerBrackets />
+                    <SystemHUD />
+                    <DataStream />
+                    <EnergyBars />
+                    <CustomCursor />
+                </>
+            )}
+
             <ColorPicker />
-            <CustomCursor />
         </div>
     )
 }

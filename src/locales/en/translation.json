@@ -1,38 +1,91 @@
 {
     "navbar": {
-        "projects": "Projects",
-        "skills": "Skills",
-        "about": "About",
-        "contact": "Contact",
+        "hero": "HERO",
+        "about": "ABOUT",
+        "projects": "PROJECTS",
+        "contact": "CONTACT",
         "lang": "TR"
     },
     "hero": {
-        "title": "NORTH PROTOCOL",
-        "subtitle": "INDIE GAME DEVELOPMENT STUDIO",
-        "founder": "Founded by",
-        "cta": "VIEW STUDIOS WORK"
+        "initializing": "[ INITIALIZING SESSION... ]",
+        "title": "FATIH NORTHMAN",
+        "subtitle": "UNITY DEVELOPER & TECHNICAL ARCHITECT",
+        "cta": "VIEW STUDIO WORKS"
     },
     "about": {
-        "title": "About",
-        "subtitle": "The Studio",
-        "bio1": "North Protocol is an indie game development studio founded by Fatih Northman, specializing in creating immersive gaming experiences across PC, console, and mobile platforms.",
-        "bio2": "With a passion for innovative gameplay mechanics and stunning visuals, we bring unique game concepts to life using cutting-edge technology and creative design.",
-        "skills": "Core Skills"
+        "title": "01. PROTOCOL ANALYSIS",
+        "bio1": "Since stepping into the software world with Unity and C#, I focus on transforming complex systems into elegant solutions. My passion for creating not just games but living worlds has always pushed me towards deeper technical details.",
+        "bio2": "Performance-oriented architectural structures and visually impressive shader works are my areas of expertise.",
+        "stats": {
+            "experience": "Experience",
+            "projects": "Projects",
+            "coffee": "Coffee"
+        },
+        "skillsTitle": "SKILL MATRIX",
+        "categories": {
+            "engine": "Engine",
+            "language": "Language",
+            "graphics": "Graphics",
+            "core": "Core",
+            "performance": "Performance",
+            "design": "Design"
+        }
     },
     "projects": {
-        "title": "Selected Projects",
-        "filter": "Filter:",
-        "categories": {
+        "title": "02. PROJECT ARCHIVE",
+        "subtitle": "Technical works pushing boundaries and creative gaming experiences.",
+        "filter": {
             "all": "All Projects",
-            "pc_console": "PC / Console",
-            "mobile_3d": "Mobile 3D",
-            "mobile_2d": "Mobile 2D"
+            "game": "Games",
+            "tool": "Tools"
+        },
+        "count": "Showing: {{count}} {{category}}",
+        "categories": {
+            "game": "Game",
+            "tool": "Tool"
+        },
+        "items": {
+            "cyber_drift": {
+                "title": "Cyber Drift",
+                "desc": "Raycast-based arcade racing system with custom drifting physics."
+            },
+            "shadow_protocol": {
+                "title": "Shadow Protocol",
+                "desc": "Co-op stealth game featuring dynamic lighting and AI vision systems."
+            },
+            "vox_world": {
+                "title": "Vox World",
+                "desc": "Infinite voxel world generation using compute shaders."
+            },
+            "node_graph": {
+                "title": "Node Graph",
+                "desc": "Visual scripting node editor built for custom dialogue systems."
+            },
+            "post_fx": {
+                "title": "Post-FX Lite",
+                "desc": "Mobile-optimized post-processing stack for low-end devices."
+            },
+            "build_automator": {
+                "title": "Build Automator",
+                "desc": "Automated build and deployment pipeline for multi-platform Unity projects."
+            }
         }
     },
     "contact": {
-        "title": "Let's Build The Future",
-        "desc": "North Protocol is always open to new collaborations and challenges. Reach out to build something extraordinary.",
-        "cta": "Contact Studio",
-        "footer": "© {{year}} North Protocol. All Rights Reserved."
+        "title": "03. ESTABLISH LINK",
+        "desc": "Ready for new projects, technical consulting, or just to say hello.",
+        "form": {
+            "name": "Codename / Name",
+            "email": "Comms Frequency (Email)",
+            "message": "Data Packet (Message)",
+            "send": "TRANSMIT",
+            "sending": "TRANSMITTING..."
+        },
+        "info": {
+            "location": "Location",
+            "email": "Email",
+            "social": "Social Grid"
+        },
+        "footer": "© {{year}} Fatih Northman. All systems nominal."
     }
 }

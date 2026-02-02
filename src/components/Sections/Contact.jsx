@@ -88,7 +88,7 @@ const Contact = () => {
                         fontFamily: 'var(--font-display)',
                     }}
                 >
-                    03. İLETİŞİM KANALLARI
+                    {t('contact.title')}
                 </motion.h2>
 
                 <motion.p
@@ -101,7 +101,7 @@ const Contact = () => {
                         fontWeight: 500
                     }}
                 >
-                    Yeni projeler, iş birlikleri veya sadece merhaba demek için.
+                    {t('contact.desc')}
                 </motion.p>
 
                 <div style={{
@@ -120,7 +120,9 @@ const Contact = () => {
                             textAlign: 'left'
                         }}
                     >
-                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>E-POSTA</div>
+                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>
+                            {t('contact.info.email').toUpperCase()}
+                        </div>
                         <a href="mailto:alkan2798@gmail.com" style={{ fontSize: '1.1rem', color: '#fff' }}>alkan2798@gmail.com</a>
                     </motion.div>
 
@@ -134,7 +136,9 @@ const Contact = () => {
                             textAlign: 'left'
                         }}
                     >
-                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>LOKASYON</div>
+                        <div style={{ color: 'var(--color-brand-red)', fontSize: '0.7rem', marginBottom: '0.5rem' }}>
+                            {t('contact.info.location').toUpperCase()}
+                        </div>
                         <div style={{ fontSize: '1.1rem', color: '#fff' }}>Sivas, Türkiye</div>
                     </motion.div>
                 </div>
@@ -177,7 +181,7 @@ const Contact = () => {
                     }}
                 >
                     <p style={{ color: '#fff', opacity: 0.8, fontSize: '0.9rem' }}>
-                        © 2026 Fatih Northman. Tüm hakları saklıdır.
+                        {t('contact.footer', { year: new Date().getFullYear() })}
                     </p>
                 </motion.div>
             </motion.div>

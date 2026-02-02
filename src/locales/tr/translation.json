@@ -1,38 +1,91 @@
 {
     "navbar": {
-        "projects": "Projeler",
-        "skills": "Yetenekler",
-        "about": "Hakkımızda",
-        "contact": "İletişim",
+        "hero": "HERO",
+        "about": "HAKKINDA",
+        "projects": "PROJELER",
+        "contact": "İLETİŞİM",
         "lang": "EN"
     },
     "hero": {
-        "title": "NORTH PROTOCOL",
-        "subtitle": "BAĞIMSIZ OYUN GELİŞTİRME STÜDYOSU",
-        "founder": "Kurucu:",
+        "initializing": "[ OTURUM BAŞLATILIYOR... ]",
+        "title": "FATIH NORTHMAN",
+        "subtitle": "UNITY GELİŞTİRİCİ & TEKNİK MİMAR",
         "cta": "STÜDYO İŞLERİNİ GÖR"
     },
     "about": {
-        "title": "Hakkımızda",
-        "subtitle": "Stüdyo",
-        "bio1": "North Protocol, Fatih Northman tarafından kurulan, PC, konsol ve mobil platformlar için sürükleyici oyun deneyimleri yaratma konusunda uzmanlaşmış bağımsız bir oyun geliştirme stüdyosudur.",
-        "bio2": "Yenilikçi oynanış mekanikleri ve çarpıcı görseller tutkusuyla, son teknoloji ve yaratıcı tasarım kullanarak benzersiz oyun konseptlerini hayata geçiriyoruz.",
-        "skills": "Ana Yetenekler"
+        "title": "01. PROTOKOL ANALİZİ",
+        "bio1": "Yazılım dünyasına Unity ve C# ile adım attığımdan beri, karmaşık sistemleri zarif çözümlere dönüştürmeye odaklanıyorum. Sadece oyun değil, yaşayan dünyalar yaratma tutkum beni her zaman daha derin teknik detaylara itti.",
+        "bio2": "Performans odaklı mimari yapılar ve görsel olarak etkileyici shader çalışmaları uzmanlık alanımdır.",
+        "stats": {
+            "experience": "Deneyim",
+            "projects": "Proje",
+            "coffee": "Kahve"
+        },
+        "skillsTitle": "YETENEK MATRİSİ",
+        "categories": {
+            "engine": "Motor",
+            "language": "Dil",
+            "graphics": "Grafik",
+            "core": "Çekirdek",
+            "performance": "Performans",
+            "design": "Tasarım"
+        }
     },
     "projects": {
-        "title": "Seçilmiş Projeler",
-        "filter": "Filtre:",
-        "categories": {
+        "title": "02. PROJE ARŞİVİ",
+        "subtitle": "Sınırları zorlayan teknik çalışmalar ve yaratıcı oyun deneyimleri.",
+        "filter": {
             "all": "Tüm Projeler",
-            "pc_console": "PC / Konsol",
-            "mobile_3d": "Mobil 3D",
-            "mobile_2d": "Mobil 2D"
+            "game": "Oyunlar",
+            "tool": "Araçlar"
+        },
+        "count": "Gösterilen: {{count}} {{category}}",
+        "categories": {
+            "game": "Oyun",
+            "tool": "Araç"
+        },
+        "items": {
+            "cyber_drift": {
+                "title": "Cyber Drift",
+                "desc": "Özel drift fizikleri ve Raycast tabanlı arcade yarış sistemi."
+            },
+            "shadow_protocol": {
+                "title": "Shadow Protocol",
+                "desc": "Dinamik ışıklandırma ve yapay zeka görüş sistemleri içeren co-op gizlilik oyunu."
+            },
+            "vox_world": {
+                "title": "Vox World",
+                "desc": "Compute shader kullanarak oluşturulan sonsuz voksel dünya üretimi."
+            },
+            "node_graph": {
+                "title": "Node Graph",
+                "desc": "Özel diyalog sistemleri için geliştirilmiş görsel script düğüm editörü."
+            },
+            "post_fx": {
+                "title": "Post-FX Lite",
+                "desc": "Düşük donanımlı cihazlar için mobil optimizeli post-processing yığını."
+            },
+            "build_automator": {
+                "title": "Build Automator",
+                "desc": "Çoklu platform Unity projeleri için otomatik derleme ve dağıtım hattı."
+            }
         }
     },
     "contact": {
-        "title": "Geleceği İnşa Edelim",
-        "desc": "North Protocol yeni işbirliklerine ve meydan okumalara her zaman açıktır. Sıradışı bir şeyler inşa etmek için ulaşın.",
-        "cta": "Stüdyo ile İletişim",
-        "footer": "© {{year}} North Protocol. Tüm Hakları Saklıdır."
+        "title": "03. BAĞLANTI KUR",
+        "desc": "Yeni projeler, teknik danışmanlık veya sadece bir merhaba demek için hazırım.",
+        "form": {
+            "name": "Kod Adı / İsim",
+            "email": "İletişim Frekansı (Email)",
+            "message": "Veri Paketi (Mesajınız)",
+            "send": "GÖNDER",
+            "sending": "İLETİLİYOR..."
+        },
+        "info": {
+            "location": "Konum",
+            "email": "Email",
+            "social": "Sosyal Ağ"
+        },
+        "footer": "© {{year}} Fatih Northman. Tüm sistemler aktif."
     }
 }

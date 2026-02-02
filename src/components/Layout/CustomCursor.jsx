@@ -1,7 +1,7 @@
 import { motion, useSpring, useMotionValue } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, memo } from 'react';
 
-const CustomCursor = () => {
+const CustomCursor = memo(() => {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
@@ -11,20 +11,24 @@ const CustomCursor = () => {
 
     const [isPointer, setIsPointer] = useState(false);
 
+    const moveCursor = useCallback((e) => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+
+        // Check if hovering over interactive element
+        const target = e.target;
+        // Optimization: Accessing getComputedStyle can be expensive. 
+        // We might want to throttle this check or check for specific tags/classes instead.
+        // For now, let's keep it but ensure it doesn't block main thread too much.
+        // Also a simple tag check is faster.
+        const isClickable = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
+        setIsPointer(isClickable);
+    }, [cursorX, cursorY]);
+
     useEffect(() => {
-        const moveCursor = (e) => {
-            cursorX.set(e.clientX);
-            cursorY.set(e.clientY);
-
-            // Check if hovering over interactive element
-            const target = e.target;
-            const isClickable = window.getComputedStyle(target).cursor === 'pointer';
-            setIsPointer(isClickable);
-        };
-
-        window.addEventListener('mousemove', moveCursor);
+        window.addEventListener('mousemove', moveCursor, { passive: true });
         return () => window.removeEventListener('mousemove', moveCursor);
-    }, []);
+    }, [moveCursor]);
 
     return (
         <div style={{
@@ -33,6 +37,7 @@ const CustomCursor = () => {
             top: 0,
             pointerEvents: 'none',
             zIndex: 9999,
+            willChange: 'transform' // Hint browser for composition
         }}>
             {/* Main Crosshair */}
             <motion.div
@@ -46,7 +51,8 @@ const CustomCursor = () => {
                     translateX: '-50%',
                     translateY: '-50%',
                     scale: isPointer ? 1.5 : 1,
-                    rotate: isPointer ? 45 : 0
+                    rotate: isPointer ? 45 : 0,
+                    willChange: 'transform'
                 }}
             >
                 <div style={{
@@ -73,11 +79,14 @@ const CustomCursor = () => {
                     y: cursorYSpring,
                     translateX: '-50%',
                     translateY: '-50%',
-                    scale: isPointer ? 0.5 : 1
+                    scale: isPointer ? 0.5 : 1,
+                    willChange: 'transform'
                 }}
             />
         </div>
     );
-};
+});
+
+CustomCursor.displayName = 'CustomCursor';
 
 export default CustomCursor;
