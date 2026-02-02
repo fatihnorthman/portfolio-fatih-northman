@@ -6,6 +6,8 @@ import './index.css'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <App />
+        <Suspense fallback={<div style={{ background: '#050505', color: 'red', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>[ LOADING SYSTEM... ]</div>}>
+            <App />
+        </Suspense>
     </StrictMode>,
 )

@@ -1,7 +1,4 @@
-import { motion, useTransform, useScroll, useSpring, useMotionValueEvent } from 'framer-motion';
-import { useRef, useState } from 'react';
-
-const sectionIds = ['hero', 'about', 'projects', 'contact'];
+import { motion, useTransform, useScroll, useSpring } from 'framer-motion';
 
 const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
@@ -10,18 +7,6 @@ const SpaceNavigator = ({ children }) => {
         stiffness: 45,
         damping: 25,
         restDelta: 0.0001
-    });
-
-    const [activeSection, setActiveSection] = useState(0);
-
-    // Sync URL with scroll progress
-    useMotionValueEvent(smoothProgress, "change", (latest) => {
-        const index = Math.round(latest * (children.length - 1));
-        if (index !== activeSection) {
-            setActiveSection(index);
-            const hash = index === 0 ? '' : `#${sectionIds[index]}`;
-            window.history.pushState(null, '', `${window.location.pathname}${hash}`);
-        }
     });
 
     return (
@@ -43,7 +28,7 @@ const SpaceNavigator = ({ children }) => {
                     (index + 1) / total
                 ];
 
-                // TRANSFORMATIONS
+                // Premium Stacking Transforms
                 const opacity = useTransform(smoothProgress, range, [0, 1, 1, 1, 0]);
                 const translateY = useTransform(smoothProgress,
                     [(index - 1) / total, index / total, (index + 1) / total],
@@ -57,10 +42,8 @@ const SpaceNavigator = ({ children }) => {
 
                 const zIndex = useTransform(smoothProgress,
                     [range[0], range[2], range[4]],
-                    [index, index + 20, index]
+                    [index, index + 40, index]
                 );
-
-                const isHero = index === 0;
 
                 return (
                     <motion.div
@@ -81,25 +64,11 @@ const SpaceNavigator = ({ children }) => {
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
                             pointerEvents: useTransform(opacity, (o) => o > 0.8 ? 'auto' : 'none'),
                             transformStyle: 'preserve-3d',
-                            transformOrigin: 'center center'
                         }}
                     >
-                        <motion.div
-                            style={{
-                                width: '100%',
-                                maxWidth: isHero ? 'none' : '1200px',
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transformStyle: 'preserve-3d',
-                                padding: isHero ? '0' : '4rem 1rem',
-                                boxSizing: 'border-box'
-                            }}
-                        >
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {child}
-                        </motion.div>
+                        </div>
                     </motion.div>
                 );
             })}
