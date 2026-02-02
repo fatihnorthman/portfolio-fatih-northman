@@ -36,7 +36,7 @@ function App() {
     const containerRef = useRef(null)
     const { scrollYProgress } = useScroll()
 
-    // Smooth spring physics for buttery smooth animations
+    // Smooth spring physics
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 50,
         damping: 20,
@@ -55,29 +55,37 @@ function App() {
         <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative' }}>
             <Navbar />
 
-            {/* Deep Space Background - Fixed to viewport */}
-            <motion.div
+            {/* Deep Space Background - Covers ENTIRE page */}
+            <div
                 style={{
-                    position: 'fixed',
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100vh',
-                    zIndex: 0,
-                    y: starsY,
-                    scale: starsScale
+                    height: '100%', // Full page height
+                    zIndex: 0
                 }}
             >
-                <Canvas
-                    gl={{ antialias: true, alpha: true }}
-                    camera={{ position: [0, 0, 5], fov: 80 }}
+                <motion.div
+                    style={{
+                        position: 'sticky',
+                        top: 0,
+                        height: '100vh',
+                        y: starsY,
+                        scale: starsScale
+                    }}
                 >
-                    <color attach="background" args={['#000000']} />
-                    <ScrollStars scrollProgress={smoothProgress} />
-                    <ambientLight intensity={0.3} />
-                    <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
-                </Canvas>
-            </motion.div>
+                    <Canvas
+                        gl={{ antialias: true, alpha: true }}
+                        camera={{ position: [0, 0, 5], fov: 80 }}
+                    >
+                        <color attach="background" args={['#000000']} />
+                        <ScrollStars scrollProgress={smoothProgress} />
+                        <ambientLight intensity={0.3} />
+                        <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
+                    </Canvas>
+                </motion.div>
+            </div>
 
             {/* Enhanced radial speed lines */}
             <div
