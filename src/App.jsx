@@ -8,16 +8,14 @@ import About from './components/Sections/About';
 import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
 
-// Animated Stars with enhanced 3D depth
+// Optimized Animated Stars
 function ScrollStars({ scrollProgress }) {
     const starsRef = useRef()
 
     useFrame(({ clock }) => {
         if (starsRef.current) {
-            // Forward motion
             starsRef.current.position.z = ((clock.getElapsedTime() * 10) % 100) - 50
 
-            // Scroll-based 3D rotation for depth
             const scrollValue = scrollProgress.get()
             starsRef.current.rotation.x = scrollValue * Math.PI * 0.8
             starsRef.current.rotation.y = scrollValue * Math.PI * 0.5
@@ -27,7 +25,8 @@ function ScrollStars({ scrollProgress }) {
 
     return (
         <group ref={starsRef}>
-            <Stars radius={150} depth={150} count={20000} factor={10} saturation={0} fade speed={4} />
+            {/* Reduced from 20000 to 12000 for better performance */}
+            <Stars radius={150} depth={150} count={12000} factor={10} saturation={0} fade speed={4} />
         </group>
     )
 }
@@ -36,18 +35,15 @@ function App() {
     const containerRef = useRef(null)
     const { scrollYProgress } = useScroll()
 
-    // Smooth spring physics
     const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 50,
         damping: 20,
         restDelta: 0.001
     })
 
-    // Enhanced parallax layers
     const starsY = useTransform(smoothProgress, [0, 1], [0, -500])
     const starsScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.2, 1])
 
-    // Content animations
     const contentScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.08, 1])
     const contentRotateX = useTransform(smoothProgress, [0, 0.5, 1], [0, 2, 0])
 
@@ -55,14 +51,14 @@ function App() {
         <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative' }}>
             <Navbar />
 
-            {/* Deep Space Background - Covers ENTIRE page */}
+            {/* Deep Space Background */}
             <div
                 style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%', // Full page height
+                    height: '100%',
                     zIndex: 0
                 }}
             >
@@ -76,8 +72,9 @@ function App() {
                     }}
                 >
                     <Canvas
-                        gl={{ antialias: true, alpha: true }}
+                        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
                         camera={{ position: [0, 0, 5], fov: 80 }}
+                        dpr={[1, 1.5]} // Limit pixel ratio for performance
                     >
                         <color attach="background" args={['#000000']} />
                         <ScrollStars scrollProgress={smoothProgress} />
@@ -87,7 +84,7 @@ function App() {
                 </motion.div>
             </div>
 
-            {/* Enhanced radial speed lines */}
+            {/* Optimized radial speed lines - reduced from 60 to 40 */}
             <div
                 style={{
                     position: 'fixed',
@@ -99,8 +96,8 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(60)].map((_, i) => {
-                    const angle = (i / 60) * Math.PI * 2
+                {[...Array(40)].map((_, i) => {
+                    const angle = (i / 40) * Math.PI * 2
                     return (
                         <motion.div
                             key={i}
@@ -115,7 +112,8 @@ function App() {
                                 transformOrigin: 'center',
                                 filter: 'blur(1.5px)',
                                 opacity: useTransform(smoothProgress, [0, 0.1, 0.5, 0.9, 1], [0, 0.5, 0.7, 0.5, 0]),
-                                scale: useTransform(smoothProgress, [0, 1], [1, 2])
+                                scale: useTransform(smoothProgress, [0, 1], [1, 2]),
+                                willChange: 'opacity, transform'
                             }}
                         />
                     )
@@ -152,7 +150,8 @@ function App() {
                         width: '40%',
                         height: '40%',
                         background: 'radial-gradient(circle, rgba(230, 0, 0, 0.15) 0%, transparent 70%)',
-                        filter: 'blur(60px)'
+                        filter: 'blur(60px)',
+                        willChange: 'transform, opacity'
                     }}
                 />
                 <motion.div
@@ -172,7 +171,8 @@ function App() {
                         width: '50%',
                         height: '50%',
                         background: 'radial-gradient(circle, rgba(230, 0, 0, 0.1) 0%, transparent 70%)',
-                        filter: 'blur(80px)'
+                        filter: 'blur(80px)',
+                        willChange: 'transform, opacity'
                     }}
                 />
             </motion.div>
@@ -191,7 +191,7 @@ function App() {
                 opacity: useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1, 0.8])
             }} />
 
-            {/* Content with enhanced 3D transforms */}
+            {/* Content */}
             <motion.div
                 style={{
                     position: 'relative',
@@ -208,7 +208,7 @@ function App() {
                 <Contact />
             </motion.div>
 
-            {/* Enhanced foreground particles */}
+            {/* Optimized foreground particles - reduced from 50 to 30 */}
             <motion.div
                 style={{
                     position: 'fixed',
@@ -220,7 +220,7 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(50)].map((_, i) => {
+                {[...Array(30)].map((_, i) => {
                     const startX = (Math.random() - 0.5) * 120
                     const startY = (Math.random() - 0.5) * 120
                     const speed = Math.random() * 2.5 + 1.5
@@ -249,7 +249,8 @@ function App() {
                                 background: isRed ? '#E60000' : '#fff',
                                 borderRadius: '50%',
                                 boxShadow: `0 0 ${Math.random() * 20 + 15}px ${isRed ? '#E60000' : '#fff'}`,
-                                filter: 'blur(1px)'
+                                filter: 'blur(1px)',
+                                willChange: 'transform, opacity'
                             }}
                         />
                     )

@@ -28,8 +28,8 @@ const HeroScene = () => {
     )
 }
 
-// Typewriter effect component
-const TypewriterText = ({ text, delay = 100 }) => {
+// Typewriter effect with horizontal underline cursor (Linux terminal style)
+const TypewriterText = ({ text, delay = 150 }) => {
     const [displayText, setDisplayText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
@@ -52,13 +52,19 @@ const TypewriterText = ({ text, delay = 100 }) => {
     }, []);
 
     return (
-        <span>
+        <span style={{ position: 'relative', display: 'inline-block' }}>
             {displayText}
             <span style={{
+                position: 'relative',
+                display: 'inline-block',
+                width: '0.6em',
+                height: '0.15em',
+                backgroundColor: '#E60000',
                 opacity: showCursor ? 1 : 0,
-                color: '#E60000',
-                fontWeight: 'bold'
-            }}>|</span>
+                marginLeft: '0.1em',
+                verticalAlign: 'baseline',
+                transform: 'translateY(0.3em)'
+            }}>_</span>
         </span>
     );
 };
@@ -68,7 +74,7 @@ const Hero = () => {
 
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* 3D Object - Background stars are now in App.jsx */}
+            {/* 3D Object */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 <Canvas camera={{ position: [0, 0, 5] }}>
                     <Suspense fallback={null}>
@@ -101,9 +107,10 @@ const Hero = () => {
                         color: '#fff',
                         fontFamily: 'var(--font-body)',
                         textShadow: '0 0 30px rgba(230, 0, 0, 0.5)',
-                        letterSpacing: '0.1em'
+                        letterSpacing: '0.1em',
+                        lineHeight: '1.2'
                     }}>
-                        <TypewriterText text="NORTH PROTOCOL" delay={80} />
+                        <TypewriterText text="NORTH PROTOCOL" delay={150} />
                     </h1>
                     <h2 style={{
                         fontSize: '1.5rem',
