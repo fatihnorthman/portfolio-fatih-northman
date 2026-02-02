@@ -8,13 +8,19 @@ import About from './components/Sections/About';
 import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
 
-// Animated Stars moving forward
-function ScrollStars() {
+// Animated Stars with 3D depth based on scroll
+function ScrollStars({ scrollProgress }) {
     const starsRef = useRef()
 
     useFrame(({ clock }) => {
         if (starsRef.current) {
+            // Forward motion
             starsRef.current.position.z = ((clock.getElapsedTime() * 8) % 80) - 40
+
+            // Scroll-based rotation for 3D depth
+            const scrollValue = scrollProgress.get()
+            starsRef.current.rotation.x = scrollValue * Math.PI * 0.5
+            starsRef.current.rotation.y = scrollValue * Math.PI * 0.3
             starsRef.current.rotation.z = clock.getElapsedTime() * 0.02
         }
     })
@@ -31,14 +37,14 @@ function App() {
     const { scrollYProgress } = useScroll()
 
     // Parallax effects for depth
-    const starsY = useTransform(scrollYProgress, [0, 1], [0, -200])
+    const starsY = useTransform(scrollYProgress, [0, 1], [0, -300])
     const contentScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1])
 
     return (
         <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative' }}>
             <Navbar />
 
-            {/* Deep Space Background - Parallax */}
+            {/* Deep Space Background with 3D depth */}
             <motion.div
                 style={{
                     position: 'fixed',
@@ -55,7 +61,7 @@ function App() {
                     camera={{ position: [0, 0, 5], fov: 75 }}
                 >
                     <color attach="background" args={['#000000']} />
-                    <ScrollStars />
+                    <ScrollStars scrollProgress={scrollYProgress} />
                     <ambientLight intensity={0.3} />
                 </Canvas>
             </motion.div>
@@ -116,73 +122,7 @@ function App() {
                 }}
             >
                 <Hero />
-
-                {/* Depth separator */}
-                <motion.div
-                    style={{
-                        height: '200px',
-                        background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.08), transparent)',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}
-                >
-                    <motion.div
-                        animate={{
-                            scale: [1, 1.5, 1],
-                            opacity: [0.3, 0.7, 0.3]
-                        }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: 'easeInOut'
-                        }}
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '70%',
-                            height: '2px',
-                            background: 'radial-gradient(ellipse, #E60000, transparent)',
-                            boxShadow: '0 0 30px #E60000'
-                        }}
-                    />
-                </motion.div>
-
                 <About />
-
-                {/* Another depth separator */}
-                <motion.div
-                    style={{
-                        height: '200px',
-                        background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.08), transparent)',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}
-                >
-                    <motion.div
-                        animate={{
-                            scale: [1.5, 1, 1.5],
-                            opacity: [0.7, 0.3, 0.7]
-                        }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: 'easeInOut'
-                        }}
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '70%',
-                            height: '2px',
-                            background: 'radial-gradient(ellipse, #E60000, transparent)',
-                            boxShadow: '0 0 30px #E60000'
-                        }}
-                    />
-                </motion.div>
-
                 <Projects />
                 <Contact />
             </motion.div>
