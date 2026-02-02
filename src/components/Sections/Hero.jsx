@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Float } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { Suspense } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 
 const HeroScene = () => {
@@ -27,6 +27,41 @@ const HeroScene = () => {
         </group>
     )
 }
+
+// Typewriter effect component
+const TypewriterText = ({ text, delay = 100 }) => {
+    const [displayText, setDisplayText] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [showCursor, setShowCursor] = useState(true);
+
+    useEffect(() => {
+        if (currentIndex < text.length) {
+            const timeout = setTimeout(() => {
+                setDisplayText(prev => prev + text[currentIndex]);
+                setCurrentIndex(prev => prev + 1);
+            }, delay);
+            return () => clearTimeout(timeout);
+        }
+    }, [currentIndex, delay, text]);
+
+    useEffect(() => {
+        const cursorInterval = setInterval(() => {
+            setShowCursor(prev => !prev);
+        }, 500);
+        return () => clearInterval(cursorInterval);
+    }, []);
+
+    return (
+        <span>
+            {displayText}
+            <span style={{
+                opacity: showCursor ? 1 : 0,
+                color: '#E60000',
+                fontWeight: 'bold'
+            }}>|</span>
+        </span>
+    );
+};
 
 const Hero = () => {
     const { t } = useTranslation();
@@ -63,19 +98,19 @@ const Hero = () => {
                     <h1 style={{
                         fontSize: '5rem',
                         marginBottom: '1rem',
-                        background: 'linear-gradient(to right, #fff, #aaa)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        textShadow: '0 0 30px rgba(230, 0, 0, 0.3)'
+                        color: '#fff',
+                        fontFamily: 'var(--font-body)',
+                        textShadow: '0 0 30px rgba(230, 0, 0, 0.5)',
+                        letterSpacing: '0.1em'
                     }}>
-                        {t('hero.title')}
+                        <TypewriterText text="NORTH PROTOCOL" delay={80} />
                     </h1>
                     <h2 style={{
                         fontSize: '1.5rem',
                         color: '#E60000',
                         fontWeight: 400,
                         letterSpacing: '4px',
-                        marginBottom: '1rem' // Reduced margin to fit byline
+                        marginBottom: '1rem'
                     }}>
                         {t('hero.subtitle')}
                     </h2>

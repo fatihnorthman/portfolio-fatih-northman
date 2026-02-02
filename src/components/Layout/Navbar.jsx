@@ -24,8 +24,7 @@ const Navbar = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 zIndex: 100,
-                background: 'rgba(5, 5, 5, 0.5)',
-                backdropFilter: 'blur(10px)',
+                background: 'transparent',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
             }}
         >

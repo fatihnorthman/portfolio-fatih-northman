@@ -55,30 +55,28 @@ function App() {
         <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative' }}>
             <Navbar />
 
-            {/* Deep Space Background - Covers entire page */}
+            {/* Deep Space Background - Fixed to viewport */}
             <motion.div
                 style={{
-                    position: 'absolute', // Changed from fixed to absolute
+                    position: 'fixed',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%', // Covers full content height
+                    height: '100vh',
                     zIndex: 0,
                     y: starsY,
                     scale: starsScale
                 }}
             >
-                <div style={{ position: 'sticky', top: 0, height: '100vh' }}>
-                    <Canvas
-                        gl={{ antialias: true, alpha: true }}
-                        camera={{ position: [0, 0, 5], fov: 80 }}
-                    >
-                        <color attach="background" args={['#000000']} />
-                        <ScrollStars scrollProgress={smoothProgress} />
-                        <ambientLight intensity={0.3} />
-                        <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
-                    </Canvas>
-                </div>
+                <Canvas
+                    gl={{ antialias: true, alpha: true }}
+                    camera={{ position: [0, 0, 5], fov: 80 }}
+                >
+                    <color attach="background" args={['#000000']} />
+                    <ScrollStars scrollProgress={smoothProgress} />
+                    <ambientLight intensity={0.3} />
+                    <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
+                </Canvas>
             </motion.div>
 
             {/* Enhanced radial speed lines */}
