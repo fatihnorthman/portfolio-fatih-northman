@@ -39,7 +39,7 @@ const About = () => {
     };
 
     return (
-        <section id="about" style={{ padding: '8rem 2rem', background: '#0a0a0a', position: 'relative', overflow: 'hidden' }}>
+        <section id="about" style={{ padding: '8rem 2rem', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                 <motion.h2
                     initial={{ opacity: 0, x: -100, rotateY: -30 }}

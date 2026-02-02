@@ -30,7 +30,7 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" style={{ padding: '8rem 2rem', background: '#080808', borderTop: '1px solid #222', position: 'relative', overflow: 'hidden' }}>
+        <section id="contact" style={{ padding: '8rem 2rem', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
             <motion.div
                 variants={containerVariants}
                 initial="hidden"

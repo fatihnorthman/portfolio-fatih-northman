@@ -191,7 +191,7 @@ const Projects = () => {
         : projectsData.filter(p => p.categoryKey === activeFilter);
 
     return (
-        <section id="projects" style={{ padding: '8rem 2rem', background: '#050505', perspective: '1px' }}>
+        <section id="projects" style={{ padding: '8rem 2rem', background: 'transparent', perspective: '1px' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                 <motion.h2
                     initial={{ opacity: 0, x: -50, rotateY: -20 }}
