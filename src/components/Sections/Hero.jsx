@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Float } from '@react-three/drei'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { Float } from '@react-three/drei'
+import { motion } from 'framer-motion'
 import { Suspense, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +12,7 @@ const HeroScene = () => {
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
-                <mesh position={[0, 0, 0]} scale={2.5}>
+                <mesh position={[0, 0, 0]} scale={2.0}>
                     <icosahedronGeometry args={[1, 1]} />
                     <meshStandardMaterial
                         color="#E60000"
@@ -22,8 +22,6 @@ const HeroScene = () => {
                     />
                 </mesh>
             </Float>
-
-            <OrbitControls enableZoom={false} enablePan={false} enabled={false} />
         </group>
     )
 }
@@ -69,55 +67,27 @@ const TypewriterText = ({ text, delay = 150 }) => {
 
 const Hero = () => {
     const { t } = useTranslation();
-    const { scrollYProgress } = useScroll();
-
-    // Sphere zoom effect with smooth spring physics
-    const sphereScale = useSpring(
-        useTransform(scrollYProgress, [0, 0.2], [1, 0]),
-        { stiffness: 100, damping: 30 }
-    );
-    const sphereOpacity = useSpring(
-        useTransform(scrollYProgress, [0, 0.15], [1, 0]),
-        { stiffness: 100, damping: 30 }
-    );
-    const sphereZ = useSpring(
-        useTransform(scrollYProgress, [0, 0.2], [0, -500]),
-        { stiffness: 100, damping: 30 }
-    );
 
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* 3D Object - Centered with fixed dimensions */}
+            {/* 3D Object - Fixed centered, no scroll effects */}
             <div style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '600px',
+                height: '600px',
                 zIndex: 0
             }}>
-                <motion.div
-                    style={{
-                        width: '600px',
-                        height: '600px',
-                        scale: sphereScale,
-                        opacity: sphereOpacity,
-                        z: sphereZ,
-                        transformStyle: 'preserve-3d'
-                    }}
+                <Canvas
+                    camera={{ position: [0, 0, 5], fov: 50 }}
+                    style={{ width: '100%', height: '100%' }}
                 >
-                    <Canvas
-                        camera={{ position: [0, 0, 5], fov: 50 }}
-                        style={{ width: '100%', height: '100%' }}
-                    >
-                        <Suspense fallback={null}>
-                            <HeroScene />
-                        </Suspense>
-                    </Canvas>
-                </motion.div>
+                    <Suspense fallback={null}>
+                        <HeroScene />
+                    </Suspense>
+                </Canvas>
             </div>
 
             {/* Content Overlay */}
@@ -142,7 +112,7 @@ const Hero = () => {
                         fontSize: '5rem',
                         marginBottom: '1rem',
                         color: '#fff',
-                        fontFamily: 'var(--font-body)',
+                        fontFamily: 'var(--font-display)',
                         textShadow: '0 0 30px rgba(230, 0, 0, 0.5)',
                         letterSpacing: '0.1em',
                         lineHeight: '1.2'
@@ -154,7 +124,8 @@ const Hero = () => {
                         color: '#E60000',
                         fontWeight: 400,
                         letterSpacing: '4px',
-                        marginBottom: '1rem'
+                        marginBottom: '1rem',
+                        fontFamily: 'var(--font-accent)'
                     }}>
                         {t('hero.subtitle')}
                     </h2>
@@ -163,7 +134,8 @@ const Hero = () => {
                         color: '#ccc',
                         maxWidth: '600px',
                         margin: '0 auto 2rem',
-                        lineHeight: '1.6'
+                        lineHeight: '1.6',
+                        fontFamily: 'var(--font-body)'
                     }}>
                         {t('hero.description')}
                     </p>
@@ -185,6 +157,7 @@ const Hero = () => {
                             borderRadius: '8px',
                             fontSize: '1.1rem',
                             fontWeight: 600,
+                            fontFamily: 'var(--font-display)',
                             border: '2px solid #E60000',
                             boxShadow: '0 0 20px rgba(230, 0, 0, 0.5)',
                             cursor: 'pointer',
