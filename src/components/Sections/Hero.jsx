@@ -66,10 +66,10 @@ const HeroScene = () => {
                 </mesh>
             </Float>
 
-            <EffectComposer>
+            {/* <EffectComposer>
                 <Bloom luminanceThreshold={0.4} intensity={1.5} mipmapBlur />
                 <ChromaticAberration offset={[0.002, 0.002]} />
-            </EffectComposer>
+            </EffectComposer> */}
         </group>
     )
 }

@@ -101,16 +101,7 @@ function App() {
                     <ScrollStars scrollProgress={smoothProgress} />
                     <ambientLight intensity={0.3} />
 
-                    <EffectComposer disableNormalPass>
-                        <Bloom
-                            intensity={1.5}
-                            luminanceThreshold={0.1}
-                            luminanceSmoothing={0.9}
-                            mipmapBlur
-                        />
-                        <Noise opacity={0.05} />
-                        <Vignette eskil={false} offset={0.1} darkness={1.1} />
-                    </EffectComposer>
+
                 </Canvas>
             </motion.div>
 
