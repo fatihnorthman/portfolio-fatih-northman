@@ -43,29 +43,32 @@ const SpaceNavigator = ({ children }) => {
                 const blur = useTransform(smoothProgress, range, [4, 0, 2]);
                 const brightness = useTransform(smoothProgress, range, [0.5, 1, 0.6]);
 
-                // Ensure perfect centering for Hero (index 0) at scroll 0
                 const isHero = index === 0;
+
+                // Enhanced stability: Force zero transforms when at the target section
+                const stableScale = useTransform(smoothProgress, [range[0], range[1], range[2]], [0.85, 1, 1.15]);
+                const stableRotateX = useTransform(smoothProgress, [range[0], range[1], range[2]], [20, 0, -20]);
+                const stableZ = useTransform(smoothProgress, [range[0], range[1], range[2]], [-400, 0, 300]);
 
                 return (
                     <motion.div
                         key={index}
                         style={{
                             position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
+                            inset: 0,
                             opacity,
-                            scale: isHero ? useTransform(smoothProgress, [0, 0.1], [1, 1.05]) : scale,
-                            rotateX: isHero ? useTransform(smoothProgress, [0, 0.1], [0, -5]) : rotateX,
-                            z: isHero ? useTransform(smoothProgress, [0, 0.1], [0, 50]) : translateZ,
+                            scale: stableScale,
+                            rotateX: stableRotateX,
+                            z: stableZ,
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
-                            pointerEvents: useTransform(opacity, (o) => o > 0.8 ? 'auto' : 'none'),
+                            pointerEvents: useTransform(opacity, (o) => o > 0.85 ? 'auto' : 'none'),
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
                             transformStyle: 'preserve-3d',
+                            transformOrigin: 'center center',
+                            backfaceVisibility: 'hidden'
                         }}
                     >
                         <motion.div
@@ -78,7 +81,8 @@ const SpaceNavigator = ({ children }) => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 transformStyle: 'preserve-3d',
-                                padding: isHero ? 0 : '6rem 1rem'
+                                padding: isHero ? '0' : '5vh 1rem',
+                                boxSizing: 'border-box'
                             }}
                         >
                             {child}
