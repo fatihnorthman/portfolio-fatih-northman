@@ -71,10 +71,19 @@ const Hero = () => {
     const { t } = useTranslation();
     const { scrollYProgress } = useScroll();
 
-    // Sphere zoom effect: shrinks and fades when scrolling down
-    const sphereScale = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-    const sphereOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-    const sphereZ = useTransform(scrollYProgress, [0, 0.2], [0, -500]);
+    // Sphere zoom effect with smooth spring physics
+    const sphereScale = useSpring(
+        useTransform(scrollYProgress, [0, 0.2], [1, 0]),
+        { stiffness: 100, damping: 30 }
+    );
+    const sphereOpacity = useSpring(
+        useTransform(scrollYProgress, [0, 0.15], [1, 0]),
+        { stiffness: 100, damping: 30 }
+    );
+    const sphereZ = useSpring(
+        useTransform(scrollYProgress, [0, 0.2], [0, -500]),
+        { stiffness: 100, damping: 30 }
+    );
 
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
@@ -86,10 +95,18 @@ const Hero = () => {
                     zIndex: 0,
                     scale: sphereScale,
                     opacity: sphereOpacity,
-                    z: sphereZ
+                    z: sphereZ,
+                    transformStyle: 'preserve-3d',
+                    transformOrigin: 'center center',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}
             >
-                <Canvas camera={{ position: [0, 0, 5] }}>
+                <Canvas
+                    camera={{ position: [0, 0, 5], fov: 50 }}
+                    style={{ width: '100%', height: '100%' }}
+                >
                     <Suspense fallback={null}>
                         <HeroScene />
                     </Suspense>
