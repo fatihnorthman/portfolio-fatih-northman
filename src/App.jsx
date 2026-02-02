@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useRef } from 'react'
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Sections/Hero';
@@ -8,21 +8,19 @@ import About from './components/Sections/About';
 import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
 
-// Animated Stars that move forward (Z-axis)
+// Animated Stars moving towards viewer
 function ScrollStars() {
     const starsRef = useRef()
 
     useFrame(({ clock }) => {
         if (starsRef.current) {
-            // Forward motion effect
-            starsRef.current.position.z = (clock.getElapsedTime() * 5) % 50 - 25
-            starsRef.current.rotation.z = clock.getElapsedTime() * 0.01
+            starsRef.current.position.z = ((clock.getElapsedTime() * 10) % 100) - 50
         }
     })
 
     return (
         <group ref={starsRef}>
-            <Stars radius={100} depth={100} count={15000} factor={8} saturation={0} fade speed={3} />
+            <Stars radius={150} depth={150} count={20000} factor={10} saturation={0} fade speed={4} />
         </group>
     )
 }
@@ -34,265 +32,251 @@ function App() {
         offset: ["start start", "end end"]
     })
 
-    // Z-axis transforms for "moving forward" effect
-    const contentZ = useTransform(scrollYProgress, [0, 1], [0, -2000])
-    const perspective = useTransform(scrollYProgress, [0, 1], [1000, 1500])
+    // Smooth spring physics for smoother motion
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    })
 
-    // Scale for depth perception
-    const contentScale = useTransform(scrollYProgress, [0, 1], [1, 1.5])
+    // Each section at different Z depths (like layers in space)
+    const heroZ = useTransform(smoothProgress, [0, 0.25], [0, 1500])
+    const aboutZ = useTransform(smoothProgress, [0.25, 0.5], [-1500, 1500])
+    const projectsZ = useTransform(smoothProgress, [0.5, 0.75], [-1500, 1500])
+    const contactZ = useTransform(smoothProgress, [0.75, 1], [-1500, 1500])
 
-    // Rotation for immersion
-    const rotateZ = useTransform(scrollYProgress, [0, 1], [0, 10])
+    // Scale for depth perception (things get bigger as they approach)
+    const heroScale = useTransform(smoothProgress, [0, 0.25], [1, 2.5])
+    const aboutScale = useTransform(smoothProgress, [0.2, 0.25, 0.5], [0.5, 1, 2.5])
+    const projectsScale = useTransform(smoothProgress, [0.45, 0.5, 0.75], [0.5, 1, 2.5])
+    const contactScale = useTransform(smoothProgress, [0.7, 0.75, 1], [0.5, 1, 2])
+
+    // Opacity for fade in/out
+    const heroOpacity = useTransform(smoothProgress, [0, 0.2, 0.25], [1, 1, 0])
+    const aboutOpacity = useTransform(smoothProgress, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0])
+    const projectsOpacity = useTransform(smoothProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0])
+    const contactOpacity = useTransform(smoothProgress, [0.7, 0.75, 1], [0, 1, 1])
 
     return (
         <div
             ref={containerRef}
             style={{
                 background: '#000',
-                minHeight: '100vh',
+                height: '400vh', // Extended for smooth scrolling
                 position: 'relative',
-                overflow: 'hidden',
-                perspective: '1500px',
-                transformStyle: 'preserve-3d'
+                overflow: 'hidden'
             }}
         >
-            <Navbar />
-
-            {/* Deep Space Background - Moving forward */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 0,
-                    transformStyle: 'preserve-3d'
-                }}
-            >
-                <Canvas
-                    gl={{ antialias: true, alpha: true }}
-                    camera={{ position: [0, 0, 5], fov: 75 }}
-                >
-                    <color attach="background" args={['#000000']} />
-                    <ScrollStars />
-                    <ambientLight intensity={0.3} />
-                </Canvas>
-            </motion.div>
-
-            {/* Tunnel effect overlay */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 1,
-                    pointerEvents: 'none',
-                    background: 'radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(230, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0.8) 100%)',
-                    rotateZ,
-                }}
-            />
-
-            {/* Vignette for depth */}
             <div style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: '100%',
-                zIndex: 2,
-                pointerEvents: 'none',
-                background: 'radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.9) 100%)',
-                boxShadow: 'inset 0 0 300px rgba(0,0,0,0.9)'
-            }} />
+                height: '100vh',
+                perspective: '1000px',
+                perspectiveOrigin: '50% 50%',
+                transformStyle: 'preserve-3d'
+            }}>
+                <Navbar />
 
-            {/* Speed lines for forward motion */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 3,
-                    pointerEvents: 'none',
-                    opacity: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0])
-                }}
-            >
-                {[...Array(30)].map((_, i) => {
-                    const angle = (i / 30) * Math.PI * 2
-                    const distance = 40 + Math.random() * 10
-                    return (
-                        <motion.div
-                            key={i}
-                            animate={{
-                                scale: [1, 2, 1],
-                                opacity: [0.5, 1, 0.5]
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                delay: i * 0.1,
-                                ease: 'linear'
-                            }}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                width: '2px',
-                                height: `${Math.random() * 100 + 50}px`,
-                                background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.8), transparent)',
-                                transform: `translate(-50%, -50%) rotate(${angle}rad) translateY(-${distance}vh)`,
-                                transformOrigin: 'center',
-                                filter: 'blur(1px)'
-                            }}
-                        />
-                    )
-                })}
-            </motion.div>
-
-            {/* Content with Z-depth */}
-            <motion.div
-                style={{
-                    position: 'relative',
-                    zIndex: 10,
-                    transformStyle: 'preserve-3d',
-                    perspective,
-                    scale: contentScale,
-                    z: contentZ,
-                    willChange: 'transform'
-                }}
-            >
-                <motion.div
+                {/* Deep Space Background */}
+                <div
                     style={{
-                        transformStyle: 'preserve-3d',
-                        transform: 'translateZ(0)'
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 0
                     }}
                 >
-                    <Hero />
-
-                    {/* Depth marker */}
-                    <motion.div
-                        style={{
-                            height: '300px',
-                            background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.1), transparent)',
-                            position: 'relative',
-                            overflow: 'hidden',
-                            transformStyle: 'preserve-3d'
-                        }}
+                    <Canvas
+                        gl={{ antialias: true, alpha: true }}
+                        camera={{ position: [0, 0, 5], fov: 90 }}
                     >
-                        <motion.div
-                            animate={{
-                                scale: [1, 1.5, 1],
-                                opacity: [0.3, 0.8, 0.3]
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: 'easeInOut'
-                            }}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: '80%',
-                                height: '2px',
-                                background: 'radial-gradient(ellipse, #E60000, transparent)',
-                                boxShadow: '0 0 40px #E60000'
-                            }}
-                        />
-                    </motion.div>
+                        <color attach="background" args={['#000000']} />
+                        <ScrollStars />
+                        <ambientLight intensity={0.2} />
+                    </Canvas>
+                </div>
 
-                    <About />
-
-                    {/* Another depth marker */}
-                    <motion.div
-                        style={{
-                            height: '300px',
-                            background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.1), transparent)',
-                            position: 'relative',
-                            overflow: 'hidden'
-                        }}
-                    >
-                        <motion.div
-                            animate={{
-                                scale: [1.5, 1, 1.5],
-                                opacity: [0.8, 0.3, 0.8]
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: 'easeInOut'
-                            }}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: '80%',
-                                height: '2px',
-                                background: 'radial-gradient(ellipse, #E60000, transparent)',
-                                boxShadow: '0 0 40px #E60000'
-                            }}
-                        />
-                    </motion.div>
-
-                    <Projects />
-                    <Contact />
+                {/* Radial speed lines */}
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 1,
+                        pointerEvents: 'none',
+                        opacity: useTransform(smoothProgress, [0, 0.1, 0.9, 1], [0, 0.5, 0.5, 0])
+                    }}
+                >
+                    {[...Array(50)].map((_, i) => {
+                        const angle = (i / 50) * Math.PI * 2
+                        return (
+                            <motion.div
+                                key={i}
+                                style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    width: '3px',
+                                    height: '200vh',
+                                    background: 'linear-gradient(to bottom, transparent, rgba(230, 0, 0, 0.6), transparent)',
+                                    transform: `translate(-50%, -50%) rotate(${angle}rad)`,
+                                    transformOrigin: 'center',
+                                    filter: 'blur(2px)',
+                                    scale: useTransform(smoothProgress, [0, 1], [1, 3])
+                                }}
+                            />
+                        )
+                    })}
                 </motion.div>
-            </motion.div>
 
-            {/* Foreground particles moving towards viewer */}
-            <motion.div
-                style={{
-                    position: 'fixed',
+                {/* Tunnel vignette */}
+                <div style={{
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100vh',
-                    zIndex: 15,
-                    pointerEvents: 'none'
-                }}
-            >
-                {[...Array(40)].map((_, i) => {
-                    const startX = Math.random() * 100
-                    const startY = Math.random() * 100
-                    const centerX = 50
-                    const centerY = 50
-                    const dirX = startX - centerX
-                    const dirY = startY - centerY
+                    height: '100%',
+                    zIndex: 2,
+                    pointerEvents: 'none',
+                    background: 'radial-gradient(ellipse at center, transparent 0%, transparent 30%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.95) 100%)',
+                    boxShadow: 'inset 0 0 400px rgba(0,0,0,0.9)'
+                }} />
 
-                    return (
-                        <motion.div
-                            key={i}
-                            animate={{
-                                x: [`${startX}vw`, `${startX + dirX * 2}vw`],
-                                y: [`${startY}vh`, `${startY + dirY * 2}vh`],
-                                scale: [0, Math.random() * 3 + 2],
-                                opacity: [0, 1, 0]
-                            }}
-                            transition={{
-                                duration: Math.random() * 3 + 2,
-                                repeat: Infinity,
-                                delay: Math.random() * 3,
-                                ease: 'easeOut'
-                            }}
-                            style={{
-                                position: 'absolute',
-                                width: Math.random() * 4 + 2 + 'px',
-                                height: Math.random() * 4 + 2 + 'px',
-                                background: Math.random() > 0.6 ? '#E60000' : '#fff',
-                                borderRadius: '50%',
-                                boxShadow: `0 0 ${Math.random() * 15 + 10}px ${Math.random() > 0.6 ? '#E60000' : '#fff'}`,
-                                filter: 'blur(1px)'
-                            }}
-                        />
-                    )
-                })}
-            </motion.div>
+                {/* Content layers at different Z depths */}
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    zIndex: 10,
+                    transformStyle: 'preserve-3d'
+                }}>
+                    {/* Hero Section */}
+                    <motion.div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            transformStyle: 'preserve-3d',
+                            translateZ: heroZ,
+                            scale: heroScale,
+                            opacity: heroOpacity,
+                            willChange: 'transform, opacity'
+                        }}
+                    >
+                        <Hero />
+                    </motion.div>
+
+                    {/* About Section */}
+                    <motion.div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            transformStyle: 'preserve-3d',
+                            translateZ: aboutZ,
+                            scale: aboutScale,
+                            opacity: aboutOpacity,
+                            willChange: 'transform, opacity'
+                        }}
+                    >
+                        <About />
+                    </motion.div>
+
+                    {/* Projects Section */}
+                    <motion.div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            transformStyle: 'preserve-3d',
+                            translateZ: projectsZ,
+                            scale: projectsScale,
+                            opacity: projectsOpacity,
+                            willChange: 'transform, opacity'
+                        }}
+                    >
+                        <Projects />
+                    </motion.div>
+
+                    {/* Contact Section */}
+                    <motion.div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            transformStyle: 'preserve-3d',
+                            translateZ: contactZ,
+                            scale: contactScale,
+                            opacity: contactOpacity,
+                            willChange: 'transform, opacity'
+                        }}
+                    >
+                        <Contact />
+                    </motion.div>
+                </div>
+
+                {/* Particles flying towards viewer */}
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 20,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    {[...Array(60)].map((_, i) => {
+                        const startX = (Math.random() - 0.5) * 100
+                        const startY = (Math.random() - 0.5) * 100
+                        const speed = Math.random() * 2 + 1
+
+                        return (
+                            <motion.div
+                                key={i}
+                                animate={{
+                                    x: ['50%', `${50 + startX * 3}%`],
+                                    y: ['50%', `${50 + startY * 3}%`],
+                                    scale: [0, Math.random() * 4 + 2],
+                                    opacity: [0, 0.8, 0]
+                                }}
+                                transition={{
+                                    duration: speed,
+                                    repeat: Infinity,
+                                    delay: Math.random() * 2,
+                                    ease: 'easeOut'
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    width: Math.random() * 6 + 3 + 'px',
+                                    height: Math.random() * 6 + 3 + 'px',
+                                    background: Math.random() > 0.5 ? '#E60000' : '#fff',
+                                    borderRadius: '50%',
+                                    boxShadow: `0 0 ${Math.random() * 20 + 15}px ${Math.random() > 0.5 ? '#E60000' : '#fff'}`,
+                                    filter: 'blur(1px)'
+                                }}
+                            />
+                        )
+                    })}
+                </motion.div>
+            </div>
         </div>
     )
 }
