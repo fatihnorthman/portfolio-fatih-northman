@@ -6,11 +6,9 @@ const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
 
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 80,
-        damping: 25,
-        mass: 0.5,
-        restDelta: 0.0001,
-        precision: 0.0001
+        stiffness: 60,  // Lower stiffness for "Lightweight" graceful deceleration
+        damping: 30,
+        restDelta: 0.0001
     });
 
     return (
@@ -25,31 +23,28 @@ const SpaceNavigator = ({ children }) => {
                 overflow: 'hidden',
                 zIndex: 10,
                 background: 'transparent',
-                perspective: '1500px',
-                pointerEvents: 'none' // Critical: Allow scroll events to pass through to the ghost area
+                perspective: '1200px',
+                pointerEvents: 'none'
             }}
         >
-            {/* Render each section centered and fixed with cinematic 3D transitions */}
             {children.map((child, index) => {
                 const total = children.length - 1;
-                // Wider range for cinematic 'Approaching & Departing' transitions
                 const range = [
                     (index - 1) / total,
                     index / total,
                     (index + 1) / total
                 ];
 
-                // DEEP 3D TRANSFORMATIONS
+                // LIGHTWEIGHT INSPIRED TRANSITIONS: Stacked Depth
                 const opacity = useTransform(smoothProgress, range, [0, 1, 0]);
-                const scale = useTransform(smoothProgress, range, [0.5, 1, 2]); // Massive scale shift
-                const rotateX = useTransform(smoothProgress, range, [60, 0, -60]); // Aggressive tilt
-                const translateZ = useTransform(smoothProgress, range, [-1200, 0, 800]); // Infinite depth
-                const blur = useTransform(smoothProgress, range, [20, 0, 15]);
-                const brightness = useTransform(smoothProgress, range, [0, 1, 0]);
-                const yOffset = useTransform(smoothProgress, range, ['50%', '0%', '-50%']); // Fly through effect
+                const scale = useTransform(smoothProgress, range, [0.95, 1, 1.05]);
+                const translateY = useTransform(smoothProgress, range, ['15vh', '0vh', '-15vh']);
+                const rotateX = useTransform(smoothProgress, range, [10, 0, -10]);
+                const blur = useTransform(smoothProgress, range, [10, 0, 5]);
+                const brightness = useTransform(smoothProgress, range, [0.3, 1, 0.3]);
 
                 // Track Z-Index: Active section should be on top
-                const zIndex = useTransform(opacity, [0.5, 1], [0, 10]);
+                const zIndex = useTransform(opacity, [0.1, 1], [0, 10]);
 
                 const isHero = index === 0;
 
@@ -62,12 +57,11 @@ const SpaceNavigator = ({ children }) => {
                             opacity,
                             scale,
                             rotateX,
-                            z: translateZ,
-                            y: yOffset,
-                            zIndex: zIndex,
+                            y: translateY,
+                            zIndex,
                             visibility: useTransform(opacity, (o) => o <= 0.01 ? 'hidden' : 'visible'),
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
-                            pointerEvents: useTransform(opacity, (o) => o > 0.9 ? 'auto' : 'none'),
+                            pointerEvents: useTransform(opacity, (o) => o > 0.85 ? 'auto' : 'none'),
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',

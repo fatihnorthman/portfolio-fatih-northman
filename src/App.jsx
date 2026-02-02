@@ -49,7 +49,7 @@ function App() {
                 height: '400vh',
                 width: '100%',
                 position: 'relative',
-                zIndex: 20, // Sit on top of the fixed background to capture all interactions
+                zIndex: 1, // Stay below Navbar and SpaceNavigator to allow clicks
                 pointerEvents: 'auto'
             }}>
                 {/* Invisible snap points for the browser's scroll-snap */}
