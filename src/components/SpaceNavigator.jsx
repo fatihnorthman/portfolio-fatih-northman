@@ -74,7 +74,7 @@ const SpaceNavigator = ({ children }) => {
                         <motion.div
                             style={{
                                 width: '100%',
-                                maxWidth: '1400px',
+                                maxWidth: isHero ? 'none' : '1400px',
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',

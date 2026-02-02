@@ -36,10 +36,10 @@ const HeroScene = () => {
                 (Math.random() - 0.5) * glitch,
                 (Math.random() - 0.5) * glitch
             );
-            meshRef.current.scale.setScalar(3.5 + Math.random() * glitch);
+            meshRef.current.scale.setScalar(8.5 + Math.random() * glitch);
         } else {
             meshRef.current.position.set(0, 0, 0);
-            meshRef.current.scale.setScalar(3.5);
+            meshRef.current.scale.setScalar(8.5);
         }
     });
 
@@ -50,13 +50,15 @@ const HeroScene = () => {
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
-                <mesh ref={meshRef} position={[0, 0, 0]} scale={3.5}>
+                <mesh ref={meshRef} position={[0, 0, 0]} scale={8.5}>
                     <icosahedronGeometry args={[1, 0]} />
                     <meshStandardMaterial
                         color={themeColor}
                         wireframe
                         emissive={themeColor}
-                        emissiveIntensity={0.8}
+                        emissiveIntensity={0.4}
+                        transparent
+                        opacity={0.3}
                     />
                 </mesh>
             </Float>
