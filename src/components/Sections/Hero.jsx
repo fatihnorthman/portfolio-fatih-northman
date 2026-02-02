@@ -51,7 +51,7 @@ const HeroScene = () => {
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
                 <mesh ref={meshRef} position={[0, 0, 0]} scale={3.5}>
-                    <icosahedronGeometry args={[1, 1]} />
+                    <icosahedronGeometry args={[1, 0]} />
                     <meshStandardMaterial
                         color={themeColor}
                         wireframe
@@ -108,15 +108,12 @@ const Hero = () => {
 
     return (
         <section style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* 3D Object - Fixed centered, no scroll effects */}
+            {/* 3D Object - Full container to prevent clipping */}
             <div style={{
                 position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '450px',
-                height: '450px',
-                zIndex: 0
+                inset: 0,
+                zIndex: 0,
+                pointerEvents: 'none'
             }}>
                 <Canvas
                     camera={{ position: [0, 0, 5], fov: 50 }}
