@@ -154,18 +154,38 @@ const Projects = () => {
                             key={project.id}
                             layout
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            whileHover={{ y: -5 }}
+                            whileHover={{
+                                y: -10,
+                                backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                                borderColor: 'var(--color-brand-red)',
+                                boxShadow: '0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--color-brand-red-glow)'
+                            }}
                             style={{
-                                background: 'rgba(255, 255, 255, 0.03)',
-                                borderRadius: '12px',
-                                border: '1px solid var(--color-brand-red-glow)', // Dynamic theme border
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                                borderRadius: '16px',
+                                border: '1px solid rgba(255, 255, 255, 0.08)',
                                 overflow: 'hidden',
-                                transition: 'all 0.3s ease',
-                                backdropFilter: 'blur(5px)'
+                                transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+                                backdropFilter: 'blur(12px)',
+                                position: 'relative'
                             }}
                         >
+                            {/* Card Shine Effect */}
+                            <motion.div
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: '-100%',
+                                    width: '100%',
+                                    height: '100%',
+                                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)',
+                                    pointerEvents: 'none'
+                                }}
+                                whileHover={{ left: '100%' }}
+                                transition={{ duration: 0.8 }}
+                            />
                             <div style={{
                                 padding: '1.5rem',
                                 borderBottom: '1px solid rgba(255, 255, 255, 0.03)',

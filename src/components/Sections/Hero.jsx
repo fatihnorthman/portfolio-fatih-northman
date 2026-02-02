@@ -1,5 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float } from '@react-three/drei'
+import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
 import { motion } from 'framer-motion'
 import { Suspense, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -41,6 +42,8 @@ const HeroScene = () => {
             meshRef.current.position.set(0, 0, 0);
             meshRef.current.scale.setScalar(8.5);
         }
+
+        meshRef.current.rotation.y += 0.002;
     });
 
     return (
@@ -56,12 +59,17 @@ const HeroScene = () => {
                         color={themeColor}
                         wireframe
                         emissive={themeColor}
-                        emissiveIntensity={0.4}
+                        emissiveIntensity={0.6}
                         transparent
-                        opacity={0.3}
+                        opacity={0.4}
                     />
                 </mesh>
             </Float>
+
+            <EffectComposer>
+                <Bloom luminanceThreshold={0.4} intensity={1.5} mipmapBlur />
+                <ChromaticAberration offset={[0.002, 0.002]} />
+            </EffectComposer>
         </group>
     )
 }

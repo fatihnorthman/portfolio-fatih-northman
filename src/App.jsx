@@ -1,5 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
+import { EffectComposer, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useRef } from 'react'
 import Navbar from './components/Layout/Navbar';
@@ -96,12 +97,67 @@ function App() {
                     camera={{ position: [0, 0, 5], fov: 80 }}
                     dpr={[1, 1.5]}
                 >
-                    <color attach="background" args={['#000000']} />
+                    <color attach="background" args={['#020202']} />
                     <ScrollStars scrollProgress={smoothProgress} />
                     <ambientLight intensity={0.3} />
-                    <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
+
+                    <EffectComposer disableNormalPass>
+                        <Bloom
+                            intensity={1.5}
+                            luminanceThreshold={0.1}
+                            luminanceSmoothing={0.9}
+                            mipmapBlur
+                        />
+                        <Noise opacity={0.05} />
+                        <Vignette eskil={false} offset={0.1} darkness={1.1} />
+                    </EffectComposer>
                 </Canvas>
             </motion.div>
+
+            {/* Global HUD Overlay */}
+            <div style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 5,
+                pointerEvents: 'none',
+                border: '20px solid transparent',
+                borderImage: 'linear-gradient(to bottom, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(255,255,255,0.02) 100%) 1',
+                opacity: 0.5
+            }}>
+                <div style={{
+                    position: 'absolute',
+                    top: '40px',
+                    left: '40px',
+                    width: '100px',
+                    height: '2px',
+                    background: 'var(--color-brand-red)',
+                    opacity: 0.3
+                }} />
+                <div style={{
+                    position: 'absolute',
+                    bottom: '40px',
+                    right: '40px',
+                    width: '2px',
+                    height: '100px',
+                    background: 'var(--color-brand-red)',
+                    opacity: 0.3
+                }} />
+
+                {/* Decorative scanning line */}
+                <motion.div
+                    animate={{ top: ['0%', '100%'] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        width: '100%',
+                        height: '1px',
+                        background: 'linear-gradient(to right, transparent, var(--color-brand-red-glow), transparent)',
+                        opacity: 0.1,
+                        boxShadow: '0 0 10px var(--color-brand-red-glow)'
+                    }}
+                />
+            </div>
 
             {/* Space Navigator - Sections transition with opacity only */}
             <SpaceNavigator>
