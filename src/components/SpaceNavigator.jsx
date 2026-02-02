@@ -5,16 +5,22 @@ const SpaceNavigator = ({ children }) => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll();
 
-    // Define MORE DRAMATIC positions for each section
-    // Increased offsets for more visible diagonal movement
+    // Define positions for each section transition
     const sectionPositions = [
-        { x: 0, y: 0, rotation: 0 },           // Hero - center start
-        { x: -40, y: 25, rotation: -5 },       // About - diagonal left-down
-        { x: 45, y: -20, rotation: 4 },        // Projects - right-up  
-        { x: -30, y: 35, rotation: -3 }        // Contact - left-down
+        { x: 0, y: 0, rotation: 0, scale: 1 },           // Hero
+        { x: -35, y: 20, rotation: -4, scale: 1 },       // About
+        { x: 40, y: -15, rotation: 3, scale: 1 },        // Projects
+        { x: -25, y: 30, rotation: -3, scale: 1 }        // Contact
     ];
 
-    // Map scroll progress to section positions with smoother transitions
+    // Map scroll to current section index
+    const sectionIndex = useTransform(
+        scrollYProgress,
+        [0, 0.25, 0.5, 0.75, 1],
+        [0, 1, 2, 3, 3]
+    );
+
+    // Calculate container transform for diagonal movement
     const rawX = useTransform(
         scrollYProgress,
         [0, 0.25, 0.5, 0.75, 1],
@@ -51,7 +57,7 @@ const SpaceNavigator = ({ children }) => {
         ]
     );
 
-    // Apply spring physics for smooth, weighty movement
+    // Spring physics for smooth movement
     const x = useSpring(rawX, { stiffness: 80, damping: 25 });
     const y = useSpring(rawY, { stiffness: 80, damping: 25 });
     const rotation = useSpring(rawRotation, { stiffness: 80, damping: 25 });
@@ -78,10 +84,51 @@ const SpaceNavigator = ({ children }) => {
                     transformStyle: 'preserve-3d',
                     willChange: 'transform',
                     width: '100vw',
-                    height: '100vh'
+                    height: '100vh',
+                    position: 'relative'
                 }}
             >
-                {children}
+                {/* Render each section with opacity based on scroll */}
+                {children.map((child, index) => {
+                    const opacity = useTransform(
+                        scrollYProgress,
+                        [
+                            (index - 0.1) / 4,
+                            index / 4,
+                            (index + 0.9) / 4,
+                            (index + 1.1) / 4
+                        ],
+                        [0, 1, 1, 0]
+                    );
+
+                    const scale = useTransform(
+                        scrollYProgress,
+                        [
+                            (index - 0.1) / 4,
+                            index / 4,
+                            (index + 1) / 4
+                        ],
+                        [0.8, 1, 0.8]
+                    );
+
+                    return (
+                        <motion.div
+                            key={index}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                opacity,
+                                scale,
+                                pointerEvents: useTransform(opacity, (o) => o > 0.5 ? 'auto' : 'none')
+                            }}
+                        >
+                            {child}
+                        </motion.div>
+                    );
+                })}
             </motion.div>
         </div>
     );
