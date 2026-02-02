@@ -6,8 +6,8 @@ const SpaceNavigator = ({ children }) => {
     const { scrollYProgress } = useScroll();
 
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 45, // Slightly snappier for better scroll-snap alignment
-        damping: 22,
+        stiffness: 120, // High stiffness for hard lock-in
+        damping: 40,   // Sufficient damping to prevent overshoot but stay firm
         restDelta: 0.00001,
         precision: 0.00001,
         restSpeed: 0.00001
@@ -30,11 +30,11 @@ const SpaceNavigator = ({ children }) => {
         >
             {/* Render each section centered and fixed with cinematic 3D transitions */}
             {children.map((child, index) => {
-                // Optimized ranges to be clamped and prevent weird extrapolation
+                // Narrower range for a 'harder' transition feel
                 const range = [
-                    (index - 1) / (children.length - 1),
+                    (index - 0.45) / (children.length - 1),
                     index / (children.length - 1),
-                    (index + 1) / (children.length - 1)
+                    (index + 0.45) / (children.length - 1)
                 ];
 
                 // Advanced 3D Transformations with strict clamping to prevent bleed-through
