@@ -79,13 +79,22 @@ const Hero = () => {
     return (
         <section style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden' }}>
             {/* 3D Object */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <motion.div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 0,
+                    scale: sphereScale,
+                    opacity: sphereOpacity,
+                    z: sphereZ
+                }}
+            >
                 <Canvas camera={{ position: [0, 0, 5] }}>
                     <Suspense fallback={null}>
                         <HeroScene />
                     </Suspense>
                 </Canvas>
-            </div>
+            </motion.div>
 
             {/* Content Overlay */}
             <div style={{
