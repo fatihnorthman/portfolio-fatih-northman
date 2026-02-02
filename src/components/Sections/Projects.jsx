@@ -14,8 +14,9 @@ const ProjectCard = ({ project, index, t }) => {
     const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
     const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
 
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-7deg", "7deg"]);
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
+    const z = useTransform(mouseY, [-0.5, 0.5], [50, -50]);
 
     const handleMouseMove = (e) => {
         const rect = ref.current.getBoundingClientRect();
@@ -35,7 +36,6 @@ const ProjectCard = ({ project, index, t }) => {
         setIsHovered(false);
     };
 
-    // Use first image as thumbnail
     const thumbnail = project.images && project.images.length > 0
         ? project.images[0]
         : "https://placehold.co/600x400/1a1a1a/e60000?text=" + encodeURIComponent(project.title);
@@ -43,234 +43,256 @@ const ProjectCard = ({ project, index, t }) => {
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, rotateX: -30, y: 50 }}
-            whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+            initial={{
+                opacity: 0,
+                rotateX: -60,
+                rotateY: -30,
+                y: 100,
+                z: -300,
+                scale: 0.7
+            }}
+            whileInView={{
+                opacity: 1,
+                rotateX: 0,
+                rotateY: 0,
+                y: 0,
+                z: 0,
+                scale: 1
+            }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{
                 type: "spring",
-                stiffness: 50,
+                stiffness: 60,
                 damping: 20,
                 delay: index * 0.15
-            }}
-            viewport={{ once: true, margin: "-100px" }}
-            style={{
-                perspective: 1000,
-                transformStyle: "preserve-3d",
             }}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
+            style={{
+                position: 'relative',
+                background: 'rgba(10, 10, 10, 0.7)',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                border: '1px solid rgba(230, 0, 0, 0.2)',
+                boxShadow: isHovered
+                    ? '0 30px 80px rgba(230, 0, 0, 0.4), 0 0 40px rgba(230, 0, 0, 0.2)'
+                    : '0 10px 40px rgba(0, 0, 0, 0.5)',
+                transition: 'box-shadow 0.3s',
+                cursor: 'pointer',
+                rotateX,
+                rotateY,
+                z,
+                transformStyle: 'preserve-3d',
+                perspective: '1500px'
+            }}
         >
-            <motion.div
-                style={{
-                    background: '#0a0a0a',
-                    border: '1px solid #222',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    rotateX,
-                    rotateY,
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)'
-                }}
-                whileHover={{
-                    borderColor: '#E60000',
-                    boxShadow: '0 20px 40px -10px rgba(230,0,0,0.2)'
-                }}
-            >
-                <div style={{ position: 'relative', height: '220px', overflow: 'hidden', background: '#000' }}>
-                    {/* Video Preview on Hover - Muted & Autoplay */}
-                    {project.video && isHovered ? (
-                        <video
-                            src={project.video}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                    ) : (
-                        <div
+            <div style={{
+                height: '250px',
+                overflow: 'hidden',
+                position: 'relative'
+            }}>
+                <motion.img
+                    src={thumbnail}
+                    alt={project.title}
+                    animate={{
+                        scale: isHovered ? 1.15 : 1
+                    }}
+                    transition={{ duration: 0.4 }}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }}
+                />
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8))',
+                    pointerEvents: 'none'
+                }} />
+            </div>
+
+            <div style={{ padding: '2rem', transformStyle: 'preserve-3d' }}>
+                <motion.h3
+                    animate={{
+                        z: isHovered ? 50 : 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                    style={{
+                        fontSize: '1.8rem',
+                        marginBottom: '1rem',
+                        color: '#E60000',
+                        transformStyle: 'preserve-3d'
+                    }}
+                >
+                    {project.title}
+                </motion.h3>
+
+                <motion.p
+                    animate={{
+                        z: isHovered ? 30 : 0
+                    }}
+                    transition={{ duration: 0.3, delay: 0.05 }}
+                    style={{
+                        color: '#ccc',
+                        lineHeight: '1.6',
+                        marginBottom: '1.5rem',
+                        transformStyle: 'preserve-3d'
+                    }}
+                >
+                    {t(`projects.items.${project.id}.description`)}
+                </motion.p>
+
+                <motion.div
+                    animate={{
+                        z: isHovered ? 40 : 0
+                    }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    style={{
+                        display: 'flex',
+                        gap: '0.5rem',
+                        flexWrap: 'wrap',
+                        transformStyle: 'preserve-3d'
+                    }}
+                >
+                    {project.tags.map(tag => (
+                        <span
+                            key={tag}
                             style={{
-                                width: '100%',
-                                height: '100%',
-                                background: `url(${thumbnail}) center/cover`,
-                                transition: 'transform 0.5s'
-                            }}
-                            className="card-image"
-                        ></div>
-                    )}
-
-                    <div style={{
-                        position: 'absolute',
-                        top: '1rem',
-                        right: '1rem',
-                        background: 'rgba(0,0,0,0.8)',
-                        padding: '0.3rem 0.8rem',
-                        borderRadius: '20px',
-                        fontSize: '0.75rem',
-                        color: '#fff',
-                        border: '1px solid #333'
-                    }}>
-                        {t(`projects.categories.${project.categoryKey}`)}
-                    </div>
-
-                    {/* Image Count Indicator */}
-                    {project.images && project.images.length > 1 && (
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '1rem',
-                            right: '1rem',
-                            background: 'rgba(0,0,0,0.8)',
-                            padding: '0.3rem 0.8rem',
-                            borderRadius: '20px',
-                            fontSize: '0.75rem',
-                            color: '#fff',
-                            border: '1px solid #333'
-                        }}>
-                            📷 {project.images.length}
-                        </div>
-                    )}
-                </div>
-
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'white' }}>{project.title}</h3>
-                    <p style={{ color: '#aaa', marginBottom: '1.5rem', fontSize: '0.9rem', flex: 1 }}>
-                        {project.description}
-                    </p>
-
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                        {project.tech.map(t => (
-                            <span key={t} style={{
-                                fontSize: '0.7rem',
-                                background: 'rgba(230, 0, 0, 0.1)',
-                                color: '#E60000',
-                                padding: '0.3rem 0.8rem',
+                                padding: '0.4rem 0.8rem',
+                                background: 'rgba(230, 0, 0, 0.2)',
+                                border: '1px solid rgba(230, 0, 0, 0.4)',
                                 borderRadius: '4px',
-                                fontFamily: 'var(--font-display)',
-                                border: '1px solid rgba(230, 0, 0, 0.2)'
-                            }}>
-                                {t}
-                            </span>
-                        ))}
-                    </div>
-
-                    {/* Links */}
-                    {(project.githubUrl || project.liveDemoUrl) && (
-                        <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
-                            {project.githubUrl && (
-                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                                    style={{ color: '#888', fontSize: '1.2rem', transition: 'color 0.3s' }}
-                                    onMouseEnter={(e) => e.target.style.color = '#E60000'}
-                                    onMouseLeave={(e) => e.target.style.color = '#888'}>
-                                    🔗 GitHub
-                                </a>
-                            )}
-                            {project.liveDemoUrl && (
-                                <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer"
-                                    style={{ color: '#888', fontSize: '1.2rem', transition: 'color 0.3s' }}
-                                    onMouseEnter={(e) => e.target.style.color = '#E60000'}
-                                    onMouseLeave={(e) => e.target.style.color = '#888'}>
-                                    🎮 Demo
-                                </a>
-                            )}
-                        </div>
-                    )}
-                </div>
-            </motion.div>
+                                fontSize: '0.85rem',
+                                color: '#fff'
+                            }}
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </motion.div>
+            </div>
         </motion.div>
     );
 };
 
 const Projects = () => {
     const { t } = useTranslation();
-    const [activeFilter, setActiveFilter] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('all');
 
-    const filteredProjects = activeFilter === 'all'
+    const filteredProjects = selectedCategory === 'all'
         ? projectsData
-        : projectsData.filter(p => p.categoryKey === activeFilter);
+        : projectsData.filter(p => p.category === selectedCategory);
 
     return (
-        <section id="projects" style={{ padding: '8rem 2rem', background: 'transparent', perspective: '1px' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <section
+            id="projects"
+            style={{
+                padding: '8rem 2rem',
+                position: 'relative',
+                perspective: '2000px',
+                transformStyle: 'preserve-3d'
+            }}
+        >
+            <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <motion.h2
-                    initial={{ opacity: 0, x: -50, rotateY: -20 }}
-                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    initial={{ opacity: 0, y: -80, rotateX: 45, z: -200 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0, z: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{
+                        type: 'spring',
+                        stiffness: 80,
+                        damping: 20
+                    }}
                     style={{
                         fontSize: '3.5rem',
                         marginBottom: '3rem',
-                        color: 'white',
-                        borderLeft: '5px solid #E60000',
-                        paddingLeft: '1.5rem',
-                        perspective: 1000
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #fff, #E60000)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        textShadow: '0 0 40px rgba(230, 0, 0, 0.3)',
+                        transformStyle: 'preserve-3d'
                     }}
                 >
                     {t('projects.title')}
                 </motion.h2>
 
-                {/* Filter Buttons */}
+                {/* Category Filter */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    initial={{ opacity: 0, y: 50, rotateX: -30 }}
+                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                    viewport={{ once: false }}
+                    transition={{ delay: 0.2 }}
                     style={{
                         display: 'flex',
+                        justifyContent: 'center',
                         gap: '1rem',
                         marginBottom: '4rem',
                         flexWrap: 'wrap',
-                        justifyContent: 'center'
+                        transformStyle: 'preserve-3d'
                     }}
                 >
-                    {categories.map(category => (
-                        <button
-                            key={category.key}
-                            onClick={() => setActiveFilter(category.key)}
+                    {categories.map((category, i) => (
+                        <motion.button
+                            key={category.id}
+                            initial={{ opacity: 0, scale: 0.8, rotateY: -45 }}
+                            whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+                            viewport={{ once: false }}
+                            transition={{ delay: 0.3 + i * 0.1 }}
+                            whileHover={{
+                                scale: 1.1,
+                                rotateY: 10,
+                                z: 20
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setSelectedCategory(category.id)}
                             style={{
                                 padding: '0.8rem 1.5rem',
-                                background: activeFilter === category.key ? '#E60000' : 'transparent',
-                                border: '1px solid #E60000',
+                                background: selectedCategory === category.id
+                                    ? 'linear-gradient(135deg, #E60000, #ff4444)'
+                                    : 'rgba(230, 0, 0, 0.1)',
+                                border: `1px solid ${selectedCategory === category.id ? '#E60000' : 'rgba(230, 0, 0, 0.3)'}`,
+                                borderRadius: '8px',
                                 color: 'white',
-                                borderRadius: '4px',
                                 cursor: 'pointer',
+                                fontSize: '1rem',
                                 fontFamily: 'var(--font-display)',
-                                fontSize: '0.9rem',
+                                boxShadow: selectedCategory === category.id
+                                    ? '0 0 20px rgba(230, 0, 0, 0.5)'
+                                    : 'none',
                                 transition: 'all 0.3s',
-                                boxShadow: activeFilter === category.key ? '0 0 20px rgba(230, 0, 0, 0.3)' : 'none'
-                            }}
-                            onMouseEnter={(e) => {
-                                if (activeFilter !== category.key) {
-                                    e.target.style.background = 'rgba(230, 0, 0, 0.2)';
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (activeFilter !== category.key) {
-                                    e.target.style.background = 'transparent';
-                                }
+                                transformStyle: 'preserve-3d'
                             }}
                         >
-                            {t(category.labelKey)}
-                        </button>
+                            {t(`projects.categories.${category.id}`)}
+                        </motion.button>
                     ))}
                 </motion.div>
 
-                <motion.div
-                    layout
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                        gap: '3rem',
-                        perspective: '2000px'
-                    }}
-                >
+                {/* Projects Grid */}
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                    gap: '2.5rem',
+                    transformStyle: 'preserve-3d'
+                }}>
                     {filteredProjects.map((project, index) => (
-                        <ProjectCard key={project.id} project={project} index={index} t={t} />
+                        <ProjectCard
+                            key={project.id}
+                            project={project}
+                            index={index}
+                            t={t}
+                        />
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Projects
+export default Projects;

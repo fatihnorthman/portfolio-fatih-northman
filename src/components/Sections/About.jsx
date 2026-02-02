@@ -18,128 +18,194 @@ const About = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.1
+                staggerChildren: 0.15,
+                delayChildren: 0.2
             }
         }
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 50, rotateX: -15 },
+        hidden: {
+            opacity: 0,
+            y: 80,
+            rotateX: -45,
+            z: -200,
+            scale: 0.8
+        },
         visible: {
             opacity: 1,
             y: 0,
             rotateX: 0,
+            z: 0,
+            scale: 1,
             transition: {
-                type: "spring",
-                stiffness: 100,
-                damping: 15
+                type: 'spring',
+                stiffness: 80,
+                damping: 15,
+                mass: 1
             }
         }
     };
 
+    const skillVariants = {
+        hidden: {
+            opacity: 0,
+            x: -100,
+            rotateY: -45,
+            z: -150
+        },
+        visible: (i) => ({
+            opacity: 1,
+            x: 0,
+            rotateY: 0,
+            z: 0,
+            transition: {
+                type: 'spring',
+                stiffness: 100,
+                damping: 20,
+                delay: i * 0.1
+            }
+        })
+    };
+
     return (
-        <section id="about" style={{ padding: '8rem 2rem', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <section
+            id="about"
+            style={{
+                minHeight: '100vh',
+                padding: '8rem 2rem',
+                position: 'relative',
+                perspective: '2000px',
+                transformStyle: 'preserve-3d'
+            }}
+        >
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                style={{
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    transformStyle: 'preserve-3d'
+                }}
+            >
                 <motion.h2
-                    initial={{ opacity: 0, x: -100, rotateY: -30 }}
-                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-                    viewport={{ once: false, margin: "-100px" }}
-                    transition={{ duration: 0.8, type: "spring", stiffness: 60 }}
+                    variants={itemVariants}
                     style={{
                         fontSize: '3.5rem',
-                        marginBottom: '4rem',
-                        color: 'white',
-                        borderLeft: '5px solid #E60000',
-                        paddingLeft: '1.5rem',
+                        marginBottom: '3rem',
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #fff, #E60000)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        textShadow: '0 0 40px rgba(230, 0, 0, 0.3)',
                         transformStyle: 'preserve-3d'
                     }}
                 >
                     {t('about.title')}
                 </motion.h2>
 
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: false, margin: "-100px" }}
+                <motion.p
+                    variants={itemVariants}
                     style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                        gap: '4rem'
+                        fontSize: '1.2rem',
+                        lineHeight: '1.8',
+                        color: '#ccc',
+                        textAlign: 'center',
+                        marginBottom: '4rem',
+                        maxWidth: '800px',
+                        margin: '0 auto 4rem',
+                        transformStyle: 'preserve-3d'
                     }}
                 >
-                    {/* About Text */}
-                    <motion.div variants={itemVariants} style={{ transformStyle: 'preserve-3d' }}>
-                        <h3 style={{ fontSize: '2rem', color: '#E60000', marginBottom: '1.5rem', letterSpacing: '2px' }}>
-                            {t('about.subtitle')}
-                        </h3>
-                        <p style={{ color: '#aaa', fontSize: '1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                            {t('about.bio1')}
-                        </p>
-                        <p style={{ color: '#aaa', fontSize: '1rem', lineHeight: '1.8' }}>
-                            {t('about.bio2')}
-                        </p>
-                    </motion.div>
+                    {t('about.description')}
+                </motion.p>
 
-                    {/* Skills */}
-                    <motion.div variants={itemVariants} style={{ transformStyle: 'preserve-3d' }}>
-                        <h3 style={{ fontSize: '2rem', color: '#E60000', marginBottom: '2rem', letterSpacing: '2px' }}>
-                            {t('about.skills')}
-                        </h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                            {skills.map((skill, index) => (
-                                <motion.div
-                                    key={skill.name}
-                                    initial={{ opacity: 0, x: -50, rotateY: -20 }}
-                                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-                                    viewport={{ once: false, margin: "-50px" }}
-                                    transition={{
-                                        duration: 0.6,
-                                        delay: index * 0.1,
-                                        type: "spring",
-                                        stiffness: 100
-                                    }}
-                                    whileHover={{ x: 10, transition: { duration: 0.2 } }}
-                                    style={{ transformStyle: 'preserve-3d' }}
-                                >
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                                        <span style={{ color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
-                                            {skill.icon} {skill.name}
-                                        </span>
-                                        <span style={{ color: '#E60000', fontWeight: 'bold', fontSize: '1.1rem' }}>{skill.level}%</span>
+                <motion.div
+                    variants={itemVariants}
+                    style={{
+                        background: 'rgba(10, 10, 10, 0.6)',
+                        padding: '3rem',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(230, 0, 0, 0.2)',
+                        boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(230, 0, 0, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                        transformStyle: 'preserve-3d'
+                    }}
+                >
+                    <h3 style={{
+                        fontSize: '2rem',
+                        marginBottom: '2rem',
+                        color: '#E60000',
+                        textAlign: 'center'
+                    }}>
+                        {t('about.skills')}
+                    </h3>
+
+                    <div style={{ display: 'grid', gap: '1.5rem' }}>
+                        {skills.map((skill, i) => (
+                            <motion.div
+                                key={skill.name}
+                                custom={i}
+                                variants={skillVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: false, amount: 0.5 }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    x: 20,
+                                    rotateY: 5,
+                                    z: 30,
+                                    transition: { type: 'spring', stiffness: 300 }
+                                }}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                    transformStyle: 'preserve-3d'
+                                }}
+                            >
+                                <span style={{ fontSize: '2rem' }}>{skill.icon}</span>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        marginBottom: '0.5rem'
+                                    }}>
+                                        <span style={{ fontWeight: 600 }}>{skill.name}</span>
+                                        <span style={{ color: '#E60000' }}>{skill.level}%</span>
                                     </div>
                                     <div style={{
-                                        width: '100%',
-                                        height: '10px',
-                                        background: '#222',
-                                        borderRadius: '5px',
+                                        height: '8px',
+                                        background: 'rgba(255, 255, 255, 0.1)',
+                                        borderRadius: '4px',
                                         overflow: 'hidden',
-                                        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5)'
+                                        position: 'relative'
                                     }}>
                                         <motion.div
                                             initial={{ width: 0 }}
                                             whileInView={{ width: `${skill.level}%` }}
                                             viewport={{ once: false }}
                                             transition={{
-                                                duration: 1.2,
-                                                delay: index * 0.15,
-                                                ease: "easeOut"
+                                                duration: 1.5,
+                                                delay: i * 0.1,
+                                                ease: 'easeOut'
                                             }}
                                             style={{
                                                 height: '100%',
                                                 background: 'linear-gradient(90deg, #E60000, #ff4444)',
-                                                borderRadius: '5px',
-                                                boxShadow: '0 0 10px rgba(230, 0, 0, 0.5)'
+                                                boxShadow: '0 0 10px #E60000',
+                                                borderRadius: '4px'
                                             }}
                                         />
                                     </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </motion.div>
-            </div>
+            </motion.div>
         </section>
     );
 };
