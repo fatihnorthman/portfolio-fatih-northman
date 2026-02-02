@@ -30,26 +30,25 @@ const SpaceNavigator = ({ children }) => {
         >
             {/* Render each section centered and fixed with cinematic 3D transitions */}
             {children.map((child, index) => {
+                // Optimized ranges to be clamped and prevent weird extrapolation
                 const range = [
-                    (index - 0.7) / (children.length - 1),
+                    (index - 1) / (children.length - 1),
                     index / (children.length - 1),
-                    (index + 0.7) / (children.length - 1)
+                    (index + 1) / (children.length - 1)
                 ];
 
-                // Advanced 3D Transformations with smooth spring progress
+                // Advanced 3D Transformations with strict clamping
                 const opacity = useTransform(smoothProgress, range, [0, 1, 0]);
-                const scale = useTransform(smoothProgress, range, [0.85, 1, 1.15]);
-                const rotateX = useTransform(smoothProgress, range, [20, 0, -20]);
-                const translateZ = useTransform(smoothProgress, range, [-400, 0, 300]);
-                const blur = useTransform(smoothProgress, range, [4, 0, 2]);
-                const brightness = useTransform(smoothProgress, range, [0.5, 1, 0.6]);
+                const scale = useTransform(smoothProgress, range, [0.8, 1, 1.2]);
+                const rotateX = useTransform(smoothProgress, range, [15, 0, -15]);
+                const translateZ = useTransform(smoothProgress, range, [-300, 0, 300]);
+                const blur = useTransform(smoothProgress, range, [8, 0, 4]);
+                const brightness = useTransform(smoothProgress, range, [0.2, 1, 0.4]);
+
+                // Track Z-Index: Active section should be on top
+                const zIndex = useTransform(opacity, [0.5, 1], [0, 10]);
 
                 const isHero = index === 0;
-
-                // Enhanced stability: Force zero transforms when at the target section
-                const stableScale = useTransform(smoothProgress, [range[0], range[1], range[2]], [0.85, 1, 1.15]);
-                const stableRotateX = useTransform(smoothProgress, [range[0], range[1], range[2]], [20, 0, -20]);
-                const stableZ = useTransform(smoothProgress, [range[0], range[1], range[2]], [-400, 0, 300]);
 
                 return (
                     <motion.div
@@ -58,11 +57,12 @@ const SpaceNavigator = ({ children }) => {
                             position: 'absolute',
                             inset: 0,
                             opacity,
-                            scale: stableScale,
-                            rotateX: stableRotateX,
-                            z: stableZ,
+                            scale,
+                            rotateX,
+                            z: translateZ,
+                            zIndex,
                             filter: useTransform([blur, brightness], ([b, br]) => `blur(${b}px) brightness(${br})`),
-                            pointerEvents: useTransform(opacity, (o) => o > 0.85 ? 'auto' : 'none'),
+                            pointerEvents: useTransform(opacity, (o) => o > 0.8 ? 'auto' : 'none'),
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -75,14 +75,14 @@ const SpaceNavigator = ({ children }) => {
                         <motion.div
                             style={{
                                 width: '100%',
-                                maxWidth: isHero ? 'none' : '1400px',
+                                maxWidth: isHero ? 'none' : '1200px',
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 transformStyle: 'preserve-3d',
-                                padding: isHero ? '0' : '5vh 1rem',
+                                padding: isHero ? '0' : '4rem 1rem',
                                 boxSizing: 'border-box'
                             }}
                         >
