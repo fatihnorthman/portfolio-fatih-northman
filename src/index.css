@@ -19,12 +19,21 @@
   padding: 0;
 }
 
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg-dark);
   color: var(--color-text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  scroll-snap-type: y mandatory;
+  overflow-x: hidden;
 }
 
 h1,

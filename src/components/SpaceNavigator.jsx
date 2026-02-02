@@ -13,13 +13,6 @@ const SpaceNavigator = ({ children }) => {
         { x: -25, y: 30, rotation: -3, scale: 1 }        // Contact
     ];
 
-    // Map scroll to current section index
-    const sectionIndex = useTransform(
-        scrollYProgress,
-        [0, 0.25, 0.5, 0.75, 1],
-        [0, 1, 2, 3, 3]
-    );
-
     // Calculate container transform for diagonal movement
     const rawX = useTransform(
         scrollYProgress,
@@ -122,7 +115,8 @@ const SpaceNavigator = ({ children }) => {
                                 height: '100%',
                                 opacity,
                                 scale,
-                                pointerEvents: useTransform(opacity, (o) => o > 0.5 ? 'auto' : 'none')
+                                pointerEvents: useTransform(opacity, (o) => o > 0.5 ? 'auto' : 'none'),
+                                scrollSnapAlign: 'start'
                             }}
                         >
                             {child}

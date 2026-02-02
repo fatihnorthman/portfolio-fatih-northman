@@ -47,8 +47,14 @@ function App() {
 
     return (
         <>
-            {/* Scroll tracker - invisible but enables scroll */}
-            <div style={{ height: '400vh', position: 'absolute', width: '1px', pointerEvents: 'none' }} />
+            {/* Scroll tracker - invisible but enables scroll with snap */}
+            <div style={{
+                height: '400vh',
+                position: 'absolute',
+                width: '1px',
+                pointerEvents: 'none',
+                scrollSnapType: 'y mandatory'
+            }} />
 
             {/* Navbar - always visible */}
             <Navbar />
