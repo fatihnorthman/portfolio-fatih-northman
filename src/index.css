@@ -24,6 +24,7 @@ html {
   scroll-behavior: smooth;
   overflow-y: scroll;
   overflow-x: hidden;
+  scroll-padding-top: 0;
 }
 
 body {
@@ -32,6 +33,10 @@ body {
   color: var(--color-text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
   scroll-snap-type: y mandatory;
   overflow-x: hidden;
 }
@@ -46,6 +51,9 @@ h6 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {

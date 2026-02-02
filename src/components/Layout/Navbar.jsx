@@ -34,19 +34,29 @@ const Navbar = () => {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                 <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none' }}>
-                    {['projects', 'skills', 'about', 'contact'].map((item) => (
-                        <li key={item}>
-                            <a href={`#${item}`} style={{
-                                fontSize: '1rem',
-                                fontWeight: 500,
-                                color: 'var(--color-text-muted)',
-                                transition: 'color 0.3s',
-                                cursor: 'pointer'
-                            }}
+                    {[
+                        { id: 'hero', label: 'Ana Sayfa', scrollTo: 0 },
+                        { id: 'about', label: 'Hakkımızda', scrollTo: 952 },
+                        { id: 'projects', label: 'Projeler', scrollTo: 1904 },
+                        { id: 'contact', label: 'İletişim', scrollTo: 2856 }
+                    ].map((item) => (
+                        <li key={item.id}>
+                            <a
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: item.scrollTo, behavior: 'smooth' });
+                                }}
+                                style={{
+                                    fontSize: '1rem',
+                                    fontWeight: 500,
+                                    color: 'var(--color-text-muted)',
+                                    transition: 'color 0.3s',
+                                    cursor: 'pointer'
+                                }}
                                 onMouseEnter={(e) => e.target.style.color = 'var(--color-brand-red)'}
                                 onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
                             >
-                                {t(`navbar.${item}`)}
+                                {item.label}
                             </a>
                         </li>
                     ))}
