@@ -1,11 +1,13 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Float } from '@react-three/drei'
 import { motion } from 'framer-motion'
-import { Suspense, useState, useEffect } from 'react'
+import { Suspense, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 
 const HeroScene = () => {
     const [themeColor, setThemeColor] = useState('#E60000');
+    const meshRef = useRef();
+    const [glitch, setGlitch] = useState(0);
 
     useEffect(() => {
         const updateColor = () => {
@@ -13,12 +15,33 @@ const HeroScene = () => {
             if (color) setThemeColor(color);
         };
         updateColor();
-
-        // Listen for changes (ColorPicker updates style directly)
         const observer = new MutationObserver(updateColor);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
         return () => observer.disconnect();
     }, []);
+
+    useFrame(({ clock }) => {
+        if (!meshRef.current) return;
+        const t = clock.getElapsedTime();
+        // Technical jitter effect
+        if (Math.sin(t * 5) > 0.95) {
+            setGlitch(Math.random() * 0.15);
+        } else {
+            setGlitch(prev => prev * 0.9);
+        }
+
+        if (glitch > 0.01) {
+            meshRef.current.position.set(
+                (Math.random() - 0.5) * glitch,
+                (Math.random() - 0.5) * glitch,
+                (Math.random() - 0.5) * glitch
+            );
+            meshRef.current.scale.setScalar(3.5 + Math.random() * glitch);
+        } else {
+            meshRef.current.position.set(0, 0, 0);
+            meshRef.current.scale.setScalar(3.5);
+        }
+    });
 
     return (
         <group>
@@ -27,13 +50,13 @@ const HeroScene = () => {
             <pointLight position={[-10, -10, -10]} intensity={0.5} color="#0000ff" />
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.3}>
-                <mesh position={[0, 0, 0]} scale={2.0}>
+                <mesh ref={meshRef} position={[0, 0, 0]} scale={3.5}>
                     <icosahedronGeometry args={[1, 1]} />
                     <meshStandardMaterial
                         color={themeColor}
                         wireframe
                         emissive={themeColor}
-                        emissiveIntensity={0.5}
+                        emissiveIntensity={0.8}
                     />
                 </mesh>
             </Float>
