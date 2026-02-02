@@ -1,8 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
-import { EffectComposer, Bloom, Noise, Vignette } from '@react-three/postprocessing'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
+import { useRef, Suspense } from 'react'
 import Navbar from './components/Layout/Navbar';
 import Hero from './components/Sections/Hero';
 import About from './components/Sections/About';
@@ -18,18 +17,16 @@ function ScrollStars({ scrollProgress }) {
 
     useFrame(({ clock }) => {
         if (starsRef.current) {
-            starsRef.current.position.z = ((clock.getElapsedTime() * 10) % 100) - 50
-
+            starsRef.current.position.z = ((clock.getElapsedTime() * 5) % 100) - 50
             const scrollValue = scrollProgress.get()
-            starsRef.current.rotation.x = scrollValue * Math.PI * 1.2
-            starsRef.current.rotation.y = scrollValue * Math.PI * 0.8
-            starsRef.current.rotation.z = clock.getElapsedTime() * 0.03 + scrollValue * Math.PI * 0.3
+            starsRef.current.rotation.x = scrollValue * Math.PI * 0.5
+            starsRef.current.rotation.y = scrollValue * Math.PI * 0.3
         }
     })
 
     return (
         <group ref={starsRef}>
-            <Stars radius={150} depth={150} count={12000} factor={10} saturation={0} fade speed={4} />
+            <Stars radius={150} depth={150} count={10000} factor={8} saturation={0} fade speed={2} />
         </group>
     )
 }
@@ -38,102 +35,40 @@ function App() {
     const { scrollYProgress } = useScroll()
 
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 50,
-        damping: 20,
+        stiffness: 45,
+        damping: 25,
         restDelta: 0.001
     })
 
     return (
-        <>
-            {/* Scroll Area - Provides the physical scroll height for the page */}
+        <div style={{ background: '#050505', minHeight: '100vh', width: '100%' }}>
+            {/* Scroll Area - Physically allows scrolling */}
             <div style={{
                 height: '400vh',
                 width: '100%',
                 position: 'relative',
-                zIndex: 1, // Stay below Navbar and SpaceNavigator to allow clicks
-                pointerEvents: 'auto'
+                zIndex: 1
             }}>
-                {/* Invisible snap points for the browser's scroll-snap */}
                 <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
                 <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
                 <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
                 <div style={{ height: '100vh', scrollSnapAlign: 'start', scrollSnapStop: 'always' }} />
             </div>
 
-            {/* Navbar - always visible */}
             <Navbar />
 
             {/* Fixed Space Background */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    zIndex: 0,
-                    pointerEvents: 'none'
-                }}
-            >
+            <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
                 <Canvas
-                    gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+                    gl={{ antialias: false, alpha: true }}
                     camera={{ position: [0, 0, 5], fov: 80 }}
-                    dpr={[1, 1.5]}
                 >
-                    <color attach="background" args={['#020202']} />
                     <ScrollStars scrollProgress={smoothProgress} />
-                    <ambientLight intensity={0.3} />
-
-
+                    <ambientLight intensity={0.5} />
                 </Canvas>
-            </motion.div>
-
-            {/* Global HUD Overlay */}
-            <div style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 5,
-                pointerEvents: 'none',
-                border: '20px solid transparent',
-                borderImage: 'linear-gradient(to bottom, rgba(255,255,255,0.02) 0%, transparent 50%, rgba(255,255,255,0.02) 100%) 1',
-                opacity: 0.5
-            }}>
-                <div style={{
-                    position: 'absolute',
-                    top: '40px',
-                    left: '40px',
-                    width: '100px',
-                    height: '2px',
-                    background: 'var(--color-brand-red)',
-                    opacity: 0.3
-                }} />
-                <div style={{
-                    position: 'absolute',
-                    bottom: '40px',
-                    right: '40px',
-                    width: '2px',
-                    height: '100px',
-                    background: 'var(--color-brand-red)',
-                    opacity: 0.3
-                }} />
-
-                {/* Decorative scanning line */}
-                <motion.div
-                    animate={{ top: ['0%', '100%'] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        width: '100%',
-                        height: '1px',
-                        background: 'linear-gradient(to right, transparent, var(--color-brand-red-glow), transparent)',
-                        opacity: 0.1,
-                        boxShadow: '0 0 10px var(--color-brand-red-glow)'
-                    }}
-                />
             </div>
 
-            {/* Space Navigator - Sections transition with opacity only */}
+            {/* Content Layers */}
             <SpaceNavigator>
                 {[
                     <Hero key="hero" />,
@@ -143,12 +78,9 @@ function App() {
                 ]}
             </SpaceNavigator>
 
-            {/* Custom Theme-Aware HUD Icons */}
             <HUDIcons />
-
-            {/* Color Picker - Dynamic theme changer */}
             <ColorPicker />
-        </>
+        </div>
     )
 }
 

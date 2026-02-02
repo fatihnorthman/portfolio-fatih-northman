@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 const HeroScene = () => {
     const [themeColor, setThemeColor] = useState('#E60000');
     const meshRef = useRef();
-    const [glitch, setGlitch] = useState(0);
+    const glitchRef = useRef(0);
 
     useEffect(() => {
         const updateColor = () => {
@@ -24,20 +24,22 @@ const HeroScene = () => {
     useFrame(({ clock }) => {
         if (!meshRef.current) return;
         const t = clock.getElapsedTime();
-        // Technical jitter effect
-        if (Math.sin(t * 5) > 0.95) {
-            setGlitch(Math.random() * 0.15);
+
+        // Jitter effect using ref to avoid re-renders
+        if (Math.sin(t * 15) > 0.98) {
+            glitchRef.current = Math.random() * 0.15;
         } else {
-            setGlitch(prev => prev * 0.9);
+            glitchRef.current *= 0.92;
         }
 
-        if (glitch > 0.01) {
+        const g = glitchRef.current;
+        if (g > 0.01) {
             meshRef.current.position.set(
-                (Math.random() - 0.5) * glitch,
-                (Math.random() - 0.5) * glitch,
-                (Math.random() - 0.5) * glitch
+                (Math.random() - 0.5) * g,
+                (Math.random() - 0.5) * g,
+                (Math.random() - 0.5) * g
             );
-            meshRef.current.scale.setScalar(8.5 + Math.random() * glitch);
+            meshRef.current.scale.setScalar(8.5 + g);
         } else {
             meshRef.current.position.set(0, 0, 0);
             meshRef.current.scale.setScalar(8.5);

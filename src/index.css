@@ -22,9 +22,9 @@
 html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  overflow-y: scroll;
   overflow-x: hidden;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   overscroll-behavior-y: none;
   scroll-padding: 0;
 }
@@ -41,7 +41,7 @@ body {
   font-kerning: normal;
   overflow-x: hidden;
   position: relative;
-  height: auto;
+  min-height: 100vh;
 }
 
 body::after {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -49,9 +50,8 @@ const Navbar = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 zIndex: 100,
-                background: 'rgba(10, 10, 10, 0.4)',
-                backdropFilter: 'blur(10px)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                background: 'transparent',
+                borderBottom: 'none'
             }}
         >
             <motion.div
