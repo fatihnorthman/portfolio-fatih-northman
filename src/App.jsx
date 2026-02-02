@@ -25,7 +25,6 @@ function ScrollStars({ scrollProgress }) {
 
     return (
         <group ref={starsRef}>
-            {/* Reduced from 20000 to 12000 for better performance */}
             <Stars radius={150} depth={150} count={12000} factor={10} saturation={0} fade speed={4} />
         </group>
     )
@@ -48,43 +47,35 @@ function App() {
     const contentRotateX = useTransform(smoothProgress, [0, 0.5, 1], [0, 2, 0])
 
     return (
-        <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative' }}>
+        <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
             <Navbar />
 
-            {/* Deep Space Background */}
-            <div
+            {/* Deep Space Background - Fixed for smooth scrolling */}
+            <motion.div
                 style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     top: 0,
                     left: 0,
-                    width: '100%',
-                    height: '100%',
-                    zIndex: 0
+                    width: '100vw',
+                    height: '100vh',
+                    zIndex: 0,
+                    y: starsY,
+                    scale: starsScale
                 }}
             >
-                <motion.div
-                    style={{
-                        position: 'sticky',
-                        top: 0,
-                        height: '100vh',
-                        y: starsY,
-                        scale: starsScale
-                    }}
+                <Canvas
+                    gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+                    camera={{ position: [0, 0, 5], fov: 80 }}
+                    dpr={[1, 1.5]}
                 >
-                    <Canvas
-                        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
-                        camera={{ position: [0, 0, 5], fov: 80 }}
-                        dpr={[1, 1.5]} // Limit pixel ratio for performance
-                    >
-                        <color attach="background" args={['#000000']} />
-                        <ScrollStars scrollProgress={smoothProgress} />
-                        <ambientLight intensity={0.3} />
-                        <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
-                    </Canvas>
-                </motion.div>
-            </div>
+                    <color attach="background" args={['#000000']} />
+                    <ScrollStars scrollProgress={smoothProgress} />
+                    <ambientLight intensity={0.3} />
+                    <pointLight position={[10, 10, 10]} intensity={0.5} color="#E60000" />
+                </Canvas>
+            </motion.div>
 
-            {/* Optimized radial speed lines - reduced from 60 to 40 */}
+            {/* Optimized radial speed lines */}
             <div
                 style={{
                     position: 'fixed',
@@ -208,7 +199,7 @@ function App() {
                 <Contact />
             </motion.div>
 
-            {/* Optimized foreground particles - reduced from 50 to 30 */}
+            {/* Optimized foreground particles */}
             <motion.div
                 style={{
                     position: 'fixed',
