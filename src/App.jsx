@@ -7,6 +7,7 @@ import Hero from './components/Sections/Hero';
 import About from './components/Sections/About';
 import Projects from './components/Sections/Projects';
 import Contact from './components/Sections/Contact';
+import SpaceNavigator from './components/SpaceNavigator';
 
 // Optimized Animated Stars
 function ScrollStars({ scrollProgress }) {
@@ -31,7 +32,6 @@ function ScrollStars({ scrollProgress }) {
 }
 
 function App() {
-    const containerRef = useRef(null)
     const { scrollYProgress } = useScroll()
 
     const smoothProgress = useSpring(scrollYProgress, {
@@ -40,26 +40,20 @@ function App() {
         restDelta: 0.001
     })
 
-    // Enhanced parallax with more dramatic depth
-    const starsY = useTransform(smoothProgress, [0, 1], [0, -800])
-    const starsScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.3, 1])
-    const starsRotateZ = useTransform(smoothProgress, [0, 1], [0, 15])
-
-    // Multi-layer parallax for depth
+    // Parallax for background layers
     const layer1Y = useTransform(smoothProgress, [0, 1], [0, -200])
     const layer2Y = useTransform(smoothProgress, [0, 1], [0, -400])
     const layer3Y = useTransform(smoothProgress, [0, 1], [0, -600])
 
-    // Content depth transforms
-    const contentScale = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [1, 1.12, 1.12, 1])
-    const contentRotateX = useTransform(smoothProgress, [0, 0.5, 1], [0, 3, 0])
-    const contentZ = useTransform(smoothProgress, [0, 0.5, 1], [0, 100, 0])
-
     return (
-        <div ref={containerRef} style={{ background: '#000', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+        <>
+            {/* Scroll tracker - invisible but enables scroll */}
+            <div style={{ height: '400vh', position: 'absolute', width: '1px', pointerEvents: 'none' }} />
+
+            {/* Navbar - always visible */}
             <Navbar />
 
-            {/* Deep Space Background - Fixed for smooth scrolling */}
+            {/* Fixed Space Background */}
             <motion.div
                 style={{
                     position: 'fixed',
@@ -68,9 +62,7 @@ function App() {
                     width: '100vw',
                     height: '100vh',
                     zIndex: 0,
-                    y: starsY,
-                    scale: starsScale,
-                    rotateZ: starsRotateZ
+                    pointerEvents: 'none'
                 }}
             >
                 <Canvas
@@ -98,7 +90,7 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(15)].map((_, i) => (
+                {[...Array(8)].map((_, i) => (
                     <motion.div
                         key={`layer1-${i}`}
                         animate={{
@@ -137,7 +129,7 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(20)].map((_, i) => (
+                {[...Array(12)].map((_, i) => (
                     <motion.div
                         key={`layer2-${i}`}
                         animate={{
@@ -176,7 +168,7 @@ function App() {
                     pointerEvents: 'none'
                 }}
             >
-                {[...Array(10)].map((_, i) => (
+                {[...Array(6)].map((_, i) => (
                     <motion.div
                         key={`layer3-${i}`}
                         animate={{
@@ -218,144 +210,16 @@ function App() {
                 }}
             />
 
-            {/* Floating nebula clouds */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 5,
-                    pointerEvents: 'none',
-                    opacity: useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0.3, 0.5, 0.5, 0.3])
-                }}
-            >
-                <motion.div
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.2, 0.4, 0.2]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: 'easeInOut'
-                    }}
-                    style={{
-                        position: 'absolute',
-                        top: '20%',
-                        left: '10%',
-                        width: '40%',
-                        height: '40%',
-                        background: 'radial-gradient(circle, rgba(230, 0, 0, 0.15) 0%, transparent 70%)',
-                        filter: 'blur(60px)',
-                        willChange: 'transform, opacity'
-                    }}
-                />
-                <motion.div
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.3, 0.5, 0.3]
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: 'easeInOut'
-                    }}
-                    style={{
-                        position: 'absolute',
-                        bottom: '20%',
-                        right: '10%',
-                        width: '50%',
-                        height: '50%',
-                        background: 'radial-gradient(circle, rgba(230, 0, 0, 0.1) 0%, transparent 70%)',
-                        filter: 'blur(80px)',
-                        willChange: 'transform, opacity'
-                    }}
-                />
-            </motion.div>
-
-            {/* Enhanced tunnel vignette */}
-            <motion.div style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100vh',
-                zIndex: 6,
-                pointerEvents: 'none',
-                background: 'radial-gradient(ellipse at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.95) 100%)',
-                boxShadow: 'inset 0 0 400px rgba(0,0,0,0.9)',
-                opacity: useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1, 0.8])
-            }} />
-
-            {/* Content */}
-            <motion.div
-                style={{
-                    position: 'relative',
-                    zIndex: 10,
-                    scale: contentScale,
-                    rotateX: contentRotateX,
-                    z: contentZ,
-                    transformStyle: 'preserve-3d',
-                    perspective: '1500px'
-                }}
-            >
-                <Hero />
-                <About />
-                <Projects />
-                <Contact />
-            </motion.div>
-
-            {/* Optimized foreground particles */}
-            <motion.div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100vh',
-                    zIndex: 15,
-                    pointerEvents: 'none'
-                }}
-            >
-                {[...Array(15)].map((_, i) => {
-                    const startX = (Math.random() - 0.5) * 120
-                    const startY = (Math.random() - 0.5) * 120
-                    const speed = Math.random() * 2.5 + 1.5
-                    const size = Math.random() * 5 + 2
-                    const isRed = Math.random() > 0.65
-
-                    return (
-                        <motion.div
-                            key={i}
-                            animate={{
-                                x: ['50%', `${50 + startX * 2.5}%`],
-                                y: ['50%', `${50 + startY * 2.5}%`],
-                                scale: [0, Math.random() * 4 + 2],
-                                opacity: [0, 0.8, 0]
-                            }}
-                            transition={{
-                                duration: speed,
-                                repeat: Infinity,
-                                delay: Math.random() * 3,
-                                ease: 'easeOut'
-                            }}
-                            style={{
-                                position: 'absolute',
-                                width: size + 'px',
-                                height: size + 'px',
-                                background: isRed ? '#E60000' : '#fff',
-                                borderRadius: '50%',
-                                boxShadow: `0 0 ${Math.random() * 20 + 15}px ${isRed ? '#E60000' : '#fff'}`,
-                                filter: 'blur(1px)',
-                                willChange: 'transform, opacity'
-                            }}
-                        />
-                    )
-                })}
-            </motion.div>
-        </div>
+            {/* Space Navigator - Sections move diagonally */}
+            <SpaceNavigator>
+                <div style={{ position: 'relative' }}>
+                    <Hero />
+                    <About />
+                    <Projects />
+                    <Contact />
+                </div>
+            </SpaceNavigator>
+        </>
     )
 }
 
