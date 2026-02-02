@@ -120,21 +120,21 @@ const Hero = () => {
 
     return (
         <section style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* 3D Object - Full container to prevent clipping */}
+            {/* 3D Object - Disabled to prevent dual-canvas crash with Gameboy */}
             <div style={{
                 position: 'absolute',
                 inset: 0,
                 zIndex: 0,
                 pointerEvents: 'none'
             }}>
-                <Canvas
+                {/* <Canvas
                     camera={{ position: [0, 0, 5], fov: 50 }}
                     style={{ width: '100%', height: '100%' }}
                 >
                     <Suspense fallback={null}>
                         <HeroScene />
                     </Suspense>
-                </Canvas>
+                </Canvas> */}
             </div>
 
             {/* Content Overlay */}
